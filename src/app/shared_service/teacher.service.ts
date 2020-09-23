@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {Http, Response, Headers, RequestOptions} from '@angular/http';
 import { map } from 'rxjs/operators';
 import { Teacher } from '../classes/teacher';
+import { Course } from '../classes/course';
 import { Subject} from 'rxjs';
 
 @Injectable()
@@ -48,6 +49,14 @@ editTeacher(teacher: Teacher): Promise<Teacher> {
       .put(this.baseUrl, JSON.stringify(teacher), { headers: this.headers })
       .toPromise()
       .then(res => res.json() as Teacher)
+      .catch(this.handleError);
+}
+getTeacherCourses(teacherId: number): Promise<Course[]> {
+  const url = `${this.baseUrl}/${teacherId}/courses`;
+  return this._http.get(url)
+      .toPromise()
+      .then(response =>
+          response.json() as Course[])
       .catch(this.handleError);
 }
 announceChange() {

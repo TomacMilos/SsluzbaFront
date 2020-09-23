@@ -3,7 +3,7 @@ import { Teacher } from '../../classes/teacher';
 import {Router}  from '@angular/router';
 import {TeacherService}  from '../../shared_service/teacher.service';
 import { Subject} from 'rxjs';
-import { Enrollment } from '../../classes/enrollment'
+import { Course } from '../../classes/course'
 
 @Component({
   selector: 'app-teacher-form',
@@ -12,7 +12,7 @@ import { Enrollment } from '../../classes/enrollment'
 })
 export class TeacherFormComponent implements OnInit {
   public teacher: Teacher;
-  enrollments: Enrollment[];
+  courses: Course[];
 
   constructor(private teacherService: TeacherService, private _rotuer: Router) { }
   private RegenerateData = new Subject<void>();
@@ -20,6 +20,10 @@ export class TeacherFormComponent implements OnInit {
   ngOnInit() {
     this.teacher = this.teacherService.getter();
     console.log(this.teacher.firstName);
+    if (this.teacher !== undefined){
+      this.teacherService.getTeacherCourses(this.teacher.id).then(courses =>
+        this.courses = courses);
+      }
   }
   processForm(){
     if (this.teacher.id === undefined){

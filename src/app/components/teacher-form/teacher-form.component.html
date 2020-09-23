@@ -10,6 +10,18 @@
                 <input type="text" name="fname" class="form-control" [(ngModel)]="teacher.lastName">
             </div>
             <br>
+            <div>
+                <div>
+                    <h3>Predmeti od nastavnika</h3>
+                </div>
+                <table class="table table-bordered">
+                  <tr *ngFor="let course of courses">
+                    <td>
+                {{course.name}}
+                    </td>
+                </tr>
+                </table>
+            </div> 
             <input type="submit" value="save" class="btn btn-success">
         </form>
     </div>
