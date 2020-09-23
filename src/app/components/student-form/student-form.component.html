@@ -1,9 +1,10 @@
-<div class="container">
 
+<div class="container">
+<div>
     <form (ngSubmit)="processForm()">
         <div class="form group">
             <label for="cardNumber">Indeks</label>
-            <input type="text" name="id" class="form-control" [(ngModel)]="student.cardNumber">
+            <input type="text" name="cardNumber" class="form-control" [(ngModel)]="student.cardNumber">
         </div>
         <div class="form group">
             <label for="firstName">Ime</label>
@@ -13,6 +14,23 @@
             <label for="lastName">Prezime</label>
             <input type="text" name="lname" class="form-control" [(ngModel)]="student.lastName">
         </div>
-        <input type="submit" value="save" class="btn btn-success">
+        <br>
+        <div>
+            <div>
+                <h3>Kursevi od korisnika</h3>
+            </div>
+            <table class="table table-bordered">
+              <tr *ngFor="let enrollment of enrollments">
+                <td>
+                  {{enrollment.course.name}}
+                </td>
+              </tr>
+            </table>
+          </div> 
+          <input type="submit" value="save" class="btn btn-success">
     </form>
 </div>
+<div>
+    <br>
+  </div>
+  </div>

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {TeacherService} from '../../shared_service/teacher.service';
 import {Teacher} from '../../classes/teacher';
+import { Subscription } from 'rxjs';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-teacher',
@@ -10,24 +12,39 @@ import {Teacher} from '../../classes/teacher';
 export class TeacherComponent implements OnInit {
 
   public teachers:Teacher[];
+  subscription: Subscription;
 
-  constructor(private _teacherService:TeacherService) { }
 
-  ngOnInit(){
-    this._teacherService.getTeachers().subscribe(teachers =>{
-      this.teachers = teachers;
-      console.log(this.teachers);
-    },(error)=>{
-      console.log(error);
-    })
+  constructor(private _teacherService:TeacherService, private _router: Router) {
+    this.subscription = _teacherService.RegenerateData$.subscribe(() =>
+    this.getTeachers()  );
   }
-  deleteStudent(teacher){ 
-    this._teacherService.deleteTeacher(teacher.id).subscribe((data)=>{
-        this.teachers.splice(this.teachers.indexOf(teacher), 1);
-    },(error)=>{
-      console.log(error);
+
+  ngOnInit(): void {
+    this.getTeachers();
+  }
+
+  getTeachers() {
+    this._teacherService.getTeachers().then(students =>
+      this.teachers = students);
+  }
+  deleteTeacher(teacher){ 
+    this._teacherService.deleteTeacher(teacher.id).then(
+      () => this.getTeachers()
+    );
+  }
+  updateTeacher(teacher){
+    this._teacherService.setter(teacher);
+    this._router.navigate(['/teacher-form']);
+
+  }
+  newTeacher(){
+    let teacher = new Teacher({
+      firstName: '',
+      lastName: ''
     });
-    this.teachers.splice(this.teachers.indexOf(teacher), 1);
+    this._teacherService.setter(teacher);
+    this._router.navigate(['/teacher-form']);
   }
 
 }

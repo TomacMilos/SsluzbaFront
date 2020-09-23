@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import {HttpModule} from '@angular/http';
-import{FormsModule}   from '@angular/forms';
+import {FormsModule}   from '@angular/forms';
 import {RouterModule, Routes} from '@angular/router';
 import { AppComponent } from './app.component';
 import { CourseComponent } from './components/course/course.component';
@@ -9,6 +9,7 @@ import {CourseService} from './shared_service/course.service';
 import { StudentComponent } from './components/student/student.component';
 import {StudentService} from './shared_service/student.service';
 import { TeacherComponent } from './components/teacher/teacher.component';
+import { TeacherFormComponent } from './components/teacher-form/teacher-form.component';
 import {TeacherService} from './shared_service/teacher.service';
 import { StudentFormComponent } from './components/student-form/student-form.component';
 import { CourseFormComponent } from './components/course-form/course-form.component';
@@ -16,12 +17,14 @@ import { EnrollmentComponent } from './components/enrollment/enrollment.componen
 import {EnrollmentService} from './shared_service/enrollment.service';
 
 
+
 const appRoutes: Routes = [
   { path: '', component: StudentComponent},
   { path: 'courses', component: CourseComponent},
   { path: 'student-form', component: StudentFormComponent},
   { path: 'teachers', component: TeacherComponent},
-  { path: 'enrollment', component: EnrollmentComponent}
+  { path: 'enrollment', component: EnrollmentComponent},
+  { path: 'teacher-form', component: TeacherFormComponent}
 ];
 @NgModule({
   declarations: [
@@ -30,6 +33,7 @@ const appRoutes: Routes = [
     StudentComponent,
     TeacherComponent,
     StudentFormComponent,
+    TeacherFormComponent,
     CourseFormComponent,
     EnrollmentComponent
   ],
