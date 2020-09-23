@@ -12,9 +12,9 @@
             <td>{{student.firstName}}</td>
             <td>{{student.lastName}}</td>
             <td><button (click)="deleteStudent(student)" class="btn btn-danger">Obriši</button></td>
-            <td><button class="btn btn-primary">Izmeni</button></td>
+            <td><button (click)="updateStudent(student)" class="btn btn-primary">Izmeni</button></td>
         </tr>
     </tbody>
 </table>
-<button class="btn btn-success">Novi student</button>
+<button class="btn btn-success" (click)="newStudent()">Novi student</button>
 </div>

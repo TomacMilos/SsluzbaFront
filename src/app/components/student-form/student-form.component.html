@@ -1,1 +1,18 @@
-<p>student-form works!</p>
+<div class="container">
+
+    <form (ngSubmit)="processForm()">
+        <div class="form group">
+            <label for="cardNumber">Indeks</label>
+            <input type="text" name="id" class="form-control" [(ngModel)]="student.cardNumber">
+        </div>
+        <div class="form group">
+            <label for="firstName">Ime</label>
+            <input type="text" name="fname" class="form-control" [(ngModel)]="student.firstName">
+        </div>
+        <div class="form group">
+            <label for="lastName">Prezime</label>
+            <input type="text" name="lname" class="form-control" [(ngModel)]="student.lastName">
+        </div>
+        <input type="submit" value="save" class="btn btn-success">
+    </form>
+</div>

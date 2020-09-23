@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {StudentService} from '../../shared_service/student.service';
 import {Student} from '../../classes/student';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-student',
@@ -9,25 +10,35 @@ import {Student} from '../../classes/student';
 })
 export class StudentComponent implements OnInit {
 
-  public students:Student[];
+  public students: Student[];
 
-  constructor(private _studentService:StudentService) { }
+  constructor(private _studentService: StudentService, private _router: Router) { }
 
   ngOnInit(){
-    this._studentService.getStudents().subscribe(students =>{
+    this._studentService.getStudents().subscribe(students => {
       this.students = students;
       console.log(this.students);
-    },(error)=>{
+    }, (error) => {
       console.log(error);
     })
   }
   deleteStudent(student){ 
-    this._studentService.deleteStudent(student.id).subscribe((data)=>{
+    this._studentService.deleteStudent(student.id).subscribe((data) => {
         this.students.splice(this.students.indexOf(student), 1);
-    },(error)=>{
+    }, (error) => {
       console.log(error);
     });
     this.students.splice(this.students.indexOf(student), 1);
+  }
+  updateStudent(student){
+    this._studentService.setter(student);
+    this._router.navigate(['/student-form']);
+
+  }
+  newStudent(){
+    let student = new Student();
+    this._studentService.setter(student);
+    this._router.navigate(['/student-form']);
   }
 
 }

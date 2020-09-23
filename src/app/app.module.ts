@@ -16,6 +16,7 @@ import { StudentFormComponent } from './components/student-form/student-form.com
 const appRoutes: Routes = [
   { path: '', component: StudentComponent},
   { path: 'courses', component: CourseComponent},
+  { path: 'student-form', component: StudentFormComponent},
   { path: 'teachers', component: TeacherComponent}
 ];
 @NgModule({
