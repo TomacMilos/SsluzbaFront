@@ -9,16 +9,25 @@ import {Student} from '../../classes/student';
 })
 export class StudentComponent implements OnInit {
 
-  private students:Student[];
+  public students:Student[];
 
   constructor(private _studentService:StudentService) { }
 
   ngOnInit(){
     this._studentService.getStudents().subscribe(students =>{
-      console.log(students);
+      this.students = students;
+      console.log(this.students);
     },(error)=>{
       console.log(error);
     })
+  }
+  deleteStudent(student){ 
+    this._studentService.deleteStudent(student.id).subscribe((data)=>{
+        this.students.splice(this.students.indexOf(student), 1);
+    },(error)=>{
+      console.log(error);
+    });
+    this.students.splice(this.students.indexOf(student), 1);
   }
 
 }

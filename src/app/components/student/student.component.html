@@ -1,1 +1,20 @@
-<p>student works!</p>
+<div class="container">
+<table>
+    <thead>
+        <th>Index</th>
+        <th>Ime</th>
+        <th>Prezime</th>
+        <th></th>
+    </thead>
+    <tbody>
+        <tr *ngFor="let student of students">
+            <td>{{student.cardNumber}}</td>
+            <td>{{student.firstName}}</td>
+            <td>{{student.lastName}}</td>
+            <td><button (click)="deleteStudent(student)">Obriši</button></td>
+            <td><button>Izmeni</button></td>
+        </tr>
+    </tbody>
+</table>
+<button>Novi student</button>
+</div>
