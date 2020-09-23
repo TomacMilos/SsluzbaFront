@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {StudentService} from '../../shared_service/student.service';
 import {Student} from '../../classes/student';
 import {Router} from '@angular/router';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-student',
@@ -11,24 +12,27 @@ import {Router} from '@angular/router';
 export class StudentComponent implements OnInit {
 
   public students: Student[];
+  subscription: Subscription
 
-  constructor(private _studentService: StudentService, private _router: Router) { }
+  constructor(private _studentService: StudentService, private _router: Router) {
+    this.subscription = _studentService.RegenerateData$.subscribe(() =>
+    this.getStudents()
+  );
+   }
 
-  ngOnInit(){
-    this._studentService.getStudents().subscribe(students => {
-      this.students = students;
-      console.log(this.students);
-    }, (error) => {
-      console.log(error);
-    })
+  ngOnInit(): void {
+    this.getStudents();
   }
-  deleteStudent(student){ 
-    this._studentService.deleteStudent(student.id).subscribe((data) => {
-        this.students.splice(this.students.indexOf(student), 1);
-    }, (error) => {
-      console.log(error);
-    });
-    this.students.splice(this.students.indexOf(student), 1);
+
+  getStudents() {
+    this._studentService.getStudents().then(students =>
+      this.students = students);
+  }
+
+  deleteStudent(studentId: number): void {
+    this._studentService.deleteStudent(studentId).then(
+      () => this.getStudents()
+    );
   }
   updateStudent(student){
     this._studentService.setter(student);
@@ -36,7 +40,11 @@ export class StudentComponent implements OnInit {
 
   }
   newStudent(){
-    let student = new Student();
+    let student = new Student({ 
+      cardNumber: '',
+      firstName: '',
+      lastName: ''
+    });
     this._studentService.setter(student);
     this._router.navigate(['/student-form']);
   }

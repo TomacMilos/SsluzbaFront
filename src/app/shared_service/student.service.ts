@@ -3,6 +3,7 @@ import {Http, Response, Headers, RequestOptions} from '@angular/http';
 import { map } from 'rxjs/operators';
 import { Subject} from 'rxjs';
 import {Student} from '../classes/student';
+import {Enrollment} from '../classes/enrollment'
 
 @Injectable()
 export class StudentService {
@@ -11,17 +12,31 @@ export class StudentService {
   private options = new RequestOptions({headers: this.headers});
   private student: Student;
   private RegenerateData = new Subject<void>();
+  RegenerateData$ = this.RegenerateData.asObservable();
   constructor(private _http: Http) {}
 
-  getStudents(){
-    return this._http.get(this.baseUrl + '/all', this.options).pipe(map((response: Response) => response.json()));
-  }
-  getStudent(id: Number){
-    return this._http.get(this.baseUrl + '/' + id, this.options).pipe(map((response: Response) => response.json()));
-  }
-  deleteStudent(id: Number){
-    return this._http.delete(this.baseUrl + '/' + id, this.options).pipe(map((response: Response) => response.json()));
-  }
+  getStudents(): Promise<Student[]> {
+    return this._http.get(this.baseUrl)
+        .toPromise()
+        .then(response =>
+            response.json() as Student[])
+        .catch(this.handleError);
+}
+  getStudent(id: Number): Promise<Student> {
+    const url = `${this.baseUrl}/${id}`;
+    return this._http.get(url)
+        .toPromise()
+        .then(response =>
+            response.json() as Student)
+        .catch(this.handleError);
+}
+  deleteStudent(id: Number): Promise<{}> {
+    const url = `${this.baseUrl}/${id}`;
+    return this._http
+        .delete(url)
+        .toPromise()
+        .catch(this.handleError);
+}
   addStudent(student: Student): Promise<Student> {
     return this._http
         .post(this.baseUrl, JSON.stringify(student), { headers: this.headers })
@@ -36,6 +51,15 @@ export class StudentService {
           .then(res => res.json() as Student)
           .catch(this.handleError);
   }
+
+  getStudentEnrollments(studentId: number): Promise<Enrollment[]> {
+    const url = `${this.baseUrl}/${studentId}/courses`;
+    return this._http.get(url)
+        .toPromise()
+        .then(response =>
+            response.json() as Enrollment[])
+        .catch(this.handleError);
+}
   announceChange() {
     this.RegenerateData.next();
 }

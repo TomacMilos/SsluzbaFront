@@ -11,13 +11,17 @@ import {StudentService} from './shared_service/student.service';
 import { TeacherComponent } from './components/teacher/teacher.component';
 import {TeacherService} from './shared_service/teacher.service';
 import { StudentFormComponent } from './components/student-form/student-form.component';
+import { CourseFormComponent } from './components/course-form/course-form.component';
+import { EnrollmentComponent } from './components/enrollment/enrollment.component';
+import {EnrollmentService} from './shared_service/enrollment.service';
 
 
 const appRoutes: Routes = [
   { path: '', component: StudentComponent},
   { path: 'courses', component: CourseComponent},
   { path: 'student-form', component: StudentFormComponent},
-  { path: 'teachers', component: TeacherComponent}
+  { path: 'teachers', component: TeacherComponent},
+  { path: 'enrollment', component: EnrollmentComponent}
 ];
 @NgModule({
   declarations: [
@@ -25,7 +29,9 @@ const appRoutes: Routes = [
     CourseComponent,
     StudentComponent,
     TeacherComponent,
-    StudentFormComponent
+    StudentFormComponent,
+    CourseFormComponent,
+    EnrollmentComponent
   ],
   imports: [
     BrowserModule,
@@ -33,7 +39,7 @@ const appRoutes: Routes = [
     FormsModule,
     RouterModule.forRoot(appRoutes),
   ],
-  providers: [StudentService, CourseService, TeacherService],
+  providers: [StudentService, CourseService, TeacherService, EnrollmentService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
