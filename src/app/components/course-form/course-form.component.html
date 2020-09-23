@@ -1,1 +1,10 @@
-<p>course-form works!</p>
+<div class="container">
+
+    <form (ngSubmit)="processForm()">
+        <div class="form group">
+            <label for="name">Naziv</label>
+            <input type="text" name="name" class="form-control" [(ngModel)]="course.name">
+        </div>
+        <input type="submit" value="save" class="btn btn-success">
+    </form>
+</div>

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {CourseService} from '../../shared_service/course.service';
 import {Course} from '../../classes/course';
+import { Subscription } from 'rxjs';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-course',
@@ -9,24 +11,39 @@ import {Course} from '../../classes/course';
 })
 export class CourseComponent implements OnInit {
 
-  public courses:Course[];
+  public courses: Course[];
+  subscription: Subscription
 
-  constructor(private _courseService:CourseService) { }
+  constructor(private _courseService: CourseService, private _router: Router) {
+    this.subscription = _courseService.RegenerateData$.subscribe(() =>
+    this.getCourses()
+  );
+   }
 
-  ngOnInit(){
-    this._courseService.getCourses().subscribe(courses =>{
-      this.courses = courses;
-      console.log(this.courses);
-    },(error)=>{
-      console.log(error);
-    })
+  ngOnInit(): void {
+    this.getCourses();
   }
-  deleteStudent(course){ 
-    this._courseService.deleteCourse(course.id).subscribe((data)=>{
-        this.courses.splice(this.courses.indexOf(course), 1);
-    },(error)=>{
-      console.log(error);
+
+  getCourses() {
+    this._courseService.getCourses().then(courses =>
+      this.courses = courses);
+  }
+
+  deleteCourses(courseId: number): void {
+    this._courseService.deleteCourse(courseId).then(
+      () => this.getCourses()
+    );
+  }
+  updateCourse(course){
+    this._courseService.setter(course);
+    this._router.navigate(['/course-form']);
+
+  }
+  newCourse(){
+    let course = new Course({ 
+      name: '',  
     });
-    this.courses.splice(this.courses.indexOf(course), 1);
+    this._courseService.setter(course);
+    this._router.navigate(['/course-form']);
   }
 }

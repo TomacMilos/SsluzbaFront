@@ -20,6 +20,7 @@ const appRoutes: Routes = [
   { path: '', component: StudentComponent},
   { path: 'courses', component: CourseComponent},
   { path: 'student-form', component: StudentFormComponent},
+  { path: 'course-form', component: CourseFormComponent},
   { path: 'teachers', component: TeacherComponent},
   { path: 'enrollment', component: EnrollmentComponent}
 ];
