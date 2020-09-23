@@ -1,5 +1,5 @@
 <div class="container">
-<table>
+<table class="table table-striped">
     <thead>
         <th>Index</th>
         <th>Ime</th>
@@ -11,10 +11,10 @@
             <td>{{student.cardNumber}}</td>
             <td>{{student.firstName}}</td>
             <td>{{student.lastName}}</td>
-            <td><button (click)="deleteStudent(student)">Obriši</button></td>
-            <td><button>Izmeni</button></td>
+            <td><button (click)="deleteStudent(student)" class="btn btn-danger">Obriši</button></td>
+            <td><button class="btn btn-primary">Izmeni</button></td>
         </tr>
     </tbody>
 </table>
-<button>Novi student</button>
+<button class="btn btn-success">Novi student</button>
 </div>

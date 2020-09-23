@@ -8,17 +8,21 @@ import { CourseComponent } from './components/course/course.component';
 import {CourseService} from './shared_service/course.service';
 import { StudentComponent } from './components/student/student.component';
 import {StudentService} from './shared_service/student.service';
+import { TeacherComponent } from './components/teacher/teacher.component';
+import {TeacherService} from './shared_service/teacher.service';
 
 
 const appRoutes: Routes = [
   { path: '', component: StudentComponent},
-  { path: 'courses', component: CourseComponent}
+  { path: 'courses', component: CourseComponent},
+  { path: 'teachers', component: TeacherComponent}
 ];
 @NgModule({
   declarations: [
     AppComponent,
     CourseComponent,
-    StudentComponent
+    StudentComponent,
+    TeacherComponent
   ],
   imports: [
     BrowserModule,
@@ -26,7 +30,7 @@ const appRoutes: Routes = [
     FormsModule,
     RouterModule.forRoot(appRoutes),
   ],
-  providers: [StudentService, CourseService],
+  providers: [StudentService, CourseService, TeacherService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

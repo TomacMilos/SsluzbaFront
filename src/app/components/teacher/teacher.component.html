@@ -1,0 +1,18 @@
+<div class="container">
+    <table class="table table-striped">
+        <thead>
+            <th>Ime</th>
+            <th>Prezime</th>
+            <th></th>
+        </thead>
+        <tbody>
+            <tr *ngFor="let teacher of teachers">
+                <td>{{teacher.firstName}}</td>
+                <td>{{teacher.lastName}}</td>
+                <td><button (click)="deleteTeacher(teacher)" class="btn btn-danger">Obriši</button></td>
+                <td><button class="btn btn-primary">Izmeni</button></td>
+            </tr>
+        </tbody>
+    </table>
+    <button class="btn btn-success">Novi profesor</button>
+    </div>
