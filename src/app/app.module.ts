@@ -10,6 +10,7 @@ import { StudentComponent } from './components/student/student.component';
 import {StudentService} from './shared_service/student.service';
 import { TeacherComponent } from './components/teacher/teacher.component';
 import {TeacherService} from './shared_service/teacher.service';
+import { StudentFormComponent } from './components/student-form/student-form.component';
 
 
 const appRoutes: Routes = [
@@ -22,7 +23,8 @@ const appRoutes: Routes = [
     AppComponent,
     CourseComponent,
     StudentComponent,
-    TeacherComponent
+    TeacherComponent,
+    StudentFormComponent
   ],
   imports: [
     BrowserModule,
