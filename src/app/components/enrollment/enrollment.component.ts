@@ -5,7 +5,7 @@ import { Enrollment } from '../../classes/enrollment';
 import { Student } from '../../classes/student';
 import { Course } from '../../classes/course';
 import { CourseService } from '../../shared_service/course.service';
-import { StudentService } from "../../shared_service/student.service";
+import { StudentService } from '../../shared_service/student.service';
 import { EnrollmentService } from "../../shared_service/enrollment.service";
 import { NgbDateStruct } from "@ng-bootstrap/ng-bootstrap";
 import { ActivatedRoute } from '@angular/router';

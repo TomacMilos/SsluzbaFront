@@ -13,11 +13,13 @@ import {Router} from '@angular/router';
 
 export class ExamPeriodFormComponent implements OnInit {
   examperiod: ExamPeriod;
+
+  // for date picker values
   ngbStartDate: NgbDateStruct;
   ngbEndDate: NgbDateStruct;
 
   constructor(private _rotuer: Router, private examPeriodService: ExamPeriodServiceService) {
-      this.examperiod=new ExamPeriod(
+      this.examperiod = new ExamPeriod(
         {
           name: '',
           startDate: null,
@@ -30,6 +32,8 @@ export class ExamPeriodFormComponent implements OnInit {
     this.examperiod = this.examPeriodService.getter();
   }
   processForm(){
+    this.examperiod.startDate = new Date(this.ngbStartDate.year, this.ngbStartDate.month - 1, this.ngbStartDate.day);
+    this.examperiod.endDate = new Date(this.ngbEndDate.year, this.ngbEndDate.month - 1, this.ngbEndDate.day);
     if (this.examperiod.id === undefined){
       this.examPeriodService.addExamPeriod(this.examperiod)
       .then(course => {
