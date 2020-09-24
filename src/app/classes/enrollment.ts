@@ -10,7 +10,7 @@ export class Enrollment implements EnrollmentInterface{
 		
 	constructor(enrollmentCfg: EnrollmentInterface)
 	{
-		this.id = enrollmentCfg.id;
+  this.id = enrollmentCfg.id;
   this.startDate = enrollmentCfg.startDate;
   this.endDate = enrollmentCfg.endDate;
   this.student = enrollmentCfg.student;

@@ -32,12 +32,19 @@ export class ExamPeriodComponent implements OnInit {
       () => this.getExamPeriods()
     );
   }
-  updateExamPeriod(examperiod:ExamPeriod){
+  updatePeriod(examperiod:ExamPeriod){
     this._examPeriodSevice.setter(examperiod);
-    this._router.navigate(['/examperiod-form']);
+    this._router.navigate(['/exam-period-form']);
 
   }
   newExamPeriod(){
+    let exam = new ExamPeriod({ 
+      name: '',
+      startDate:null,
+      endDate:null
+    });
+    this._examPeriodSevice.setter(exam);
+    this._router.navigate(['/exam-period-form']);
   }
 
 }

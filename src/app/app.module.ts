@@ -18,6 +18,7 @@ import {EnrollmentService} from './shared_service/enrollment.service';
 import { NgbDate, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ExamPeriodComponent } from './components/exam-period/exam-period.component';
 import {ExamPeriodServiceService} from './shared_service/exam-period-service.service';
+import { ExamPeriodFormComponent } from './components/exam-period-form/exam-period-form.component';
 
 
 const appRoutes: Routes = [
@@ -28,7 +29,8 @@ const appRoutes: Routes = [
   { path: 'teachers', component: TeacherComponent},
   { path: 'enrollment-form', component: EnrollmentComponent},
   { path: 'teacher-form', component: TeacherFormComponent},
-  { path: 'exam-period', component: ExamPeriodComponent}
+  { path: 'exam-period', component: ExamPeriodComponent},
+  { path: 'exam-period-form', component: ExamPeriodFormComponent}
 ];
 @NgModule({
   declarations: [
@@ -40,7 +42,8 @@ const appRoutes: Routes = [
     TeacherFormComponent,
     CourseFormComponent,
     EnrollmentComponent,
-    ExamPeriodComponent
+    ExamPeriodComponent,
+    ExamPeriodFormComponent
   ],
   imports: [
     BrowserModule,
@@ -49,7 +52,7 @@ const appRoutes: Routes = [
     NgbModule,
     RouterModule.forRoot(appRoutes)
   ],
-  providers: [StudentService, CourseService, TeacherService, EnrollmentService,ExamPeriodServiceService],
+  providers: [StudentService, CourseService, TeacherService, EnrollmentService, ExamPeriodServiceService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

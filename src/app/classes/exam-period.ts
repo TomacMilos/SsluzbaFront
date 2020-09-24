@@ -1,4 +1,4 @@
-export class ExamPeriod {
+export class ExamPeriod implements ExamPeriodInterface{
 public id: number;
 public name: string;
 public startDate: Date;

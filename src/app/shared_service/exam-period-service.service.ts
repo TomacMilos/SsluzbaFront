@@ -36,8 +36,19 @@ deleteExamPeriod(id: Number): Promise<{}> {
       .toPromise()
       .catch(this.handleError);
 }
-createExamPeriod(){
-  return this._http.post(this.baseUrl, this.options).pipe(map((response: Response) => response.json()));
+addExamPeriod(ep: ExamPeriod): Promise<ExamPeriod> {
+  return this._http
+      .post(this.baseUrl, JSON.stringify(ep), { headers: this.headers })
+      .toPromise()
+      .then(res => res.json() as ExamPeriod)
+      .catch(this.handleError);
+}
+editExamPeriod(ep: ExamPeriod): Promise<ExamPeriod> {
+  return this._http
+      .put(this.baseUrl, JSON.stringify(this.examPeriod), { headers: this.headers })
+      .toPromise()
+      .then(res => res.json() as ExamPeriod)
+      .catch(this.handleError);
 }
 announceChange() {
   this.RegenerateData.next();
