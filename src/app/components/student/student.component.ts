@@ -29,8 +29,8 @@ export class StudentComponent implements OnInit {
       this.students = students);
   }
 
-  deleteStudent(studentId: number): void {
-    this._studentService.deleteStudent(studentId).then(
+  deleteStudent(student: Student): void {
+    this._studentService.deleteStudent(student).then(
       () => this.getStudents()
     );
   }
