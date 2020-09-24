@@ -27,6 +27,20 @@
               </tr>
             </table>
           </div> 
+
+          <br>
+          <div>
+              <div>
+                  <h3>Dokumenti korisnika</h3>
+              </div>
+              <table class="table table-bordered">
+                <tr *ngFor="let document of documents">
+                  <td>
+                    {{document.naziv}}
+                  </td>
+                </tr>
+              </table>
+            </div> 
           <input type="submit" value="save" class="btn btn-success">
     </form>
 </div>

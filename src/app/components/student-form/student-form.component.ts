@@ -4,6 +4,8 @@ import {Router}  from '@angular/router';
 import {StudentService}  from '../../shared_service/student.service';
 import { Subject} from 'rxjs';
 import { Enrollment } from '../../classes/enrollment';
+import { Documents } from '../../classes/documents';
+
 @Component({
   selector: 'app-student-form',
   templateUrl: './student-form.component.html',
@@ -12,6 +14,7 @@ import { Enrollment } from '../../classes/enrollment';
 export class StudentFormComponent implements OnInit {
   public student: Student;
   enrollments: Enrollment[];
+  documents: Documents[];
   constructor(private _studentService: StudentService, private _rotuer: Router) {
   }
   private RegenerateData = new Subject<void>();
@@ -21,6 +24,9 @@ export class StudentFormComponent implements OnInit {
     if (this.student !== undefined){
     this._studentService.getStudentEnrollments(this.student.id).then(enrollments =>
       this.enrollments = enrollments);
+
+      this._studentService.getStudentDocuments(this.student.id).then(documents =>
+        this.documents = documents);
     }
   }
   processForm(){

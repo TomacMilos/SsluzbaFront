@@ -4,6 +4,7 @@ import { map } from 'rxjs/operators';
 import { Subject} from 'rxjs';
 import {Student} from '../classes/student';
 import {Enrollment} from '../classes/enrollment'
+import {Documents} from '../classes/documents'
 
 @Injectable()
 export class StudentService {
@@ -60,6 +61,16 @@ export class StudentService {
             response.json() as Enrollment[])
         .catch(this.handleError);
 }
+
+getStudentDocuments(studentId: number): Promise<Documents[]> {
+  const url = `${this.baseUrl}/${studentId}/documents`;
+  return this._http.get(url)
+      .toPromise()
+      .then(response =>
+          response.json() as Documents[])
+      .catch(this.handleError);
+}
+
   announceChange() {
     this.RegenerateData.next();
 }
