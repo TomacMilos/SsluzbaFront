@@ -29,8 +29,8 @@ export class CourseComponent implements OnInit {
       this.courses = courses);
   }
 
-  deleteCourses(courseId: number): void {
-    this._courseService.deleteCourse(courseId).then(
+  deleteCourses(course: Course): void {
+    this._courseService.deleteCourse(course.id).then(
       () => this.getCourses()
     );
   }

@@ -8,7 +8,7 @@
         <tbody>
             <tr *ngFor="let course of courses">
                 <td>{{course.name}}</td>
-                <td><button (click)="deleteCourse(course)" class="btn btn-danger">Obriši</button></td>
+                <td><button (click)="deleteCourses(course)" class="btn btn-danger">Obriši</button></td>
                 <td><button (click)="updateCourse(course)" class="btn btn-primary">Izmeni</button></td>
             </tr>
         </tbody>
