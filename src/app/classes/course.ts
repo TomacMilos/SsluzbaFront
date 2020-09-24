@@ -1,5 +1,5 @@
 export class Course implements CourseInterface{
-    public id: number;
+public id: number;
 public name: string;
 constructor(courseCfg: CourseInterface)
 {

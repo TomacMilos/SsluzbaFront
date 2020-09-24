@@ -1,0 +1,21 @@
+<div class="container">
+    <table class="table table-striped">
+        <thead>
+            <th>Ispitni rok</th>
+            <th>Datum pocetka</th>
+            <th>Datum zavrsetka</th>
+            <th></th>
+        </thead>
+        <tbody>
+            <tr *ngFor="let examperiod of examperiods">
+                <td>{{examperiod.name}}</td>
+                <td>{{examperiod.date}}</td>
+                <td>{{examperiod.startDate | date: 'dd.MM.yyyy'}}</td>
+                <td>{{examperiod.endDate | date: 'dd.MM.yyyy'}}</td>
+                <td><button (click)="deleteExamPeriod(examperiod)" class="btn btn-danger">Obriši</button></td>
+                <td><button (click)="updateExamPeriod(examperiod)" class="btn btn-primary">Izmeni</button></td>
+            </tr>
+        </tbody>
+    </table>
+    <button class="btn btn-success" (click)="newExamPeriod()">Dodaj ispitni rok</button>
+    </div>
