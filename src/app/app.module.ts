@@ -21,6 +21,7 @@ import {ExamPeriodServiceService} from './shared_service/exam-period-service.ser
 import { ExamPeriodFormComponent } from './components/exam-period-form/exam-period-form.component';
 import { DocumentsComponent } from './components/documents/documents.component';
 import { DocumentsService } from './shared_service/documents.service';
+import { DocumentFormComponent } from './components/document-form/document-form.component';
 
 
 const appRoutes: Routes = [
@@ -33,7 +34,8 @@ const appRoutes: Routes = [
   { path: 'teacher-form', component: TeacherFormComponent},
   { path: 'exam-period', component: ExamPeriodComponent},
   { path: 'exam-period-form', component: ExamPeriodFormComponent},
-  { path: 'documents', component: DocumentsComponent}
+  { path: 'documents', component: DocumentsComponent},
+  { path: 'document-form', component: DocumentFormComponent},
 ];
 @NgModule({
   declarations: [
@@ -47,7 +49,8 @@ const appRoutes: Routes = [
     EnrollmentComponent,
     ExamPeriodComponent,
     ExamPeriodFormComponent,
-    DocumentsComponent
+    DocumentsComponent,
+    DocumentFormComponent
   ],
   imports: [
     BrowserModule,
