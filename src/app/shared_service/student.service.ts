@@ -30,8 +30,8 @@ export class StudentService {
             response.json() as Student)
         .catch(this.handleError);
 }
-  deleteStudent(id: Number): Promise<{}> {
-    const url = `${this.baseUrl}/${id}`;
+  deleteStudent(student: Student): Promise<{Student}> {
+    const url = `${this.baseUrl}/${student.id}`;
     return this._http
         .delete(url)
         .toPromise()
