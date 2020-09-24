@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {Http, Response, Headers, RequestOptions} from '@angular/http';
 import { map } from 'rxjs/operators';
 import {Course} from '../classes/course'
+import {Enrollment} from '../classes/enrollment'
 import { Subject} from 'rxjs';
 
 @Injectable()
@@ -53,6 +54,15 @@ export class CourseService {
           .then(res => res.json() as Course)
           .catch(this.handleError);
   }
+
+  getCourseEnrollments(courseId: number): Promise<Enrollment[]> {
+    const url = `${this.baseUrl}/${courseId}/students`;
+    return this._http.get(url)
+        .toPromise()
+        .then(response =>
+            response.json() as Enrollment[])
+        .catch(this.handleError);
+}
 
   announceChange() {
     this.RegenerateData.next();

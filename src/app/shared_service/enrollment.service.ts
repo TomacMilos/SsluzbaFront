@@ -8,14 +8,12 @@ import 'rxjs';
 
 @Injectable()
 export class EnrollmentService {
-    private enrollmentsUrl = 'api/enrollment';
+    private enrollment: Enrollment;
+    private baseUrl = 'http://localhost:8080/api/enrollment';
     private headers = new Headers({ 'Content-Type': 'application/json' });
-
-    constructor(private http: Http) { }
-
     private RegenerateData = new Subject<void>();
-
     RegenerateData$ = this.RegenerateData.asObservable();
+    constructor(private _http: Http) { }
 
     announceChange() {
         this.RegenerateData.next();
@@ -23,16 +21,16 @@ export class EnrollmentService {
 
     
     addEnrollment(enrollment: Enrollment): Promise<Enrollment> {
-        return this.http
-            .post(this.enrollmentsUrl, JSON.stringify(enrollment), { headers: this.headers })
+        return this._http
+            .post(this.baseUrl, JSON.stringify(enrollment), { headers: this.headers })
             .toPromise()
             .then(res => res.json() as Enrollment)
             .catch(this.handleError);
     }
 
     deleteEnrollment(enrollmentId: number): Promise<{}> {
-        const url = `${this.enrollmentsUrl}/${enrollmentId}`;
-        return this.http
+        const url = `${this.baseUrl}/${enrollmentId}`;
+        return this._http
             .delete(url)
             .toPromise()           
             .catch(this.handleError);

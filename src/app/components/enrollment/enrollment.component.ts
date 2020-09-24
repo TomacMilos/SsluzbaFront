@@ -1,22 +1,25 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import {Router} from '@angular/router';
 import { Location } from '@angular/common';
-
 import { Enrollment } from '../../classes/enrollment';
 import { Student } from '../../classes/student';
 import { Course } from '../../classes/course';
-
 import { CourseService } from '../../shared_service/course.service';
 import { StudentService } from "../../shared_service/student.service";
 import { EnrollmentService } from "../../shared_service/enrollment.service";
 import { NgbDateStruct } from "@ng-bootstrap/ng-bootstrap";
+import { ActivatedRoute } from '@angular/router';
+import { NgbDate, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+
+
 
 @Component({
   selector: 'app-enrollment',
   templateUrl: './enrollment.component.html',
   styleUrls: ['./enrollment.component.css']
-})
+}) 
 export class EnrollmentComponent implements OnInit {
+
 
   enrollment: Enrollment;
   students: Student[];
@@ -54,7 +57,7 @@ export class EnrollmentComponent implements OnInit {
       this.students = students);
   }
 
-  private add(): void {
+  add(): void {
     // convert NgbDateStruct dates to Date objects
     this.enrollment.startDate = new Date(this.ngbStartDate.year, this.ngbStartDate.month-1, this.ngbStartDate.day);
     this.enrollment.endDate = new Date(this.ngbEndDate.year, this.ngbEndDate.month-1, this.ngbEndDate.day);
@@ -69,5 +72,6 @@ export class EnrollmentComponent implements OnInit {
   goBack(): void {
     this.location.back();
   }
+
 
 }
