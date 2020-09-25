@@ -13,20 +13,27 @@ import { Course } from '../../classes/course'
 export class TeacherFormComponent implements OnInit {
   public teacher: Teacher;
   courses: Course[];
+  public teacherRank = '';
+  public selectedTeacherRank = '';
 
   constructor(private teacherService: TeacherService, private _rotuer: Router) { }
   private RegenerateData = new Subject<void>();
 
   ngOnInit() {
     this.teacher = this.teacherService.getter();
-    console.log(this.teacher.firstName);
     if (this.teacher !== undefined){
       this.teacherService.getTeacherCourses(this.teacher.id).then(courses =>
         this.courses = courses);
+        this.selectedTeacherRank = this.teacher.teacherRank;
       }
+  }
+  onChange(event) {
+    this.teacherRank = event.target.options[event.target.options.selectedIndex].text;
   }
   processForm(){
     if (this.teacher.id === undefined){
+
+      this.teacher.teacherRank = this.teacherRank;
       this.teacherService.addTeacher(this.teacher)
       .then(teacher => {
         this.teacherService.announceChange();
