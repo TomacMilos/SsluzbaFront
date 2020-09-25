@@ -31,17 +31,35 @@ export class StudentFormComponent implements OnInit {
   }
   processForm(){
     if (this.student.id === undefined){
+      if(this.student.cardNumber == ""){
+        alert("Niste uneli indeks studenta");
+      }else if(this.student.firstName == ""){
+        alert("Niste uneli ime studenta");
+      }else if(this.student.lastName == ""){
+        alert("Niste uneli prezime studenta");
+      }
+      else{
       this._studentService.addStudent(this.student)
       .then(student => {
         this._studentService.announceChange();
         this._rotuer.navigate(['']);
       });
+    }
     }else{
+      if(this.student.cardNumber == ""){
+        alert("Niste uneli indeks studenta");
+      }else if(this.student.firstName == ""){
+        alert("Niste uneli ime studenta");
+      }else if(this.student.lastName == ""){
+        alert("Niste uneli prezime studenta");
+      }
+      else{
       this._studentService.editStudent(this.student)
       .then(student => {
         this._studentService.announceChange();
         this._rotuer.navigate(['']);
       });
+    }
     }
   }
 }
