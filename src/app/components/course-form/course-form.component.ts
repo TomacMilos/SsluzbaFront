@@ -44,17 +44,27 @@ export class CourseFormComponent implements OnInit {
   }
   processForm(){
     if (this.course.id === undefined){
-      this._courseService.addCourse(this.course)
-      .then(course => {
-        this._courseService.announceChange();
-        this._rotuer.navigate(['courses']);
+      if(this.course.name == ""){
+        alert("Niste uneli naziv kursa");
+      }
+      else{  
+        this._courseService.addCourse(this.course)
+        .then(course => {
+          this._courseService.announceChange();
+         this._rotuer.navigate(['courses']);
       });
+    }
     }else{
+       if(this.course.name == ""){
+          alert("Niste uneli naziv kursa");
+        }
+        else{
       this._courseService.editCourse(this.course)
       .then(course => {
         this._courseService.announceChange();
         this._rotuer.navigate(['courses']);
       });
+    }
     }
   }
   gotoAddEnrollment(): void {

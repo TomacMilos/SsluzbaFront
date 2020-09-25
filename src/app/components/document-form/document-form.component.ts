@@ -36,11 +36,19 @@ export class DocumentFormComponent implements OnInit {
   }
 
   add(): void {
+    if(this.documents.naziv === undefined) {
+      if(this.documents.naziv == ""){
+        alert("Niste uneli naziv dokumenta!");
+      }else if(this.documents.student == null){
+        alert("Morate odabrati studenta!");
+      }
+    }else {
     this.documentsService.addDocument(this.documents)
       .then(documents => {
         this.documentsService.announceChange();
         this.goBack();
       });
+    }
   }
 
   goBack(): void {
