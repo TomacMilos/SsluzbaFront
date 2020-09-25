@@ -41,7 +41,8 @@ export class TeacherComponent implements OnInit {
   newTeacher(){
     let teacher = new Teacher({
       firstName: '',
-      lastName: ''
+      lastName: '',
+      teacherRank: ''
     });
     this._teacherService.setter(teacher);
     this._router.navigate(['/teacher-form']);

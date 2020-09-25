@@ -3,6 +3,7 @@
         <thead>
             <th>Ime</th>
             <th>Prezime</th>
+            <th>Uloga</th>
             <th></th>
             <th></th>
         </thead>
@@ -10,6 +11,7 @@
             <tr *ngFor="let teacher of teachers">
                 <td>{{teacher.firstName}}</td>
                 <td>{{teacher.lastName}}</td>
+                <td>{{teacher.teacherRank}}</td>
                 <td><button (click)="deleteTeacher(teacher)" class="btn btn-danger">Obriši</button></td>
                 <td><button (click)="updateTeacher(teacher)" class="btn btn-primary">Izmeni</button></td>
             </tr>
