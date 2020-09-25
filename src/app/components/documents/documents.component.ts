@@ -35,11 +35,7 @@ export class DocumentsComponent implements OnInit {
       () => this.getDocuments()
     );
   }
-  updateDocument(documents){
-    this._documentsService.setter(documents);
-    this._router.navigate(['/document-form']);
-
-  }
+  
   newDocument(){
     let documents = new Documents({ 
       naziv: '',

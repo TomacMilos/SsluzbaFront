@@ -47,13 +47,7 @@ export class DocumentsService {
         .then(res => res.json() as Documents)
         .catch(this.handleError);
 }
-  editDocument(documents: Documents): Promise<Documents> {
-    return this._http
-        .put(this.baseUrl, JSON.stringify(documents), { headers: this.headers })
-        .toPromise()
-        .then(res => res.json() as Documents)
-        .catch(this.handleError);
-}
+ 
 
   announceChange() {
     this.RegenerateData.next();
