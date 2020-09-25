@@ -82,6 +82,29 @@
                   </td>
                 </tr>
               </table>
+
+            <div>
+                <h3>Uplate korisnika</h3>
+            </div>
+            <table class="table table-bordered">
+              <thead>
+                <th>Svrha Uplate</th>
+                <th>Vrednost Uplate</th>
+                <th>Vreme Uplate</th>
+            </thead>
+            <tbody>
+              <tr *ngFor="let payment of payments">
+                <td>{{payment.svrhaUplate}}</td>
+                <td>{{payment.vrednostUplate}}</td>
+                <td>{{payment.date | date:'dd/MM/yyyy HH:mm'}}</td>
+              </tr>
+              <tr>
+                <td>Ukupno</td>
+                <td id="sum">{{sum}}</td>
+                <td></td> 
+            </tr>
+            </tbody>
+            </table>
             </div> 
           <input type="submit" value="save" class="btn btn-success">
     </form>
