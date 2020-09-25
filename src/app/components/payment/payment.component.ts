@@ -4,7 +4,6 @@ import {PaymentService} from '../../shared_service/payment.service';
 import { Subscription } from 'rxjs';
 import {Router} from '@angular/router';
 import {Student} from '../../classes/student';
-import { timeout } from 'rxjs/operators';
 
 @Component({
   selector: 'app-payment',
@@ -22,13 +21,6 @@ export class PaymentComponent implements OnInit {
     this.getPayments()
   );
    }
-
-  //  var sumVal = 0;
-  //  this.payments.forEach(payment => {
-  //    sumVal += payment.vrednostUplate;
-  //  });   
-  //  document.getElementById("sum").innerHTML = "" + sumVal;
-  //  console.log(sumVal);
 
   ngOnInit(): void {
     this.getPayments();

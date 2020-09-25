@@ -26,6 +26,7 @@ import { ExamService } from './shared_service/exam.service';
 import { PaymentComponent } from './components/payment/payment.component';
 import { PaymentService } from './shared_service/payment.service';
 import { PaymentFormComponent } from './components/payment-form/payment-form.component';
+import { ExamComponent } from './components/exam/exam.component';
 
 
 const appRoutes: Routes = [
@@ -42,6 +43,7 @@ const appRoutes: Routes = [
   { path: 'document-form', component: DocumentFormComponent},
   { path: 'payments', component: PaymentComponent},
   { path: 'payment-form', component: PaymentFormComponent},
+  { path: 'exams', component: ExamComponent},
 ];
 @NgModule({
   declarations: [
@@ -58,7 +60,8 @@ const appRoutes: Routes = [
     DocumentsComponent,
     DocumentFormComponent,
     PaymentComponent,
-    PaymentFormComponent
+    PaymentFormComponent,
+    ExamComponent
   ],
   imports: [
     BrowserModule,
@@ -68,7 +71,7 @@ const appRoutes: Routes = [
     RouterModule.forRoot(appRoutes)
   ],
   providers: [StudentService, CourseService, TeacherService, EnrollmentService,
-     ExamPeriodServiceService, DocumentsService,ExamService, PaymentService, PaymentFormComponent],
+     ExamPeriodServiceService, DocumentsService,ExamService, PaymentService, PaymentFormComponent, ExamComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

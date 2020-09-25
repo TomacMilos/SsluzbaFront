@@ -14,6 +14,14 @@ export class ExamService {
   RegenerateData$ = this.RegenerateData.asObservable();
   constructor(private _http: Http) {}
 
+  getExams(): Promise<Exam[]> {
+    const url = `${this.baseUrl}/all`;
+    return this._http.get(url)
+        .toPromise()
+        .then(response =>
+            response.json() as Exam[])
+        .catch(this.handleError);
+}
     
   addExam(exam: Exam): Promise<Exam> {
     return this._http
