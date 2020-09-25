@@ -3,6 +3,7 @@ import {Http, Response, Headers, RequestOptions} from '@angular/http';
 import { map } from 'rxjs/operators';
 import {ExamPeriod} from '../classes/exam-period';
 import { Subject} from 'rxjs';
+import { Exam } from '../classes/exam';
 
 @Injectable()
 export class ExamPeriodServiceService {
@@ -48,6 +49,14 @@ editExamPeriod(ep: ExamPeriod): Promise<ExamPeriod> {
       .put(this.baseUrl, JSON.stringify(this.examPeriod), { headers: this.headers })
       .toPromise()
       .then(res => res.json() as ExamPeriod)
+      .catch(this.handleError);
+}
+getExamPeriodExams(examperiodId: number): Promise<Exam[]> {
+  const url = `${this.baseUrl}/${examperiodId}/exams`;
+  return this._http.get(url)
+      .toPromise()
+      .then(response =>
+          response.json() as Exam[])
       .catch(this.handleError);
 }
 announceChange() {

@@ -22,6 +22,7 @@ import { ExamPeriodFormComponent } from './components/exam-period-form/exam-peri
 import { DocumentsComponent } from './components/documents/documents.component';
 import { DocumentsService } from './shared_service/documents.service';
 import { DocumentFormComponent } from './components/document-form/document-form.component';
+import { ExamService } from './shared_service/exam.service';
 
 
 const appRoutes: Routes = [
@@ -59,7 +60,7 @@ const appRoutes: Routes = [
     NgbModule,
     RouterModule.forRoot(appRoutes)
   ],
-  providers: [StudentService, CourseService, TeacherService, EnrollmentService, ExamPeriodServiceService, DocumentsService],
+  providers: [StudentService, CourseService, TeacherService, EnrollmentService, ExamPeriodServiceService, DocumentsService,ExamService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

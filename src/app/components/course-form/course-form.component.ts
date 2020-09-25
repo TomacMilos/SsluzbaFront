@@ -30,6 +30,7 @@ export class CourseFormComponent implements OnInit {
     );
      }
   private RegenerateData = new Subject<void>();
+  
   ngOnInit() {
     this.course = this._courseService.getter();
     if (this.course !== undefined){
