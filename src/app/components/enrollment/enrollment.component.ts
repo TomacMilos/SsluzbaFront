@@ -58,16 +58,27 @@ export class EnrollmentComponent implements OnInit {
   }
 
   add(): void {
-    // convert NgbDateStruct dates to Date objects
+    if (this.ngbStartDate === undefined){
+      alert("Niste uneli datum pocetka ispitnog roka")
+    }else if (this.ngbEndDate === undefined){
+      alert("Niste uneli datum kraja ispitnog roka")
+    }else if(this.enrollment.student.cardNumber===''){
+      alert("Izaberite studenta")
+    }
+    else{
     this.enrollment.startDate = new Date(this.ngbStartDate.year, this.ngbStartDate.month-1, this.ngbStartDate.day);
     this.enrollment.endDate = new Date(this.ngbEndDate.year, this.ngbEndDate.month-1, this.ngbEndDate.day);
-
+    if (this.enrollment.startDate > this.enrollment.endDate){
+      alert("Datum pocetka mora biti pre datuma kraja");
+    }else{
     this.enrollmentService.addEnrollment(this.enrollment)
       .then(enrollment => {
         this.enrollmentService.announceChange();
         this.goBack();
       });
+    }
   }
+}
 
   goBack(): void {
     this.location.back();
