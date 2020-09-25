@@ -5,6 +5,7 @@ import { Subject} from 'rxjs';
 import {Student} from '../classes/student';
 import {Enrollment} from '../classes/enrollment'
 import {Documents} from '../classes/documents'
+import { Exam } from '../classes/exam';
 
 @Injectable()
 export class StudentService {
@@ -60,6 +61,23 @@ export class StudentService {
         .then(response =>
             response.json() as Enrollment[])
         .catch(this.handleError);
+}
+
+getStudentExams(studentId: number): Promise<Exam[]> {
+  const url = `${this.baseUrl}/${studentId}/exams`;
+  return this._http.get(url)
+      .toPromise()
+      .then(response =>
+          response.json() as Exam[])
+      .catch(this.handleError);
+}
+getStudentExamsPass(studentId: number): Promise<Exam[]> {
+  const url = `${this.baseUrl}/${studentId}/examspass`;
+  return this._http.get(url)
+      .toPromise()
+      .then(response =>
+          response.json() as Exam[])
+      .catch(this.handleError);
 }
 
 getStudentDocuments(studentId: number): Promise<Documents[]> {

@@ -2,9 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { Student } from 'src/app/classes/student';
 import {Router}  from '@angular/router';
 import {StudentService}  from '../../shared_service/student.service';
+import {ExamService}  from '../../shared_service/exam.service';
 import { Subject} from 'rxjs';
 import { Enrollment } from '../../classes/enrollment';
 import { Documents } from '../../classes/documents';
+import { Exam } from 'src/app/classes/exam';
 
 @Component({
   selector: 'app-student-form',
@@ -15,7 +17,9 @@ export class StudentFormComponent implements OnInit {
   public student: Student;
   enrollments: Enrollment[];
   documents: Documents[];
-  constructor(private _studentService: StudentService, private _rotuer: Router) {
+  exams: Exam[];
+  examspass:Exam[];
+  constructor(private _studentService: StudentService, private _rotuer: Router,private _examService: ExamService) {
   }
   private RegenerateData = new Subject<void>();
   ngOnInit() {
@@ -25,9 +29,24 @@ export class StudentFormComponent implements OnInit {
     this._studentService.getStudentEnrollments(this.student.id).then(enrollments =>
       this.enrollments = enrollments);
 
-      this._studentService.getStudentDocuments(this.student.id).then(documents =>
+    this._studentService.getStudentExams(this.student.id).then(exams =>
+        this.exams = exams);
+
+    this._studentService.getStudentExamsPass(this.student.id).then(exams =>
+        this.examspass = exams);
+
+    this._studentService.getStudentDocuments(this.student.id).then(documents =>
         this.documents = documents);
     }
+  }
+  deleteExam(examId:number){
+    this._examService.deleteExam(examId).then(
+      () => this.getExams()
+    );
+  }
+  getExams() {
+    this._studentService.getStudentExams(this.student.id).then(exams =>
+      this.exams = exams);
   }
   processForm(){
     if (this.student.id === undefined){
