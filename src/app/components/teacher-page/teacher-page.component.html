@@ -1,0 +1,29 @@
+<div class="container">
+    <form>
+        <div class="form group">
+            <label for="cardNumber">Ime</label>
+            <input type="text" name="firstName" class="form-control" [(ngModel)]="teacher.firstName" [ngModelOptions]="{standalone: true}" disabled>
+        </div>
+        <div class="form group">
+            <label for="firstName">Prezime</label>
+            <input type="text" name="fname" class="form-control" [(ngModel)]="teacher.lastName" [ngModelOptions]="{standalone: true}" disabled>
+        </div>
+        <div class="form group">
+            <label for="teacherRank">Uloga</label>
+            <input type="text" name="fname" class="form-control" [(ngModel)]="teacher.teacherRank" [ngModelOptions]="{standalone: true}" disabled>
+        </div>
+        <br>
+        <div>
+            <div>
+                <h3>Vasi kursevi</h3>
+            </div>
+            <table class="table table-bordered">
+              <tr *ngFor="let course of courses">
+                <td>
+            {{course.name}}
+                </td>
+            </tr>
+            </table>
+        </div> 
+    </form>
+</div>

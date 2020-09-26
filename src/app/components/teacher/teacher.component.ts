@@ -33,6 +33,12 @@ export class TeacherComponent implements OnInit {
       () => this.getTeachers()
     );
   }
+
+  gotoPage(){
+    localStorage.setItem('teacherId','1');
+    this._router.navigate(['teacher-page']);
+  }
+
   updateTeacher(teacher){
     this._teacherService.setter(teacher);
     this._router.navigate(['/teacher-form']);

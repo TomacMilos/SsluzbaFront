@@ -22,7 +22,7 @@ export class TeacherService {
             response.json() as Teacher[])
         .catch(this.handleError);
 }
-getTeacher(id: Number): Promise<Teacher> {
+getTeacher(id): Promise<Teacher> {
   const url = `${this.baseUrl}/${id}`;
   return this._http.get(url)
       .toPromise()
@@ -51,7 +51,7 @@ editTeacher(teacher: Teacher): Promise<Teacher> {
       .then(res => res.json() as Teacher)
       .catch(this.handleError);
 }
-getTeacherCourses(teacherId: number): Promise<Course[]> {
+getTeacherCourses(teacherId): Promise<Course[]> {
   const url = `${this.baseUrl}/${teacherId}/courses`;
   return this._http.get(url)
       .toPromise()
