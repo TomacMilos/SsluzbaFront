@@ -41,7 +41,7 @@
                 <td>
                   {{exam.course.name}}
                 </td>
-                <td>{{exam.date | date: 'dd/MM/yyyy HH:mm'}}</td>
+                <td>{{exam.date | date: 'dd/MM/yyyy'}}</td>
                 <td>{{exam.date | date: 'HH:mm'}}</td>
                 <td>
                   <button type="button" class="btn btn-success right" aria-label="Info" (click)="gotoInfo(exam.id)">
@@ -64,7 +64,7 @@
                 <td>
                   {{exam.course.name}}
                 </td>
-                <td>{{exam.date | date: 'dd/MM/yyyy HH:mm'}}</td>
+                <td>{{exam.date | date: 'dd/MM/yyyy'}}</td>
                 <td>{{exam.date | date: 'HH:mm'}}</td>
                 <td>
                   <button type="button" class="btn btn-success right" aria-label="Info" (click)="gotoInfo(exam.id)">
@@ -88,7 +88,7 @@
                 <td>
                   {{exam.course.name}}
                 </td>
-                <td>{{exam.date | date: 'dd/MM/yyyy HH:mm'}}</td>
+                <td>{{exam.date | date: 'dd/MM/yyyy'}}</td>
                 <td>{{exam.date | date: 'HH:mm'}}</td>
                 <td>
                   <button type="button" class="btn btn-primary right" aria-label="Delete" (click)="deleteExam(exam.id)">
