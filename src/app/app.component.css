@@ -1,0 +1,17 @@
+#dropDownButton{
+    position: fixed;
+    top: 10px;
+    left: 10px;
+}
+
+#startPage{
+    position: fixed;
+    right: 10px;
+    top: 10px;
+}
+
+#listDropDown{
+    position: fixed;
+    left: 10px;
+    top: 50px;
+}

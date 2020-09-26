@@ -6,6 +6,7 @@ import {Student} from '../classes/student';
 import {Enrollment} from '../classes/enrollment'
 import {Documents} from '../classes/documents'
 import { Exam } from '../classes/exam';
+import { Payment } from '../classes/payment';
 
 @Injectable()
 export class StudentService {
@@ -86,6 +87,24 @@ getStudentDocuments(studentId: number): Promise<Documents[]> {
       .toPromise()
       .then(response =>
           response.json() as Documents[])
+      .catch(this.handleError);
+}
+
+getStudentPayments(studentId: number): Promise<Payment[]> {
+  const url = `${this.baseUrl}/${studentId}/payments`;
+  return this._http.get(url)
+      .toPromise()
+      .then(response =>
+          response.json() as Payment[])
+      .catch(this.handleError);
+}
+
+getAllPaymentsSum(studentId: number): Promise<number> {
+  const url = `${this.baseUrl}/${studentId}/allSum`;
+  return this._http.get(url)
+      .toPromise()
+      .then(response =>
+          response.json() as number)
       .catch(this.handleError);
 }
 

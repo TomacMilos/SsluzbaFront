@@ -10,8 +10,8 @@
         <tbody>
             <tr *ngFor="let examperiod of examperiods">
                 <td>{{examperiod.name}}</td>
-                <td>{{examperiod.startDate | date: 'dd.MM.yyyy'}}</td>
-                <td>{{examperiod.endDate | date: 'dd.MM.yyyy'}}</td>
+                <td>{{examperiod.startDate | date: 'dd/MM/yyyy'}}</td>
+                <td>{{examperiod.endDate | date: 'dd/MM/yyyy'}}</td>
                 <td><button (click)="deleteExamPeriod(examperiod)" class="btn btn-danger">Obriši</button></td>
                 <td><button (click)="updatePeriod(examperiod)" class="btn btn-primary">Izmeni</button></td>
             </tr>

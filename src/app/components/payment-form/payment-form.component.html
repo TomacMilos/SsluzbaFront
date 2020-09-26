@@ -1,0 +1,27 @@
+<div>
+    <h3>Add new Payment</h3>
+  </div>
+  <div>
+
+    <div class="form group">
+        <label for="svrhaUplate">Svrha Uplate</label>
+        <input type="text" name="svrhaUplate" class="form-control" [(ngModel)]="payment.svrhaUplate">
+    </div>
+    <div class="form group">
+        <label for="svrhaUplate">Vrednost Uplate</label>
+        <input type="text" name="vrednostUplate" class="form-control" [(ngModel)]="payment.vrednostUplate">
+    </div>
+  
+      <div class="form-group">
+        <label for="student">Student</label>
+        <select class="form-control" [(ngModel)]="payment.student">
+              <option *ngFor="let s of students" [ngValue]="s">{{s.firstName}} {{s.lastName}} {{s.cardNumber}}</option>
+            </select>
+      </div>
+  
+  
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-primary" type="button" (click)="add()">OK</button>
+    <button class="btn btn-primary" type="button" (click)="goBack()">Cancel</button>
+  </div> 

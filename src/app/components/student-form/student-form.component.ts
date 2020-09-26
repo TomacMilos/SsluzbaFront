@@ -7,6 +7,8 @@ import { Subject} from 'rxjs';
 import { Enrollment } from '../../classes/enrollment';
 import { Documents } from '../../classes/documents';
 import { Exam } from 'src/app/classes/exam';
+import { Payment } from 'src/app/classes/payment';
+import { PaymentService } from 'src/app/shared_service/payment.service';
 
 @Component({
   selector: 'app-student-form',
@@ -17,9 +19,12 @@ export class StudentFormComponent implements OnInit {
   public student: Student;
   enrollments: Enrollment[];
   documents: Documents[];
+  payments: Payment[];
   exams: Exam[];
   examspass:Exam[];
-  constructor(private _studentService: StudentService, private _rotuer: Router,private _examService: ExamService) {
+  public sum: number;
+  constructor(private _studentService: StudentService, private _rotuer: Router,private _examService: ExamService,
+    private _paymentService: PaymentService) {
   }
   private RegenerateData = new Subject<void>();
   ngOnInit() {
@@ -37,6 +42,12 @@ export class StudentFormComponent implements OnInit {
 
     this._studentService.getStudentDocuments(this.student.id).then(documents =>
         this.documents = documents);
+
+    this._studentService.getStudentPayments(this.student.id).then(payments =>
+        this.payments = payments);
+
+    this._studentService.getAllPaymentsSum(this.student.id).then(sum =>
+        this.sum = sum);
     }
   }
   deleteExam(examId:number){
@@ -48,6 +59,7 @@ export class StudentFormComponent implements OnInit {
     this._studentService.getStudentExams(this.student.id).then(exams =>
       this.exams = exams);
   }
+
   processForm(){
     if (this.student.id === undefined){
       if(this.student.cardNumber == ""){

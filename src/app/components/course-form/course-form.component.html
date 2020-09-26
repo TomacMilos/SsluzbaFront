@@ -18,7 +18,7 @@
           <tr *ngFor="let enrollment of enrollments">
             <td>
               {{enrollment.student.firstName}} {{enrollment.student.lastName}} {{enrollment.student.cardNumber}}
-               [Since {{enrollment.startDate | date: 'dd.MM.yyyy'}} until {{enrollment.endDate | date: 'dd.MM.yyyy'}}]
+               [Since {{enrollment.startDate | date: 'dd/MM/yyyy'}} until {{enrollment.endDate | date: 'dd/MM/yyyy'}}]
             </td>
             <td>
               <button type="button" class="btn btn-primary right" aria-label="Delete" (click)="deleteEnrollment(enrollment.id)">

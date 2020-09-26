@@ -1,0 +1,29 @@
+<div class="container">
+    <h3>Uplate</h3>
+    <table class="table table-striped">
+        <thead>
+            <th>Svrha Uplate</th>
+            <th>Vrednost Uplate</th>
+            <th>Vreme Uplate</th>
+            <th>Ime i Prezime Studenta</th>
+            <th></th>
+        </thead>
+        <tbody>
+            <tr *ngFor="let payment of payments">
+                <td>{{payment.svrhaUplate}}</td>
+                <td>{{payment.vrednostUplate}}</td>
+                <td>{{payment.date | date:'dd/MM/yyyy HH:mm'}}</td>
+                <td>{{payment.student.firstName + ' ' + payment.student.lastName}}</td>
+                <td><button (click)="deletePayment(payment)" class="btn btn-danger">Obriši</button></td> 
+            </tr>
+            <tr>
+                <td>Ukupno</td>
+                <td id="sum">{{sum}}</td>
+                <td></td>
+                <td></td>
+                <td></td> 
+            </tr>
+        </tbody>
+    </table>
+    <button class="btn btn-success" (click)="newPayment()">Nova uplata</button>
+    </div>
