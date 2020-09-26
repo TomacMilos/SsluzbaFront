@@ -25,9 +25,6 @@
     <div *ngIf="examperiod.id">
       <div>
         <h3>Prijavljeni ispiti</h3>
-        <button type="button" class="btn btn-primary" aria-label="Add" (click)="gotoAddExam()" >
-          Dodaj
-        </button>
       </div>
       <table class="table table-bordered">
         <tr *ngFor="let exam of exams">

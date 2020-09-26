@@ -22,6 +22,14 @@ export class ExamService {
             response.json() as Exam[])
         .catch(this.handleError);
 }
+getExam(id): Promise<Exam> {
+  const url = `${this.baseUrl}/${id}`;
+  return this._http.get(url)
+      .toPromise()
+      .then(response =>
+          response.json() as Exam)
+      .catch(this.handleError);
+}
     
   addExam(exam: Exam): Promise<Exam> {
     return this._http

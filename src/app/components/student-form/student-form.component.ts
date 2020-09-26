@@ -64,6 +64,10 @@ export class StudentFormComponent implements OnInit {
       this.nextexams  = exams);
   }
 
+  gotoInfo(examid:number): void {
+    this._rotuer.navigate(['/exam-info'], { queryParams: { examId: examid } });
+  }
+
   processForm(){
     if (this.student.id === undefined){
       if(this.student.cardNumber == ""){
