@@ -22,6 +22,7 @@ export class StudentFormComponent implements OnInit {
   payments: Payment[];
   exams: Exam[];
   examspass:Exam[];
+  nextexams:Exam[];
   public sum: number;
   constructor(private _studentService: StudentService, private _rotuer: Router,private _examService: ExamService,
     private _paymentService: PaymentService) {
@@ -40,6 +41,9 @@ export class StudentFormComponent implements OnInit {
     this._studentService.getStudentExamsPass(this.student.id).then(exams =>
         this.examspass = exams);
 
+    this._studentService.getStudentNextExams(this.student.id).then(exams =>
+        this.nextexams = exams);
+
     this._studentService.getStudentDocuments(this.student.id).then(documents =>
         this.documents = documents);
 
@@ -56,8 +60,8 @@ export class StudentFormComponent implements OnInit {
     );
   }
   getExams() {
-    this._studentService.getStudentExams(this.student.id).then(exams =>
-      this.exams = exams);
+    this._studentService.getStudentNextExams(this.student.id).then(exams =>
+      this.nextexams  = exams);
   }
 
   processForm(){

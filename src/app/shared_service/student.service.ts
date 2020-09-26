@@ -81,6 +81,15 @@ getStudentExamsPass(studentId: number): Promise<Exam[]> {
       .catch(this.handleError);
 }
 
+getStudentNextExams(studentId: number): Promise<Exam[]> {
+  const url = `${this.baseUrl}/${studentId}/nextexems`;
+  return this._http.get(url)
+      .toPromise()
+      .then(response =>
+          response.json() as Exam[])
+      .catch(this.handleError);
+}
+
 getStudentDocuments(studentId: number): Promise<Documents[]> {
   const url = `${this.baseUrl}/${studentId}/documents`;
   return this._http.get(url)

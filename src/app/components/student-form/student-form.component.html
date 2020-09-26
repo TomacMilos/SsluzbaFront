@@ -29,18 +29,20 @@
           </div> 
           <div *ngIf="student.id">
             <div>
-              <h3>Prijavljeni ispiti</h3>
-              <button type="button" class="btn btn-primary" aria-label="Add" (click)="gotoAddExam()" >
-                Prijavi ispit
-              </button>
-            </div>
-            <div>
               <h3>Rezultati ispita</h3>
             <table class="table table-bordered">
+              <thead>
+                <th>Naziv predmeta</th>
+                <th>Datum</th>
+                <th>Vreme ispita</th>
+                <th>Informacije</th>
+            </thead>
               <tr *ngFor="let exam of examspass">
                 <td>
-                  {{exam.course.name}} {{exam.date | date: 'dd/MM/yyyy'}}
+                  {{exam.course.name}}
                 </td>
+                <td>{{exam.date | date: 'dd/MM/yyyy HH:mm'}}</td>
+                <td>{{exam.date | date: 'HH:mm'}}</td>
                 <td>
                   <button type="button" class="btn btn-success right" aria-label="Info" (click)="gotoInformation(exam.id)">
                     Informacije o ispitu
@@ -52,15 +54,48 @@
           <div>
             <h3>Obrada ispita...</h3>
             <table class="table table-bordered">
+              <thead>
+                <th>Naziv predmeta</th>
+                <th>Datum</th>
+                <th>Vreme ispita</th>
+                <th>Informacije</th>
+            </thead>
               <tr *ngFor="let exam of exams">
                 <td>
-                  {{exam.course.name}} {{exam.date | date: 'dd/MM/yyyy'}}
+                  {{exam.course.name}}
                 </td>
+                <td>{{exam.date | date: 'dd/MM/yyyy HH:mm'}}</td>
+                <td>{{exam.date | date: 'HH:mm'}}</td>
+                <td>
+                  <button type="button" class="btn btn-success right" aria-label="Info" (click)="gotoInformation(exam.id)">
+                    Informacije o ispitu
+                  </button>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <div>
+            <h3>Ispiti u narednom periodu</h3>
+            <table class="table table-bordered">
+              <thead>
+                <th>Naziv predmeta</th>
+                <th>Datum</th>
+                <th>Vreme ispita</th>
+                <th>Odjava ispita</th>
+                <th>Informacije</th>
+            </thead>
+              <tr *ngFor="let exam of nextexams">
+                <td>
+                  {{exam.course.name}}
+                </td>
+                <td>{{exam.date | date: 'dd/MM/yyyy HH:mm'}}</td>
+                <td>{{exam.date | date: 'HH:mm'}}</td>
                 <td>
                   <button type="button" class="btn btn-primary right" aria-label="Delete" (click)="deleteExam(exam.id)">
                     Odjavi ispit
                   </button>
                 </td>
+
                 <td>
                   <button type="button" class="btn btn-success right" aria-label="Info" (click)="gotoInformation(exam.id)">
                     Informacije o ispitu
