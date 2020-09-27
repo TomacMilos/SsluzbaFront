@@ -8,10 +8,10 @@
       </div>
   
       <!-- Login Form -->
-      <form>
-        <input type="text" id="username" class="fadeIn second" name="login" placeholder="Korisnicko ime" >
-        <input type="text" id="password" class="fadeIn third" name="login" placeholder="Lozinka" >
-        <input type="submit"  class="fadeIn fourth" value="Prijava">
+      <form (ngSubmit)=" loginProcess(login.username,login.password)">
+        <input type="text" id="username" class="fadeIn second" name="login" placeholder="Korisnicko ime" [(ngModel)]="login.username">
+        <input type="text" id="password" class="fadeIn third" name="login" placeholder="Lozinka" [(ngModel)]="login.password">
+        <input type="submit" class="fadeIn fourth" value="Prijava">
       </form>
   
       <!-- Remind Passowrd -->

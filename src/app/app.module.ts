@@ -36,7 +36,7 @@ import { LoginService } from './shared_service/login.service';
 
 
 const appRoutes: Routes = [
-  { path: '', component: StudentComponent},
+  { path: 'students', component: StudentComponent},
   { path: 'courses', component: CourseComponent},
   { path: 'student-form', component: StudentFormComponent},
   { path: 'course-form', component: CourseFormComponent},
@@ -53,7 +53,7 @@ const appRoutes: Routes = [
   { path: 'exam-form', component: ExamFormComponent},
   { path: 'exam-info', component: ExamInformationFormComponent},
   { path: 'teacher-page', component: TeacherPageComponent},
-  { path: 'login', component: LoginComponent}
+  { path: '', component: LoginComponent}
 ];
 @NgModule({
   declarations: [

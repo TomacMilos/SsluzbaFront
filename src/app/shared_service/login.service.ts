@@ -8,7 +8,7 @@ import { Login } from '../classes/login';
   providedIn: 'root'
 })
 export class LoginService {
-  private baseUrl = 'http://localhost:8080/api/login';
+  private baseUrl = 'http://localhost:8080/api/user/login';
   private headers = new Headers ({'Content-Type': 'application/json'});
   private options = new RequestOptions({headers: this.headers});
   private login: Login;
@@ -16,12 +16,12 @@ export class LoginService {
   RegenerateData$ = this.RegenerateData.asObservable();
   constructor(private _http: Http) { }
 
-  getLogin(username: String, password: String): Promise<Login[]> {
+  getLogin(username: String, password: String): Promise<Login> {
     const url = `${this.baseUrl}/${username}/${password}`;
     return this._http.get(url)
         .toPromise()
         .then(response =>
-            response.json() as Login[])
+            response.json() as Login)
         .catch(this.handleError);
 }
 announceChange() {
