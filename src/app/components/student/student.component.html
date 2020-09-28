@@ -10,7 +10,7 @@
     </thead>
     <tbody>
         <tr *ngFor="let student of students">
-            <td>{{student.cardNumber}}</td>
+            <td class="cardNumber">{{student.cardNumber}}</td>
             <td>{{student.firstName}}</td>
             <td>{{student.lastName}}</td>
             <td><button (click)="deleteStudent(student)" class="btn btn-danger">Obriši</button></td>

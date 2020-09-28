@@ -1,8 +1,9 @@
+<div id="wrapper">
 <nav class="navbar navbar-toggleable-md navbar-light bg-faded">
   <button *ngIf="user != null && user.authority.name == 'ADMIN'" id="dropDownButton" class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
-  <a id="startPage" class="navbar-brand" *ngIf="user != null" (click)="logout()" href="#">Logout</a>
+  <a id="startPage" class="navbar-brand" *ngIf="user != null" (click)="logout()" href="#">Logout <i class="fas fa-sign-out-alt"></i></a>
 
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul id="listDropDown" class="navbar-nav mr-auto">
@@ -16,7 +17,7 @@
         <a class="nav-link" [routerLink]="['/teachers']">Nastavnici</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" [routerLink]="['/exam-period']">Ispitni rokovi</a>
+        <a class="nav-link" [routerLink]="['/exam-period']">Ispitni Rokovi</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" [routerLink]="['/documents']">Dokumenti</a>
@@ -27,10 +28,15 @@
       <li class="nav-item">
         <a class="nav-link" [routerLink]="['/exams']">Ispiti</a>
       </li>
+      <li class="nav-item">
+        <a class="nav-link" [routerLink]="['/register-admin']">Kreiraj Admina</a>
+      </li>
      </ul>    
   </div>
 </nav>
 
 <div style="margin-top: 100px" class="container">
   <router-outlet></router-outlet>
+</div>
+
 </div>

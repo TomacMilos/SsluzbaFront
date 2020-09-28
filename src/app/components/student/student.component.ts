@@ -49,13 +49,7 @@ export class StudentComponent implements OnInit {
 
   }
   newStudent(){
-    let student = new Student({ 
-      cardNumber: '',
-      firstName: '',
-      lastName: ''
-    });
-    this._studentService.setter(student);
-    this._router.navigate(['/student-form']);
+    this._router.navigate(['/register-student']);
   }
   
 
