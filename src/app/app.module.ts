@@ -32,6 +32,7 @@ import { ExamInformationFormComponent } from './components/exam-information-form
 import { TeacherPageComponent } from './components/teacher-page/teacher-page.component';
 import { LoginComponent } from './components/login/login.component';
 import { LoginService } from './shared_service/login.service';
+import { SutdentPageComponent } from './components/sutdent-page/sutdent-page.component';
 
 
 
@@ -53,7 +54,8 @@ const appRoutes: Routes = [
   { path: 'exam-form', component: ExamFormComponent},
   { path: 'exam-info', component: ExamInformationFormComponent},
   { path: 'teacher-page', component: TeacherPageComponent},
-  { path: '', component: LoginComponent}
+  { path: '', component: LoginComponent},
+  { path: 'student-page', component: SutdentPageComponent}
 ];
 @NgModule({
   declarations: [
@@ -75,7 +77,8 @@ const appRoutes: Routes = [
     ExamFormComponent,
     ExamInformationFormComponent,
     TeacherPageComponent,
-    LoginComponent
+    LoginComponent,
+    SutdentPageComponent
   ],
   imports: [
     BrowserModule,

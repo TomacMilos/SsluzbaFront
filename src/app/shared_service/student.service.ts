@@ -25,7 +25,7 @@ export class StudentService {
             response.json() as Student[])
         .catch(this.handleError);
 }
-  getStudent(id: Number): Promise<Student> {
+  getStudent(id): Promise<Student> {
     const url = `${this.baseUrl}/${id}`;
     return this._http.get(url)
         .toPromise()
