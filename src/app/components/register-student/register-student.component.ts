@@ -5,6 +5,7 @@ import { LoginService } from "../../shared_service/login.service";
 import { ActivatedRoute } from '@angular/router';
 import { Authority } from 'src/app/classes/authority';
 import { Student } from 'src/app/classes/student';
+import { Router} from '@angular/router';
 
 @Component({
   selector: 'app-register-student',
@@ -16,7 +17,7 @@ export class RegisterStudentComponent implements OnInit {
   login: Login;
 
   constructor(private route: ActivatedRoute, private loginService: LoginService,
-   private location: Location) {
+   private location: Location, private _router: Router) {
     this.login = new Login({
       username: null,
       password: null,
@@ -34,6 +35,15 @@ export class RegisterStudentComponent implements OnInit {
  }
 
   ngOnInit(): void {
+
+    if (JSON.parse(localStorage.getItem('user')) == null) {
+      this._router.navigate(['/']);
+    } else if (JSON.parse(localStorage.getItem('user')).authority.name == "NASTAVNIK") {
+      this._router.navigate(['/teacher-page']);
+    } else if (JSON.parse(localStorage.getItem('user')).authority.name == "STUDENT") {
+      this._router.navigate(['/student-page']);
+    }
+
   }
 
   registerStudent(): void {

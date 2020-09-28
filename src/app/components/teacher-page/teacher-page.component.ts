@@ -15,7 +15,7 @@ export class TeacherPageComponent implements OnInit {
   public teacher:Teacher;
   courses: Course[];
 
-  constructor(private teacherService: TeacherService, private _rotuer: Router) {
+  constructor(private teacherService: TeacherService, private _router: Router) {
     this.teacher = new Teacher({
       firstName:'',
       lastName:'',
@@ -24,6 +24,13 @@ export class TeacherPageComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
+    if (JSON.parse(localStorage.getItem('user')) == null) {
+      this._router.navigate(['/']);
+    } else if (JSON.parse(localStorage.getItem('user')).authority.name == "STUDENT") {
+      this._router.navigate(['/student-page']);
+    }
+
     this.teacher = this.teacherService.getter();
     console.log()
 

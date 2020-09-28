@@ -10,6 +10,7 @@ import { Exam } from 'src/app/classes/exam';
 import { Payment } from 'src/app/classes/payment';
 import { PaymentService } from 'src/app/shared_service/payment.service';
 
+
 @Component({
   selector: 'app-student-form',
   templateUrl: './student-form.component.html',
@@ -24,11 +25,21 @@ export class StudentFormComponent implements OnInit {
   examspass:Exam[];
   nextexams:Exam[];
   public sum: number;
-  constructor(private _studentService: StudentService, private _rotuer: Router,private _examService: ExamService,
+
+  constructor(private _studentService: StudentService, private _router: Router,private _examService: ExamService,
     private _paymentService: PaymentService) {
   }
   private RegenerateData = new Subject<void>();
   ngOnInit() {
+
+    if (JSON.parse(localStorage.getItem('user')) == null) {
+      this._router.navigate(['/']);
+    } else if (JSON.parse(localStorage.getItem('user')).authority.name == "NASTAVNIK") {
+      this._router.navigate(['/teacher-page']);
+    } else if (JSON.parse(localStorage.getItem('user')).authority.name == "STUDENT") {
+      this._router.navigate(['/student-page']);
+    }
+
     this.student = this._studentService.getter();
     console.log(this.student.firstName);
     if (this.student !== undefined){

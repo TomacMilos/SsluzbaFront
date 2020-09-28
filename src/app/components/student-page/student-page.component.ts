@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
 })
 export class StudentPageComponent implements OnInit {
   public student:Student;
-  constructor(private studentService: StudentService, private _rotuer: Router) {
+  constructor(private studentService: StudentService, private _router: Router) {
     this.student = new Student({
       cardNumber: '',
       firstName: '',
@@ -19,6 +19,13 @@ export class StudentPageComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
+    if (JSON.parse(localStorage.getItem('user')) == null) {
+      this._router.navigate(['/']);
+    } else if (JSON.parse(localStorage.getItem('user')).authority.name == "NASTAVNIK") {
+      this._router.navigate(['/teacher-page']);
+    }
+
     this.student = this.studentService.getter();   
 
     this.studentService.getStudent(JSON.parse(localStorage.getItem('user')).studentid).then(student =>

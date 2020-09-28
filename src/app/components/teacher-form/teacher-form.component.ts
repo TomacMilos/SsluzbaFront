@@ -16,10 +16,19 @@ export class TeacherFormComponent implements OnInit {
   public teacherRank = '';
   public selectedTeacherRank = '';
 
-  constructor(private teacherService: TeacherService, private _rotuer: Router) { }
+  constructor(private teacherService: TeacherService, private _router: Router) { }
   private RegenerateData = new Subject<void>();
 
   ngOnInit() {
+
+    if (JSON.parse(localStorage.getItem('user')) == null) {
+      this._router.navigate(['/']);
+    } else if (JSON.parse(localStorage.getItem('user')).authority.name == "NASTAVNIK") {
+      this._router.navigate(['/teacher-page']);
+    } else if (JSON.parse(localStorage.getItem('user')).authority.name == "STUDENT") {
+      this._router.navigate(['/student-page']);
+    }
+
     this.teacher = this.teacherService.getter();
     if (this.teacher !== undefined){
       this.teacherService.getTeacherCourses(this.teacher.id).then(courses =>
