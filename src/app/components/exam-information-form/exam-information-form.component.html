@@ -2,7 +2,11 @@
     <h3>Informacije o ispitu</h3>
   </div>
   <div>
-
+    <div class="form-group">
+      <label for="student">Datum</label><br>
+      <label>{{exam.date  | date: 'dd/MM/yyyy HH:mm'}}</label>
+      <!-- <input type="text" name="naziv" class="form-control" [(ngModel)]="exam.date" disabled> -->
+    </div>
     <div class="form group">
         <label for="naziv">Student</label>
         <input type="text" name="naziv" class="form-control" [(ngModel)]="exam.student.firstName+' '+ exam.student.firstName" disabled>
@@ -12,21 +16,18 @@
         <input type="text" name="naziv" class="form-control" [(ngModel)]="exam.course.name" disabled>
       </div>
       <div class="form-group">
-        <label for="student">Bodovi sa ispita</label>
+        <label for="student">Bodovi sa Ispita</label>
         <input type="text" name="naziv" class="form-control" [(ngModel)]="exam.examPoints" disabled>
       </div>
       <div class="form-group">
-        <label for="student">Bodovi sa vežbi</label>
+        <label for="student">Bodovi sa Vežbi</label>
         <input type="text" name="naziv" class="form-control" [(ngModel)]="exam.labPoints" disabled>
       </div>
       <div class="form-group">
-        <label for="student">Datum</label>
-        <input type="text" name="naziv" class="form-control" [(ngModel)]="exam.date" disabled>
-      </div>
-      <div class="form-group">
-        <label for="student">Ispitni rok</label>
+        <label for="student">Ispitni Rok</label>
         <input type="text" name="naziv" class="form-control" [(ngModel)]="exam.examPeriod.name" disabled>
       </div>
+
   
   
   </div>

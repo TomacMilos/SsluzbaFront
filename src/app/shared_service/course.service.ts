@@ -4,6 +4,7 @@ import { map } from 'rxjs/operators';
 import {Course} from '../classes/course'
 import {Enrollment} from '../classes/enrollment'
 import { Subject} from 'rxjs';
+import { Exam } from '../classes/exam';
 
 @Injectable()
 export class CourseService {
@@ -62,6 +63,14 @@ export class CourseService {
         .then(response =>
             response.json() as Enrollment[])
         .catch(this.handleError);
+}
+getCourseExams(courseId: number): Promise<Exam[]> {
+  const url = `${this.baseUrl}/${courseId}/examspasscourse`;
+  return this._http.get(url)
+      .toPromise()
+      .then(response =>
+          response.json() as Exam[])
+      .catch(this.handleError);
 }
 
   announceChange() {

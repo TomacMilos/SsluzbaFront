@@ -4,6 +4,7 @@ import { Course } from 'src/app/classes/course';
 import { Teacher } from 'src/app/classes/teacher';
 import { Login } from 'src/app/classes/login';
 import { TeacherService } from 'src/app/shared_service/teacher.service';
+import { CourseService } from 'src/app/shared_service/course.service';
 
 
 @Component({
@@ -15,7 +16,7 @@ export class TeacherPageComponent implements OnInit {
   public teacher:Teacher;
   courses: Course[];
 
-  constructor(private teacherService: TeacherService, private _router: Router) {
+  constructor(private _courseService: CourseService,private teacherService: TeacherService, private _router: Router) {
     this.teacher = new Teacher({
       firstName:'',
       lastName:'',
@@ -39,8 +40,10 @@ export class TeacherPageComponent implements OnInit {
 
       this.teacherService.getTeacherCourses(JSON.parse(localStorage.getItem('user')).teacherid).then(courses =>
         this.courses = courses);
-
-
+  }
+  updateCourse(course){
+    this._courseService.setter(course);
+    this._router.navigate(['/course-form']);
 
   }
 

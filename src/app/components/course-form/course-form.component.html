@@ -3,29 +3,69 @@
     <form (ngSubmit)="processForm()">
         <div class="form group">
             <label for="name">Naziv</label>
-            <input type="text" name="name" class="form-control" [(ngModel)]="course.name">
+            <input *ngIf="user.authority.name == 'ADMIN'" type="text" name="name" class="form-control" [(ngModel)]="course.name">
+            <input *ngIf="user.authority.name == 'NASTAVNIK'" type="text" disabled name="name" class="form-control" [(ngModel)]="course.name">
         </div>
-        <input type="submit" value="save" class="btn btn-success">
+        <input *ngIf="user.authority.name == 'ADMIN'" type="submit" value="save" class="btn btn-success">
     </form>
+    <br>
     <div *ngIf="course.id">
         <div>
           <h3>Students</h3>
-          <button type="button" class="btn btn-primary" aria-label="Add" (click)="gotoAddEnrollment()" >
+          <button *ngIf="user.authority.name == 'ADMIN'" type="button" class="btn btn-primary" aria-label="Add" (click)="gotoAddEnrollment()" >
             Dodaj
           </button>
         </div>
         <table class="table table-bordered">
+          <thead>
+            <th>Ime i Prezime</th>
+            <th>Broj Indeksa</th>
+            <th>Pocetak Kursa</th>
+            <th>Zavrsetak Kursa</th>
+        </thead>
           <tr *ngFor="let enrollment of enrollments">
             <td>
-              {{enrollment.student.firstName}} {{enrollment.student.lastName}} {{enrollment.student.cardNumber}}
-               [Since {{enrollment.startDate | date: 'dd/MM/yyyy'}} until {{enrollment.endDate | date: 'dd/MM/yyyy'}}]
+              {{enrollment.student.firstName+" "+enrollment.student.lastName}} 
             </td>
-            <td>
+            <td>{{enrollment.student.cardNumber}}</td>
+            <td>{{enrollment.startDate | date: 'dd/MM/yyyy'}}</td>
+            <td>{{enrollment.endDate | date: 'dd/MM/yyyy'}}</td>
+            <td *ngIf="user.authority.name == 'ADMIN'">
               <button type="button" class="btn btn-primary right" aria-label="Delete" (click)="deleteEnrollment(enrollment.id)">
                 Obrisi
               </button>
             </td>
           </tr>
-        </table>   
+        </table>
+        <br>
+        <div>
+          <h3>Ispiti</h3>
+        </div>
+          <table class="table table-bordered">
+            <thead>
+              <th>Naziv Predmeta</th>
+              <th>Datum</th>
+              <th>Vreme Ispita</th>
+              <th>Ime i Prezime</th>
+              <th>Broj Indeksa</th>
+              <th>Informacije</th>
+          </thead>
+            <tr *ngFor="let exam of examspass">
+              <td>
+                {{exam.course.name}}
+              </td>
+              <td>{{exam.date | date: 'dd/MM/yyyy'}}</td>
+              <td>{{exam.date | date: 'HH:mm'}}</td>
+              <td>{{exam.student.firstName +' '+ exam.student.lastName}}</td>
+              <td>{{exam.student.cardNumber}}</td>
+              <td>
+                <button type="button" class="btn btn-success right" aria-label="Info" (click)="gotoInfo(exam.id)">
+                  Upisi Bodove
+                </button>
+              </td>
+            </tr>
+          </table>
+          <br>
       </div>
+
 </div>

@@ -16,7 +16,7 @@ export class LoginComponent implements OnInit {
   login: Login;
 
 
-  constructor(private loginService: LoginService, private rotuer: Router, private route: ActivatedRoute) {
+  constructor(private loginService: LoginService, private _router: Router, private route: ActivatedRoute) {
     this.login = new Login({
       username: '',
       password: '',
@@ -29,6 +29,13 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    if (JSON.parse(localStorage.getItem('user')).authority.name == "ADMIN") {
+      this._router.navigate(['/students']);
+    } else if (JSON.parse(localStorage.getItem('user')).authority.name == "NASTAVNIK") {
+      this._router.navigate(['/teacher-page']);
+    } else if (JSON.parse(localStorage.getItem('user')).authority.name == "STUDENT") {
+      this._router.navigate(['/student-page']);
+    }
   }
 
   loginProcess(studentUsername, studentPassword){
@@ -47,19 +54,19 @@ export class LoginComponent implements OnInit {
                 alert("Pogresan login")
               }else if (JSON.parse(localStorage.getItem('user')).authority.name == 'NASTAVNIK'){
                 this.loginService.announceChange();
-                this.rotuer.navigate(['teacher-page']);
+                this._router.navigate(['teacher-page']);
                 setTimeout(() => {
                   location.reload();
                 }, 10);
               }else if (JSON.parse(localStorage.getItem('user')).authority.name == 'ADMIN'){
                 this.loginService.announceChange();
-                this.rotuer.navigate(['students']);
+                this._router.navigate(['students']);
                 setTimeout(() => {
                   location.reload();
                 }, 10);
               }else if (JSON.parse(localStorage.getItem('user')).authority.name == 'STUDENT'){
                 this.loginService.announceChange();
-                this.rotuer.navigate(['student-page']);
+                this._router.navigate(['student-page']);
                 setTimeout(() => {
                   location.reload();
                 }, 10);
