@@ -1,0 +1,35 @@
+<div>
+    <h3>Add new Student</h3>
+  </div>
+  <div>
+
+    <div class="form group">
+        <label for="username">Korisnicko ime</label>
+        <input type="text" name="username" class="form-control" [(ngModel)]="login.username">
+    </div>
+  
+    <div class="form group">
+        <label for="password">Lozinka</label>
+        <input type="password" name="password" class="form-control" [(ngModel)]="login.password">
+    </div>
+
+    <div class="form group">
+        <label for="cardNumber">Broj Indeksa</label>
+        <input type="text" name="cardNumber" class="form-control" [(ngModel)]="login.student.cardNumber">
+    </div>
+  
+    <div class="form group">
+        <label for="firstName">Ime Studenta</label>
+        <input type="text" name="firstName" class="form-control" [(ngModel)]="login.student.firstName">
+    </div>
+  
+    <div class="form group">
+        <label for="lastName">Prezime Studenta</label>
+        <input type="text" name="lastName" class="form-control" [(ngModel)]="login.student.lastName">
+    </div>
+  
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-primary" (click)="registerStudent()">OK</button>
+    <button class="btn btn-primary" (click)="goBack()">Cancel</button>
+  </div> 

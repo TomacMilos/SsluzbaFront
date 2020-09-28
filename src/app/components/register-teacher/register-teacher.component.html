@@ -1,0 +1,39 @@
+<div>
+    <h3>Add new Teacher</h3>
+  </div>
+  <div>
+
+    <div class="form group">
+        <label for="username">Korisnicko ime</label>
+        <input type="text" name="username" class="form-control" [(ngModel)]="login.username">
+    </div>
+  
+    <div class="form group">
+        <label for="password">Lozinka</label>
+        <input type="password" name="password" class="form-control" [(ngModel)]="login.password">
+    </div>
+  
+    <div class="form group">
+        <label for="firstName">Ime Profesora</label>
+        <input type="text" name="firstName" class="form-control" [(ngModel)]="login.teacher.firstName">
+    </div>
+  
+    <div class="form group">
+        <label for="lastName">Prezime Profesora</label>
+        <input type="text" name="lastName" class="form-control" [(ngModel)]="login.teacher.lastName">
+    </div>
+
+    <div class="form group">
+        <label for="teacherRank">Uloga</label>
+        <select class="form-control" [(ngModel)]="login.teacher.teacherRank" (change)="onChange($event)" [ngModelOptions]="{standalone: true}">
+            <option [value]="1">Profesor</option>
+            <option [value]="2">Asistent</option>
+            <option [value]="3">Demonstrator</option>
+          </select>
+    </div>
+  
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-primary" (click)="registerTeacher()">OK</button>
+    <button class="btn btn-primary" (click)="goBack()">Cancel</button>
+  </div> 
