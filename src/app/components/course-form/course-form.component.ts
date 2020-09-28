@@ -60,6 +60,9 @@ export class CourseFormComponent implements OnInit {
     this._courseService.getCourseEnrollments(this.course.id).then(enrollments =>
       this.enrollments = enrollments);
   }
+  gotoInfo(examid:number): void {
+    this._router.navigate(['/exam-info'], { queryParams: { examId: examid } });
+  }
   private getExams(): void {
     this._courseService.getCourseExams(this.course.id).then(exams =>
       this.examspass = exams);

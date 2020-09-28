@@ -15,11 +15,11 @@
         <label for="student">Predmet</label>
         <input type="text" name="naziv" class="form-control" [(ngModel)]="exam.course.name" disabled>
       </div>
-      <div class="form-group">
+      <div class="form-group" *ngIf="user.authority.name != 'NASTAVNIK'">
         <label for="student">Bodovi sa Ispita</label>
         <input type="text" name="naziv" class="form-control" [(ngModel)]="exam.examPoints" disabled>
       </div>
-      <div class="form-group">
+      <div class="form-group" *ngIf="user.authority.name != 'NASTAVNIK'">
         <label for="student">Bodovi sa Vežbi</label>
         <input type="text" name="naziv" class="form-control" [(ngModel)]="exam.labPoints" disabled>
       </div>
@@ -27,6 +27,15 @@
         <label for="student">Ispitni Rok</label>
         <input type="text" name="naziv" class="form-control" [(ngModel)]="exam.examPeriod.name" disabled>
       </div>
+      <div class="form-group"  *ngIf="user.authority.name != 'STUDNET'">
+        <label  *ngIf="user.authority.name != 'STUDENT'"  for="student">Bodovi sa Ispita</label>
+        <input  *ngIf="user.authority.name != 'STUDENT'" type="number" max="100" name="naziv" class="form-control" [(ngModel)]="exam.examPoints">
+      </div>
+      <div class="form-group">
+        <label  *ngIf="user.authority.name != 'STUDENT'"  for="student">Bodovi sa Vežbi</label>
+        <input  *ngIf="user.authority.name != 'STUDENT'" type="number" max="100" name="naziv" class="form-control" [(ngModel)]="exam.labPoints">
+      </div>
+      <button (click)="saveExamPoints(exam)" *ngIf="user.authority.name != 'STUDENT'" class="btn btn-success">Save</button>
 
   
   

@@ -30,7 +30,13 @@ getExam(id): Promise<Exam> {
           response.json() as Exam)
       .catch(this.handleError);
 }
-    
+editExam(exam:Exam): Promise<Exam> {
+  return this._http
+      .put(this.baseUrl, JSON.stringify(exam), { headers: this.headers })
+      .toPromise()
+      .then(res => res.json() as Exam)
+      .catch(this.handleError);
+} 
   addExam(exam: Exam): Promise<Exam> {
     return this._http
         .post(this.baseUrl, JSON.stringify(exam), { headers: this.headers })

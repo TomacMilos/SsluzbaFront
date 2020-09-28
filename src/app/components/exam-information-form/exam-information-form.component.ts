@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Course } from 'src/app/classes/course';
 import { Exam } from 'src/app/classes/exam';
 import { ExamPeriod } from 'src/app/classes/exam-period';
+import { Login } from 'src/app/classes/login';
 import { Student } from 'src/app/classes/student';
 import { ExamService } from 'src/app/shared_service/exam.service';
 
@@ -14,6 +15,7 @@ import { ExamService } from 'src/app/shared_service/exam.service';
 export class ExamInformationFormComponent implements OnInit {
   exam: Exam;
   student:Student;
+  public user: Login;
   
 
   constructor(private _examService: ExamService, private _router: Router,private route: ActivatedRoute ) {
@@ -38,7 +40,7 @@ export class ExamInformationFormComponent implements OnInit {
    }
 
   ngOnInit(): void {
-
+    this.user = JSON.parse(localStorage.getItem('user'));
     if (JSON.parse(localStorage.getItem('user')) == null) {
       this._router.navigate(['/']);
    
@@ -51,5 +53,22 @@ export class ExamInformationFormComponent implements OnInit {
           this.exam = exam
         )); 
     }
+    saveExamPoints(exam:Exam){
+      if(exam.examPoints+exam.labPoints>100){
+        alert("Maximalan broj poena je 100")
+      }else if(exam.examPoints+exam.labPoints==0){
+        alert("Unesite broj bodova")
+      }
+      else{
+      this._examService.editExam(exam).then(course => {
+        this._examService.announceChange();
+        if(this.user.authority.name=="ADMIN"){
+        this._router.navigate(['/courses']);
+        }else if((this.user.authority.name=="NASTAVNIK")){
+          this._router.navigate(['/teacher-page']);
+        }
+      });
+    }
+  }
 
 }
