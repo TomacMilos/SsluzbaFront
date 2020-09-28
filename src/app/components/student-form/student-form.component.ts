@@ -76,7 +76,7 @@ export class StudentFormComponent implements OnInit {
   }
 
   gotoInfo(examid:number): void {
-    this._rotuer.navigate(['/exam-info'], { queryParams: { examId: examid } });
+    this._router.navigate(['/exam-info'], { queryParams: { examId: examid } });
   }
 
   processForm(){
@@ -92,7 +92,7 @@ export class StudentFormComponent implements OnInit {
       this._studentService.addStudent(this.student)
       .then(student => {
         this._studentService.announceChange();
-        this._rotuer.navigate(['']);
+        this._router.navigate(['']);
       });
     }
     }else{
@@ -107,7 +107,7 @@ export class StudentFormComponent implements OnInit {
       this._studentService.editStudent(this.student)
       .then(student => {
         this._studentService.announceChange();
-        this._rotuer.navigate(['']);
+        this._router.navigate(['']);
       });
     }
     }

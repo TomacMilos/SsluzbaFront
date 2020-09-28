@@ -29,8 +29,6 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    sessionStorage.setItem('role',null);
-    sessionStorage.setItem('userid',null);
   }
 
   loginProcess(studentUsername, studentPassword){
@@ -50,12 +48,21 @@ export class LoginComponent implements OnInit {
               }else if (JSON.parse(localStorage.getItem('user')).authority.name == 'NASTAVNIK'){
                 this.loginService.announceChange();
                 this.rotuer.navigate(['teacher-page']);
+                setTimeout(() => {
+                  location.reload();
+                }, 10);
               }else if (JSON.parse(localStorage.getItem('user')).authority.name == 'ADMIN'){
                 this.loginService.announceChange();
                 this.rotuer.navigate(['students']);
+                setTimeout(() => {
+                  location.reload();
+                }, 10);
               }else if (JSON.parse(localStorage.getItem('user')).authority.name == 'STUDENT'){
                 this.loginService.announceChange();
                 this.rotuer.navigate(['student-page']);
+                setTimeout(() => {
+                  location.reload();
+                }, 10);
               }
             });
           
