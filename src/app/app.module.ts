@@ -35,6 +35,7 @@ import { LoginService } from './shared_service/login.service';
 import { RegisterStudentComponent } from './components/register-student/register-student.component';
 import { RegisterTeacherComponent } from './components/register-teacher/register-teacher.component';
 import { RegisterAdminComponent } from './components/register-admin/register-admin.component';
+import { StudentPageComponent } from './components/student-page/student-page.component';
 
 
 
@@ -59,7 +60,8 @@ const appRoutes: Routes = [
   { path: '', component: LoginComponent},
   { path: 'register-admin', component: RegisterAdminComponent},
   { path: 'register-student', component: RegisterStudentComponent},
-  { path: 'register-teacher', component: RegisterTeacherComponent}
+  { path: 'register-teacher', component: RegisterTeacherComponent},
+  { path: 'student-page', component: StudentPageComponent}
 ];
 @NgModule({
   declarations: [
@@ -84,7 +86,8 @@ const appRoutes: Routes = [
     LoginComponent,
     RegisterStudentComponent,
     RegisterTeacherComponent,
-    RegisterAdminComponent
+    RegisterAdminComponent,
+    StudentPageComponent
   ],
   imports: [
     BrowserModule,

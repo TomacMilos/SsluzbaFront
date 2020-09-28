@@ -42,6 +42,9 @@ export class LoginComponent implements OnInit {
               localStorage.setItem('user', JSON.stringify(login));
               this.loginService.announceChange();
 
+              console.log(JSON.parse(localStorage.getItem('user')).id);
+              console.log(JSON.parse(localStorage.getItem('user')).authority.name);
+
               if (JSON.parse(localStorage.getItem('user')).authority.name == null){
                 alert("Pogresan login")
               }else if (JSON.parse(localStorage.getItem('user')).authority.name == 'NASTAVNIK'){
@@ -52,11 +55,10 @@ export class LoginComponent implements OnInit {
                 this.rotuer.navigate(['students']);
               }else if (JSON.parse(localStorage.getItem('user')).authority.name == 'STUDENT'){
                 this.loginService.announceChange();
-                this.rotuer.navigate(['student-form']);
+                this.rotuer.navigate(['student-page']);
               }
             });
-          console.log(JSON.parse(localStorage.getItem('user')).id);
-          console.log(JSON.parse(localStorage.getItem('user')).authority.name);
+          
 
       }
 
