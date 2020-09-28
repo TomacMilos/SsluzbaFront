@@ -57,8 +57,6 @@ export class StudentComponent implements OnInit {
     this._studentService.setter(student);
     this._router.navigate(['/student-form']);
   }
-  gotoPage(){
-    this._router.navigate(['student-page']);
-  }
+  
 
 }
