@@ -34,29 +34,29 @@ export class LoginComponent implements OnInit {
   }
 
   loginProcess(studentUsername, studentPassword){
-    if (studentUsername == "" || studentPassword == ""){
-      alert('Molimo popunite formu');
-    }else{
-        this._loginService.getLogin(studentUsername, studentPassword)
-          .then(login =>
-            sessionStorage.setItem('userid', login.id.toString())
-            );
-        console.log(sessionStorage.getItem('userid'));
-        this._loginService.getLogin(studentUsername, studentPassword)
-            .then(login =>
-              sessionStorage.setItem('role', login.authority.name)
-              );
-              console.log(sessionStorage.getItem('role'))
-        if (sessionStorage.getItem('role') == null){
+      if (studentUsername == "" || studentPassword == ""){
+        alert('Molimo popunite formu');
+      }else{
+          this._loginService.getLogin(studentUsername, studentPassword)
+            .then(login =>{
+              sessionStorage.setItem('user', JSON.stringify(login));
+
+              if (JSON.parse(sessionStorage.getItem('user')).authority.name == null){
                 alert("Pogresan login")
-              }else if (sessionStorage.getItem('role') == 'NASTAVNIK'){
+              }else if (JSON.parse(sessionStorage.getItem('user')).authority.name == 'NASTAVNIK'){
                 this._loginService.announceChange();
                 this._rotuer.navigate(['teacher-page']);
-              }else if (sessionStorage.getItem('role') == 'ADMIN'){
+              }else if (JSON.parse(sessionStorage.getItem('user')).authority.name == 'ADMIN'){
                 this._loginService.announceChange();
                 this._rotuer.navigate(['students']);
               }
-    }
+              
+            });
+          console.log(JSON.parse(sessionStorage.getItem('user')).id);
+          console.log(JSON.parse(sessionStorage.getItem('user')).authority.name);
+
+      }
+
   }
 
 
