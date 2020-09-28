@@ -46,13 +46,13 @@ export class TeacherFormComponent implements OnInit {
       this.teacherService.addTeacher(this.teacher)
       .then(teacher => {
         this.teacherService.announceChange();
-        this._rotuer.navigate(['teachers']);
+        this._router.navigate(['teachers']);
       });
     }else{
       this.teacherService.editTeacher(this.teacher)
       .then(teacher => {
         this.teacherService.announceChange();
-        this._rotuer.navigate(['teachers']);
+        this._router.navigate(['teachers']);
       });
     }
   }

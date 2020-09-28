@@ -72,7 +72,7 @@ export class ExamPeriodFormComponent implements OnInit {
       this.examPeriodService.addExamPeriod(this.examperiod)
       .then(course => {
         this.examPeriodService.announceChange();
-        this._rotuer.navigate(['exam-period']);
+        this._router.navigate(['exam-period']);
       });
     }
     }else{
@@ -85,14 +85,14 @@ export class ExamPeriodFormComponent implements OnInit {
       this.examPeriodService.editExamPeriod(this.examperiod)
       .then(examperiod => {
         this.examPeriodService.announceChange();
-        this._rotuer.navigate(['exam-period']);
+        this._router.navigate(['exam-period']);
       });
     }
     }
   }
   }
   gotoAddExam(): void {
-    this._rotuer.navigate(['/exam-form'], { queryParams: { examPeriodId: this.examperiod.id } });
+    this._router.navigate(['/exam-form'], { queryParams: { examPeriodId: this.examperiod.id } });
   }
 
   deleteExam(examId: number): void {
