@@ -29,6 +29,9 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
+    localStorage.setItem('user',null);
+    
   }
 
   loginProcess(studentUsername, studentPassword){
