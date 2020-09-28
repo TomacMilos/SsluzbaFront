@@ -9,6 +9,7 @@ import { ExamService } from "../../shared_service/exam.service";
 import { ActivatedRoute } from '@angular/router';
 import { CourseService } from 'src/app/shared_service/course.service';
 import { ExamPeriodServiceService } from 'src/app/shared_service/exam-period-service.service';
+import { Router } from "@angular/router";
 
 @Component({
   selector: 'app-exam-form',
@@ -24,7 +25,7 @@ export class ExamFormComponent implements OnInit {
 
   constructor(private route: ActivatedRoute, private studentService: StudentService,
     private examService: ExamService, private courseService: CourseService,
-     private examPeriodService: ExamPeriodServiceService, private location: Location) {
+     private examPeriodService: ExamPeriodServiceService, private location: Location, private _router: Router) {
    this.exam = new Exam({
       examPoints: 0,
       labPoints: 0,
@@ -47,6 +48,15 @@ export class ExamFormComponent implements OnInit {
  }
 
  ngOnInit() {
+
+  if (JSON.parse(localStorage.getItem('user')) == null) {
+    this._router.navigate(['/']);
+  } else if (JSON.parse(localStorage.getItem('user')).authority.name == "NASTAVNIK") {
+    this._router.navigate(['/teacher-page']);
+  } else if (JSON.parse(localStorage.getItem('user')).authority.name == "STUDENT") {
+    this._router.navigate(['/student-page']);
+  }
+
   this.studentService.getStudents().then(students =>
     this.students = students);
 

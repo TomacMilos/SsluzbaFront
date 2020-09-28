@@ -16,7 +16,7 @@ export class ExamInformationFormComponent implements OnInit {
   student:Student;
   
 
-  constructor(private _examService: ExamService, private _rotuer: Router,private route: ActivatedRoute ) {
+  constructor(private _examService: ExamService, private _router: Router,private route: ActivatedRoute ) {
     this.exam = new Exam({
       examPoints: 0,
       labPoints: 0,
@@ -38,6 +38,12 @@ export class ExamInformationFormComponent implements OnInit {
    }
 
   ngOnInit(): void {
+
+    if (JSON.parse(localStorage.getItem('user')) == null) {
+      this._router.navigate(['/']);
+   
+    }
+
     this.exam = this._examService.getter();
     this.route.queryParams.subscribe(params =>
       this._examService.getExam(params['examId'])

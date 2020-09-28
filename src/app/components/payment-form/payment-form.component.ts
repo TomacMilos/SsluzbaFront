@@ -5,6 +5,7 @@ import { Student } from '../../classes/student';
 import { StudentService } from "../../shared_service/student.service";
 import { PaymentService } from "../../shared_service/payment.service";
 import { ActivatedRoute } from '@angular/router';
+import { Router } from "@angular/router";
 
 @Component({
   selector: 'app-payment-form',
@@ -17,8 +18,7 @@ export class PaymentFormComponent implements OnInit {
   students: Student[];
 
   constructor(private route: ActivatedRoute, private studentService: StudentService,
-    private paymentService: PaymentService,
-   private location: Location) {
+    private paymentService: PaymentService, private location: Location, private _router: Router) {
    this.payment = new Payment({
     svrhaUplate: null,
     vrednostUplate: null,
@@ -33,6 +33,15 @@ export class PaymentFormComponent implements OnInit {
  }
 
  ngOnInit() {
+
+  if (JSON.parse(localStorage.getItem('user')) == null) {
+    this._router.navigate(['/']);
+  } else if (JSON.parse(localStorage.getItem('user')).authority.name == "NASTAVNIK") {
+    this._router.navigate(['/teacher-page']);
+  } else if (JSON.parse(localStorage.getItem('user')).authority.name == "STUDENT") {
+    this._router.navigate(['/student-page']);
+  }
+
   this.studentService.getStudents().then(students =>
     this.students = students);
 }
