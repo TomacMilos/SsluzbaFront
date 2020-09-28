@@ -30,7 +30,7 @@ export class EnrollmentComponent implements OnInit {
 
   constructor(private route: ActivatedRoute, private courseService: CourseService,
     private studentService: StudentService, private enrollmentService: EnrollmentService,
-    private location: Location) {
+    private location: Location, private _router: Router) {
     this.enrollment = new Enrollment({
       startDate: null,
       endDate: null,
@@ -47,6 +47,13 @@ export class EnrollmentComponent implements OnInit {
   }
 
   ngOnInit() {
+
+    if (JSON.parse(localStorage.getItem('user')) == null) {
+      this._router.navigate(['/']);
+    } else if (JSON.parse(localStorage.getItem('user')).authority.name == "STUDENT") {
+      this._router.navigate(['/student-page']);
+    }
+
     this.route.queryParams.subscribe(params =>
       this.courseService.getCourse(params['courseId'])
         .then(course => 

@@ -23,7 +23,7 @@ export class CourseFormComponent implements OnInit {
 
   enrollments: Enrollment[];
 
-  constructor(private _courseService: CourseService, private _rotuer: Router, 
+  constructor(private _courseService: CourseService, private _router: Router, 
     private _enrollmentService: EnrollmentService, private route: ActivatedRoute, private location: Location) {
       _enrollmentService.RegenerateData$.subscribe(() =>
       this.getEnrollments()
@@ -32,6 +32,15 @@ export class CourseFormComponent implements OnInit {
   private RegenerateData = new Subject<void>();
   
   ngOnInit() {
+
+    if (JSON.parse(localStorage.getItem('user')) == null) {
+      this._router.navigate(['/']);
+    } else if (JSON.parse(localStorage.getItem('user')).authority.name == "NASTAVNIK") {
+      this._router.navigate(['/teacher-page']);
+    } else if (JSON.parse(localStorage.getItem('user')).authority.name == "STUDENT") {
+      this._router.navigate(['/student-page']);
+    }
+
     this.course = this._courseService.getter();
     if (this.course !== undefined){
     this._courseService.getCourseEnrollments(this.course.id).then(enrollments =>
@@ -52,7 +61,7 @@ export class CourseFormComponent implements OnInit {
         this._courseService.addCourse(this.course)
         .then(course => {
           this._courseService.announceChange();
-         this._rotuer.navigate(['courses']);
+         this._router.navigate(['courses']);
       });
     }
     }else{
@@ -63,13 +72,13 @@ export class CourseFormComponent implements OnInit {
       this._courseService.editCourse(this.course)
       .then(course => {
         this._courseService.announceChange();
-        this._rotuer.navigate(['courses']);
+        this._router.navigate(['courses']);
       });
     }
     }
   }
   gotoAddEnrollment(): void {
-    this._rotuer.navigate(['/enrollment-form'], { queryParams: { courseId: this.course.id } });
+    this._router.navigate(['/enrollment-form'], { queryParams: { courseId: this.course.id } });
   }
 
   deleteEnrollment(enrollmentId: number): void {

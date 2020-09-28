@@ -5,6 +5,7 @@ import { Student } from '../../classes/student';
 import { StudentService } from "../../shared_service/student.service";
 import { DocumentsService } from "../../shared_service/documents.service";
 import { ActivatedRoute } from '@angular/router';
+import { Router } from "@angular/router";
 
 @Component({
   selector: 'app-document-form',
@@ -18,7 +19,7 @@ export class DocumentFormComponent implements OnInit {
 
   constructor(private route: ActivatedRoute, private studentService: StudentService,
      private documentsService: DocumentsService,
-    private location: Location) {
+    private location: Location, private _router: Router) {
     this.documents = new Documents({
       naziv: null,
       student: new Student({
@@ -31,6 +32,15 @@ export class DocumentFormComponent implements OnInit {
   }
 
   ngOnInit() {
+
+    if (JSON.parse(localStorage.getItem('user')) == null) {
+      this._router.navigate(['/']);
+    } else if (JSON.parse(localStorage.getItem('user')).authority.name == "NASTAVNIK") {
+      this._router.navigate(['/teacher-page']);
+    } else if (JSON.parse(localStorage.getItem('user')).authority.name == "STUDENT") {
+      this._router.navigate(['/student-page']);
+    }
+
     this.studentService.getStudents().then(students =>
       this.students = students);
   }
