@@ -39,24 +39,24 @@ export class LoginComponent implements OnInit {
       }else{
           this.loginService.getLogin(studentUsername, studentPassword)
             .then(login =>{
-              sessionStorage.setItem('user', JSON.stringify(login));
+              localStorage.setItem('user', JSON.stringify(login));
               this.loginService.announceChange();
 
-              if (JSON.parse(sessionStorage.getItem('user')).authority.name == null){
+              if (JSON.parse(localStorage.getItem('user')).authority.name == null){
                 alert("Pogresan login")
-              }else if (JSON.parse(sessionStorage.getItem('user')).authority.name == 'NASTAVNIK'){
+              }else if (JSON.parse(localStorage.getItem('user')).authority.name == 'NASTAVNIK'){
                 this.loginService.announceChange();
                 this.rotuer.navigate(['teacher-page']);
-              }else if (JSON.parse(sessionStorage.getItem('user')).authority.name == 'ADMIN'){
+              }else if (JSON.parse(localStorage.getItem('user')).authority.name == 'ADMIN'){
                 this.loginService.announceChange();
                 this.rotuer.navigate(['students']);
-              }else if (JSON.parse(sessionStorage.getItem('user')).authority.name == 'STUDENT'){
+              }else if (JSON.parse(localStorage.getItem('user')).authority.name == 'STUDENT'){
                 this.loginService.announceChange();
                 this.rotuer.navigate(['student-form']);
               }
             });
-          console.log(JSON.parse(sessionStorage.getItem('user')).id);
-          console.log(JSON.parse(sessionStorage.getItem('user')).authority.name);
+          console.log(JSON.parse(localStorage.getItem('user')).id);
+          console.log(JSON.parse(localStorage.getItem('user')).authority.name);
 
       }
 

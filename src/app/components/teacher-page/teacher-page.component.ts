@@ -2,7 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Course } from 'src/app/classes/course';
 import { Teacher } from 'src/app/classes/teacher';
+import { Login } from 'src/app/classes/login';
 import { TeacherService } from 'src/app/shared_service/teacher.service';
+
 
 @Component({
   selector: 'app-teacher-page',
@@ -23,11 +25,12 @@ export class TeacherPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.teacher = this.teacherService.getter();
-    var kurcina = localStorage.getItem('teacherId')
-    this.teacherService.getTeacher(kurcina).then(teacher =>
+    console.log()
+
+    this.teacherService.getTeacher((JSON.parse(localStorage.getItem('user')).teacherid)).then(teacher =>
       this.teacher = teacher);
 
-      this.teacherService.getTeacherCourses(kurcina).then(courses =>
+      this.teacherService.getTeacherCourses(JSON.parse(localStorage.getItem('user')).teacherid).then(courses =>
         this.courses = courses);
 
 
