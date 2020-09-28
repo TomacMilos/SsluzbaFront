@@ -2,6 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { StudentService } from 'src/app/shared_service/student.service';
 import { Student} from 'src/app/classes/student';
 import { Router } from '@angular/router';
+import { Enrollment } from '../../classes/enrollment';
+import { Documents } from '../../classes/documents';
+import { Exam } from 'src/app/classes/exam';
+import { Payment } from 'src/app/classes/payment';
+import { PaymentService } from 'src/app/shared_service/payment.service';
 
 @Component({
   selector: 'app-student-page',
@@ -10,6 +15,13 @@ import { Router } from '@angular/router';
 })
 export class StudentPageComponent implements OnInit {
   public student:Student;
+  enrollments: Enrollment[];
+  documents: Documents[];
+  payments: Payment[];
+  exams: Exam[];
+  examspass:Exam[];
+  nextexams:Exam[];
+  public sum: number;
   constructor(private studentService: StudentService, private _router: Router) {
     this.student = new Student({
       cardNumber: '',
@@ -26,10 +38,35 @@ export class StudentPageComponent implements OnInit {
       this._router.navigate(['/teacher-page']);
     }
 
+    this.studentService.getStudentEnrollments(JSON.parse(localStorage.getItem('user')).studentid).then(enrollments =>
+      this.enrollments = enrollments);
+
+    this.studentService.getStudentExams(JSON.parse(localStorage.getItem('user')).studentid).then(exams =>
+        this.exams = exams);
+
+    this.studentService.getStudentExamsPass(JSON.parse(localStorage.getItem('user')).studentid).then(exams =>
+        this.examspass = exams);
+
+    this.studentService.getStudentNextExams(JSON.parse(localStorage.getItem('user')).studentid).then(exams =>
+        this.nextexams = exams);
+
+    this.studentService.getStudentDocuments(JSON.parse(localStorage.getItem('user')).studentid).then(documents =>
+        this.documents = documents);
+
+    this.studentService.getStudentPayments(JSON.parse(localStorage.getItem('user')).studentid).then(payments =>
+        this.payments = payments);
+
+    this.studentService.getAllPaymentsSum(JSON.parse(localStorage.getItem('user')).studentid).then(sum =>
+        this.sum = sum);
+
     this.student = this.studentService.getter();   
 
     this.studentService.getStudent(JSON.parse(localStorage.getItem('user')).studentid).then(student =>
       this.student = student);
+  }
+
+  gotoInfo(examid:number): void {
+    this._router.navigate(['/exam-info'], { queryParams: { examId: examid } });
   }
 
 }

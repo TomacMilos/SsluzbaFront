@@ -13,18 +13,129 @@
             <label for="lastName">Prezime</label>
             <input type="text" name="lastName" class="form-control" [(ngModel)]="student.lastName" [ngModelOptions]="{standalone: true}" disabled>
         </div>
-        <!-- <br>
+        <br>
         <div>
             <div>
-                <h3>Vasi kursevi</h3>
+                <h3>Kursevi od korisnika</h3>
             </div>
             <table class="table table-bordered">
-              <tr *ngFor="let course of courses">
+              <tr *ngFor="let enrollment of enrollments">
                 <td>
-            {{course.name}}
+                  {{enrollment.course.name}}
                 </td>
-            </tr>
+              </tr>
             </table>
-        </div>  -->
+          </div> 
+          <div *ngIf="student.id">
+            <div>
+              <h3>Rezultati ispita</h3>
+            <table class="table table-bordered">
+              <thead>
+                <th>Naziv predmeta</th>
+                <th>Datum</th>
+                <th>Vreme ispita</th>
+                <th>Informacije</th>
+            </thead>
+              <tr *ngFor="let exam of examspass">
+                <td>
+                  {{exam.course.name}}
+                </td>
+                <td>{{exam.date | date: 'dd/MM/yyyy'}}</td>
+                <td>{{exam.date | date: 'HH:mm'}}</td>
+                <td>
+                  <button type="button" class="btn btn-success right" aria-label="Info" (click)="gotoInfo(exam.id)">
+                    Informacije o ispitu
+                  </button>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <div>
+            <h3>Obrada ispita...</h3>
+            <table class="table table-bordered">
+              <thead>
+                <th>Naziv predmeta</th>
+                <th>Datum</th>
+                <th>Vreme ispita</th>
+                <th>Informacije</th>
+            </thead>
+              <tr *ngFor="let exam of exams">
+                <td>
+                  {{exam.course.name}}
+                </td>
+                <td>{{exam.date | date: 'dd/MM/yyyy'}}</td>
+                <td>{{exam.date | date: 'HH:mm'}}</td>
+                <td>
+                  <button type="button" class="btn btn-success right" aria-label="Info" (click)="gotoInfo(exam.id)">
+                    Informacije o ispitu
+                  </button>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <div>
+            <h3>Ispiti u narednom periodu</h3>
+            <table class="table table-bordered">
+              <thead>
+                <th>Naziv predmeta</th>
+                <th>Datum</th>
+                <th>Vreme ispita</th>
+                <th>Odjava ispita</th>
+                <th>Informacije</th>
+            </thead>
+              <tr *ngFor="let exam of nextexams">
+                <td>
+                  {{exam.course.name}}
+                </td>
+                <td>{{exam.date | date: 'dd/MM/yyyy'}}</td>
+                <td>{{exam.date | date: 'HH:mm'}}</td>
+                <td>
+                </td>
+
+                <td>
+                  <button type="button" class="btn btn-success right" aria-label="Info" (click)="gotoInfo(exam.id)">
+                    Informacije o ispitu
+                  </button>
+                </td>
+              </tr>
+            </table>
+          </div>
+          </div>
+          <br>
+          <div>
+              <div>
+                  <h3>Dokumenti korisnika</h3>
+              </div>
+              <table class="table table-bordered">
+                <tr *ngFor="let document of documents">
+                  <td>
+                    {{document.naziv}}
+                  </td>
+                </tr>
+              </table>
+
+            <div>
+                <h3>Uplate korisnika</h3>
+            </div>
+            <table class="table table-bordered">
+              <thead>
+                <th>Svrha Uplate</th>
+                <th>Vrednost Uplate</th>
+                <th>Vreme Uplate</th>
+            </thead>
+            <tbody>
+              <tr *ngFor="let payment of payments">
+                <td>{{payment.svrhaUplate}}</td>
+                <td>{{payment.vrednostUplate}}</td>
+                <td>{{payment.date | date:'dd/MM/yyyy HH:mm'}}</td>
+              </tr>
+              <tr>
+                <td>Ukupno</td>
+                <td id="sum">{{sum}}</td>
+                <td></td> 
+            </tr>
+            </tbody>
+            </table>
+            </div> 
     </form>
 </div>
