@@ -1,12 +1,14 @@
 import { Authority } from './authority';
+import { Student } from './student';
+import { Teacher } from './teacher';
 
 export class Login implements LoginInterface{
 	public id: number;
 	public username: string;
 	public password: string;
     public authority: Authority;
-    public studentid: number;
-    public teacherid: number;
+    public student: Student;
+    public teacher: Teacher;
     
 	
 	constructor(loginCfg:LoginInterface)
@@ -15,8 +17,8 @@ export class Login implements LoginInterface{
 		this.username = loginCfg.username;
 		this.password = loginCfg.password;
         this.authority = loginCfg.authority;	
-        this.studentid = loginCfg.studentid;
-		this.teacherid = loginCfg.teacherid;			
+        this.student = loginCfg.student;
+		this.teacher = loginCfg.teacher;			
 	}
 }
 
@@ -25,6 +27,6 @@ interface LoginInterface{
 	username: string;
 	password: string;
     authority: Authority;
-    studentid: number;
-    teacherid: number;
+    student: Student;
+    teacher: Teacher;
 }
