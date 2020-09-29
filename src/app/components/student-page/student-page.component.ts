@@ -41,6 +41,8 @@ export class StudentPageComponent implements OnInit {
       this._router.navigate(['/teacher-page']);
     }
 
+    localStorage.setItem('examPeriodId',null);
+
     this.studentService.getStudentEnrollments(JSON.parse(localStorage.getItem('user')).studentid).then(enrollments =>
       this.enrollments = enrollments);
 
@@ -75,6 +77,7 @@ export class StudentPageComponent implements OnInit {
   }
 
   prijavaIspita(examPeriodId:number): void {
+    localStorage.setItem('examPeriodId',examPeriodId.toString());
     this._router.navigate(['/exam-registration'], { queryParams: { examPeriodId: examPeriodId } });
   }
 

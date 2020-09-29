@@ -1,0 +1,7 @@
+<h3>Prijava ispita</h3>
+<div class="form-group">
+    <label for="predmet">Predmet</label>
+    <select class="form-control" [(ngModel)]="courses">
+          <option *ngFor="let c of courses" [ngValue]="c">{{c.name}}</option>
+        </select>
+  </div>

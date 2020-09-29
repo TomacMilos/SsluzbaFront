@@ -36,6 +36,7 @@ import { RegisterStudentComponent } from './components/register-student/register
 import { RegisterTeacherComponent } from './components/register-teacher/register-teacher.component';
 import { RegisterAdminComponent } from './components/register-admin/register-admin.component';
 import { StudentPageComponent } from './components/student-page/student-page.component';
+import { ExamRegistrationComponent } from './components/exam-registration/exam-registration.component';
 
 
 
@@ -61,7 +62,9 @@ const appRoutes: Routes = [
   { path: 'register-admin', component: RegisterAdminComponent},
   { path: 'register-student', component: RegisterStudentComponent},
   { path: 'register-teacher', component: RegisterTeacherComponent},
-  { path: 'student-page', component: StudentPageComponent}
+  { path: 'student-page', component: StudentPageComponent},
+  { path: 'exam-registration', component: ExamRegistrationComponent}
+
 ];
 @NgModule({
   declarations: [
@@ -87,7 +90,8 @@ const appRoutes: Routes = [
     RegisterStudentComponent,
     RegisterTeacherComponent,
     RegisterAdminComponent,
-    StudentPageComponent
+    StudentPageComponent,
+    ExamRegistrationComponent
   ],
   imports: [
     BrowserModule,
@@ -98,7 +102,7 @@ const appRoutes: Routes = [
   ],
   providers: [StudentService, CourseService, TeacherService, EnrollmentService,
     ExamPeriodServiceService, DocumentsService,ExamService, PaymentService, PaymentFormComponent, ExamComponent,
-    ExamFormComponent, LoginService],
+    ExamFormComponent, LoginService, ExamRegistrationComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

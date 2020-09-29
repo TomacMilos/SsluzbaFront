@@ -72,6 +72,14 @@ getCourseExams(courseId: number): Promise<Exam[]> {
           response.json() as Exam[])
       .catch(this.handleError);
 }
+getExamPeriodCourses(studentId: number, examPeriodId: number): Promise<Course[]> {
+  const url = `${this.baseUrl}/${studentId}/${examPeriodId}`;
+  return this._http.get(url)
+      .toPromise()
+      .then(response =>
+          response.json() as Course[])
+      .catch(this.handleError);
+}
 
   announceChange() {
     this.RegenerateData.next();
