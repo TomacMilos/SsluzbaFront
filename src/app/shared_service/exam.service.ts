@@ -61,6 +61,16 @@ deleteExam(examId: number): Promise<{}> {
       .toPromise()
       .catch(this.handleError);
 }
+
+examDate(exam:Exam): Promise<Exam> {
+  const url = `${this.baseUrl}/examDate`;
+  return this._http
+      .put(url, JSON.stringify(exam), { headers: this.headers })
+      .toPromise()
+      .then(res => res.json() as Exam)
+      .catch(this.handleError);
+} 
+
 announceChange() {
   this.RegenerateData.next();
 }

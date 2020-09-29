@@ -10,6 +10,7 @@
             <th>Ime i Prezime Studenta</th>
             <th>Br Indeksa</th>
             <th></th>
+            <th></th>
         </thead>
         <tbody>
             <tr *ngFor="let exam of exams">
@@ -23,6 +24,7 @@
                 <td *ngIf="!(exam.student==null)" class="cardNumber">{{exam.student.cardNumber}}</td>
                 <td *ngIf="exam.student==null">-</td>
                 <td><button (click)="deleteExam(exam)" class="btn btn-danger">Obriši</button></td> 
+                <td><button *ngIf="exam.date==null" (click)="editDate(exam)" class="btn btn-primary">Unesi Datum</button></td>
             </tr>
 
         </tbody>

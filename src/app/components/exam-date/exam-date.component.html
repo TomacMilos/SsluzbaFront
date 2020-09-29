@@ -1,0 +1,14 @@
+<div>
+    <h3>Add Exam Date</h3>
+  </div>
+  <div>
+    <div class="form-group">
+        <label for="examDate">Vreme Odrzavanja Ispita</label>
+          <div class="input-group">
+            <input type="datetime-local" class="form-control" placeholder="mm/dd/yyyy hh:mm" name="examDate" [(ngModel)]="exam.date">
+          </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-primary" type="button" (click)="edit()">OK</button>
+  </div> 

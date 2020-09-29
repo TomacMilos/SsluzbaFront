@@ -70,4 +70,10 @@ export class ExamComponent implements OnInit {
     this._router.navigate(['/exam-form']);
   }
 
+  editDate(exam){
+    this._examService.setter(exam);
+    this._router.navigate(['/exam-date']);
+
+  }
+
 }

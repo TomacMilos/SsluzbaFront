@@ -37,6 +37,7 @@ import { RegisterTeacherComponent } from './components/register-teacher/register
 import { RegisterAdminComponent } from './components/register-admin/register-admin.component';
 import { StudentPageComponent } from './components/student-page/student-page.component';
 import { ExamRegistrationComponent } from './components/exam-registration/exam-registration.component';
+import { ExamDateComponent } from './components/exam-date/exam-date.component';
 
 
 
@@ -63,7 +64,8 @@ const appRoutes: Routes = [
   { path: 'register-student', component: RegisterStudentComponent},
   { path: 'register-teacher', component: RegisterTeacherComponent},
   { path: 'student-page', component: StudentPageComponent},
-  { path: 'exam-registration', component: ExamRegistrationComponent}
+  { path: 'exam-registration', component: ExamRegistrationComponent},
+  {path: 'exam-date', component: ExamDateComponent}
 
 ];
 @NgModule({
@@ -91,7 +93,8 @@ const appRoutes: Routes = [
     RegisterTeacherComponent,
     RegisterAdminComponent,
     StudentPageComponent,
-    ExamRegistrationComponent
+    ExamRegistrationComponent,
+    ExamDateComponent
   ],
   imports: [
     BrowserModule,
