@@ -25,7 +25,32 @@
                 </td>
               </tr>
             </table>
-          </div> 
+          </div>
+          
+          <div>
+            <div>
+                <h3>Prijava Ispita</h3>
+            </div>
+            <table class="table table-bordered">
+              <thead>
+                <th>Ispitni Rok</th>
+                <th>Početak Ispitnog Roka</th>
+                <th>Kraj Ispitnog Roka</th>
+                <th>Informacije</th>
+            </thead>
+              <tr *ngFor="let examPeriod of nextExamPeriods">
+                <td>{{examPeriod.name}}</td>
+                <td>{{examPeriod.startDate | date: 'dd/MM/yyyy'}}</td>
+                <td>{{examPeriod.endDate | date: 'dd/MM/yyyy'}}</td>
+                <td>
+                  <button type="button" class="btn btn-success right" aria-label="Info" (click)="prijavaIspita(examPeriod.id)">
+                    Prijavi Ispite u Ovom Roku
+                  </button>
+                </td>
+              </tr>
+            </table>
+          </div>
+
           <div *ngIf="student.id">
             <div>
               <h3>Rezultati ispita</h3>

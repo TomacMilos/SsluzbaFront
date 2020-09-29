@@ -7,6 +7,8 @@ import { Documents } from '../../classes/documents';
 import { Exam } from 'src/app/classes/exam';
 import { Payment } from 'src/app/classes/payment';
 import { PaymentService } from 'src/app/shared_service/payment.service';
+import { ExamPeriod } from 'src/app/classes/exam-period';
+import { ExamPeriodServiceService } from 'src/app/shared_service/exam-period-service.service';
 
 @Component({
   selector: 'app-student-page',
@@ -21,8 +23,9 @@ export class StudentPageComponent implements OnInit {
   exams: Exam[];
   examspass:Exam[];
   nextexams:Exam[];
+  nextExamPeriods: ExamPeriod[];
   public sum: number;
-  constructor(private studentService: StudentService, private _router: Router) {
+  constructor(private studentService: StudentService, private _router: Router, private examPeriodService: ExamPeriodServiceService) {
     this.student = new Student({
       cardNumber: '',
       firstName: '',
@@ -59,6 +62,8 @@ export class StudentPageComponent implements OnInit {
     this.studentService.getAllPaymentsSum(JSON.parse(localStorage.getItem('user')).studentid).then(sum =>
         this.sum = sum);
 
+    this.examPeriodService.getNextExamPeriods().then(examPers => this.nextExamPeriods = examPers);
+
     this.student = this.studentService.getter();   
 
     this.studentService.getStudent(JSON.parse(localStorage.getItem('user')).studentid).then(student =>
@@ -67,6 +72,10 @@ export class StudentPageComponent implements OnInit {
 
   gotoInfo(examid:number): void {
     this._router.navigate(['/exam-info'], { queryParams: { examId: examid } });
+  }
+
+  prijavaIspita(examPeriodId:number): void {
+    this._router.navigate(['/exam-registration'], { queryParams: { examPeriodId: examPeriodId } });
   }
 
 }

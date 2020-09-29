@@ -59,6 +59,15 @@ getExamPeriodExams(examperiodId: number): Promise<Exam[]> {
           response.json() as Exam[])
       .catch(this.handleError);
 }
+
+getNextExamPeriods(): Promise<ExamPeriod[]> {
+  return this._http.get(this.baseUrl+"/nextExamPeriods")
+      .toPromise()
+      .then(response =>
+          response.json() as ExamPeriod[])
+      .catch(this.handleError);
+}
+
 announceChange() {
   this.RegenerateData.next();
 }
