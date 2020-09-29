@@ -24,6 +24,7 @@ export class StudentPageComponent implements OnInit {
   examspass:Exam[];
   nextexams:Exam[];
   nextExamPeriods: ExamPeriod[];
+  examPeriod: ExamPeriod;
   public sum: number;
   constructor(private studentService: StudentService, private _router: Router, private examPeriodService: ExamPeriodServiceService) {
     this.student = new Student({
@@ -77,7 +78,9 @@ export class StudentPageComponent implements OnInit {
   }
 
   prijavaIspita(examPeriodId:number): void {
-    localStorage.setItem('examPeriodId',examPeriodId.toString());
+    this.examPeriodService.getExamPeriod(examPeriodId).then(examPeriod =>{
+      localStorage.setItem('examPeriod', JSON.stringify(examPeriod));
+    });
     this._router.navigate(['/exam-registration'], { queryParams: { examPeriodId: examPeriodId } });
   }
 

@@ -44,6 +44,16 @@ editExam(exam:Exam): Promise<Exam> {
         .then(res => res.json() as Exam)
         .catch(this.handleError);
 }
+
+examRegistration(exam: Exam, studentId: number): Promise<Exam> {
+  const url = `${this.baseUrl}/${studentId}/examRegistration`;
+  return this._http
+      .post(url, JSON.stringify(exam), { headers: this.headers })
+      .toPromise()
+      .then(res => res.json() as Exam)
+      .catch(this.handleError);
+}
+
 deleteExam(examId: number): Promise<{}> {
   const url = `${this.baseUrl}/${examId}`;
   return this._http

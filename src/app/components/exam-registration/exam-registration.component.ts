@@ -25,14 +25,30 @@ export class ExamRegistrationComponent implements OnInit {
       date: null,
       course: null,
       student: null,
-      examPeriod: null
+      examPeriod: JSON.parse(localStorage.getItem('examPeriod'))
     });
     }
 
   ngOnInit(): void {
-
-    this.courseService.getExamPeriodCourses(JSON.parse(localStorage.getItem('user')).studentid, parseInt(localStorage.getItem('examPeriodId'))).then(course =>
+    console.log(JSON.parse(localStorage.getItem('user')).studentid);
+    this.courseService.getExamPeriodCourses(JSON.parse(localStorage.getItem('user')).studentid, JSON.parse(localStorage.getItem('examPeriod')).id).then(course =>
       this.courses = course);
+  }
+
+  add(): void {
+    if(this.exam.course.name === null){
+      alert("Niste uneli predmet!");
+    } else {
+    this.examService.examRegistration(this.exam, JSON.parse(localStorage.getItem('user')).studentid)
+      .then(exam => {
+        this.examService.announceChange();
+        this.goBack();
+      });
+    }
+  }
+
+  goBack(): void {
+    this.location.back();
   }
 
 }
