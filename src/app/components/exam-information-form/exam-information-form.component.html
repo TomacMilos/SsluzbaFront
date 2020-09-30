@@ -20,7 +20,7 @@
         <input type="text" name="naziv" class="form-control" [(ngModel)]="exam.examPoints" disabled>
       </div>
       <div class="form-group" *ngIf="user.authority.name != 'NASTAVNIK'">
-        <label for="student">Bodovi sa Vežbi</label>
+        <label for="student">Bodovi sa Predispitnih Obaveza</label>
         <input type="text" name="naziv" class="form-control" [(ngModel)]="exam.labPoints" disabled>
       </div>
       <div class="form-group">
@@ -32,7 +32,7 @@
         <input  *ngIf="user.authority.name != 'STUDENT'" type="number" max="100" name="naziv" class="form-control" [(ngModel)]="exam.examPoints">
       </div>
       <div class="form-group">
-        <label  *ngIf="user.authority.name != 'STUDENT'"  for="student">Bodovi sa Vežbi</label>
+        <label  *ngIf="user.authority.name != 'STUDENT'"  for="student">Bodovi sa Predispitnih Obaveza</label>
         <input  *ngIf="user.authority.name != 'STUDENT'" type="number" max="100" name="naziv" class="form-control" [(ngModel)]="exam.labPoints">
       </div>
       <button (click)="saveExamPoints(exam)" *ngIf="user.authority.name != 'STUDENT'" class="btn btn-success">Save</button>
