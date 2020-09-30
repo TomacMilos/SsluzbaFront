@@ -9,6 +9,7 @@ import { Payment } from 'src/app/classes/payment';
 import { PaymentService } from 'src/app/shared_service/payment.service';
 import { ExamPeriod } from 'src/app/classes/exam-period';
 import { ExamPeriodServiceService } from 'src/app/shared_service/exam-period-service.service';
+import { ExamService } from 'src/app/shared_service/exam.service';
 
 @Component({
   selector: 'app-student-page',
@@ -26,7 +27,8 @@ export class StudentPageComponent implements OnInit {
   nextExamPeriods: ExamPeriod[];
   examPeriod: ExamPeriod;
   public sum: number;
-  constructor(private studentService: StudentService, private _router: Router, private examPeriodService: ExamPeriodServiceService) {
+  constructor(private studentService: StudentService, private _router: Router, private examPeriodService: ExamPeriodServiceService,
+    private examService: ExamService) {
     this.student = new Student({
       cardNumber: '',
       firstName: '',
@@ -42,7 +44,7 @@ export class StudentPageComponent implements OnInit {
       this._router.navigate(['/teacher-page']);
     }
 
-    localStorage.setItem('examPeriodId',null);
+    localStorage.setItem('examPeriod',null);
 
     this.studentService.getStudentEnrollments(JSON.parse(localStorage.getItem('user')).studentid).then(enrollments =>
       this.enrollments = enrollments);
@@ -82,6 +84,11 @@ export class StudentPageComponent implements OnInit {
       localStorage.setItem('examPeriod', JSON.stringify(examPeriod));
     });
     this._router.navigate(['/exam-registration'], { queryParams: { examPeriodId: examPeriodId } });
+  }
+
+  odjava(examId:number): void {
+    this.examService.deleteExam(examId);
+    location.reload();
   }
 
 }

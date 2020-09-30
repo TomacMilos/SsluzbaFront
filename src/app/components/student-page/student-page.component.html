@@ -127,6 +127,9 @@
                 <td>{{exam.date | date: 'dd/MM/yyyy'}}</td>
                 <td>{{exam.date | date: 'HH:mm'}}</td>
                 <td>
+                  <button type="button" class="btn btn-danger right" aria-label="Info" (click)="odjava(exam.id)">
+                    Odjavi Ispit
+                  </button>
                 </td>
 
                 <td>
