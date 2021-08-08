@@ -1,38 +1,56 @@
-
-<div class="container">
-        <form (ngSubmit)="processForm()">
-            <div class="form group">
-                <label for="cardNumber">Ime</label>
-                <input type="text" name="firstName" class="form-control" [(ngModel)]="teacher.firstName" [ngModelOptions]="{standalone: true}">
-            </div>
-            <div class="form group">
-                <label for="firstName">Prezime</label>
-                <input type="text" name="fname" class="form-control" [(ngModel)]="teacher.lastName" [ngModelOptions]="{standalone: true}">
-            </div>
-            <div class="form group">
-                <label for="teacherRank">Uloga</label>
-                <select class="form-control" [(ngModel)]="teacher.teacherRank" (change)="onChange($event)" [ngModelOptions]="{standalone: true}">
-                    <option [value]="1">Profesor</option>
-                    <option [value]="2">Asistent</option>
-                    <option [value]="3">Demonstrator</option>
-                  </select>
-            </div>
-            <br>
-            <div>
-                <div>
-                    <h3>Predmeti od nastavnika</h3>
-                </div>
-                <table class="table table-bordered">
-                  <tr *ngFor="let course of courses">
-                    <td>
-                {{course.name}}
+<div class="mt-5">
+    <h2>
+      <fa-icon [icon]='faUser'></fa-icon> Profesor
+    </h2>
+  </div>
+<div class="container mt-5">
+    <form (ngSubmit)="processForm()">
+        <div class="form group">
+            <label for="cardNumber">Ime</label>
+            <input *ngIf="loaded" type="text" name="firstName" class="form-control" [(ngModel)]="teacher.firstName"
+                [ngModelOptions]="{standalone: true}">
+        </div>
+        <div class="form group mt-2">
+            <label for="firstName">Prezime</label>
+            <input *ngIf="loaded" type="text" name="fname" class="form-control" [(ngModel)]="teacher.lastName"
+                [ngModelOptions]="{standalone: true}">
+        </div>
+        <div class="form group mt-2">
+            <label for="teacherRank">Uloga</label>
+            <ng-select [ngModelOptions]="{standalone: true}" [(ngModel)]="teacherRank">
+                <ng-option *ngFor="let rank of ranks" [value]="rank">{{rank}}</ng-option>
+             </ng-select>
+        </div>
+        <button type="submit" class="btn btn-success mt-2"><fa-icon [icon] = "faSave"></fa-icon></button>
+        <br>
+        <div class="mt-5">
+            <table class="table table-bordered">
+                <thead>
+                    <th class="border-right-0">Kursevi</th>
+                    <th style="width: 15%;" class="border-left-0">
+                        <button type="button" (click)="addNewCourse()" class="btn btn-primary" aria-label="Add New Course">
+                            <fa-icon [icon] = "faPlus"></fa-icon></button>
+                    </th>
+                </thead>
+                <tr *ngFor="let course of courses">
+                    <td class="border-right-0">
+                        {{course.name}}
                     </td>
-                    <td><button type="button" class="btn btn-danger" aria-label="Delete" (click)="deleteCourse(course.id)">
-                    Obrisi</button></td>
+                    <td  class="border-left-0"><button type="button" class="btn btn-danger" aria-label="Delete"
+                            (click)="deleteCourse(course)">
+                            <fa-icon [icon] = "faTimes"></fa-icon></button></td>
                 </tr>
-                </table>
-            </div> 
-            <input type="submit" value="save" class="btn btn-success">
-        </form>
-    </div>
-    
+                <tr *ngIf = "isAdd">
+                    <td class="border-right-0">
+                        <ng-select [(ngModel)]="course" [ngModelOptions]="{standalone: true}">
+                            <ng-option *ngFor="let c of coursesAdd" [value]="c"> {{c.name}}</ng-option>
+                         </ng-select>
+                    </td>
+                    <td class="border-left-0"><button (click) = "addCourse()" type="button" class="btn btn-success" aria-label="Save"><fa-icon [icon] = "faSave"></fa-icon></button>
+                        <button type="button" (click)="cancelCourse()"  class="btn btn-danger ml-2" aria-label="Cancel"><fa-icon [icon] = "faTimes"></fa-icon></button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </form>
+</div>

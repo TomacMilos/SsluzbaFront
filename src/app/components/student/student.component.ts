@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import {StudentService} from '../../shared_service/student.service';
-import {Student} from '../../classes/student';
-import {Router} from '@angular/router';
+import { StudentService } from '../../shared_service/student.service';
+import { Student } from '../../classes/student';
+import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { faEdit, faPlus, faTrash, faUserGraduate } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-student',
@@ -13,44 +14,37 @@ export class StudentComponent implements OnInit {
 
   public students: Student[];
   subscription: Subscription
+  faUserGraduate = faUserGraduate;
+  faTrash = faTrash;
+  faPlus = faPlus;
 
-  constructor(private _studentService: StudentService, private _router: Router) {
-    this.subscription = _studentService.RegenerateData$.subscribe(() =>
-    this.getStudents()
-  );
-   }
-
-  ngOnInit(): void {
-
-    if (JSON.parse(localStorage.getItem('user')) == null) {
-      this._router.navigate(['/']);
-    } else if (JSON.parse(localStorage.getItem('user')).authority.name == "NASTAVNIK") {
-      this._router.navigate(['/teacher-page']);
-    } else if (JSON.parse(localStorage.getItem('user')).authority.name == "STUDENT") {
-      this._router.navigate(['/student-page']);
-    }
-
-    this.getStudents();
+  constructor(private studentService: StudentService, private router: Router) {
   }
 
+  ngOnInit(): void {
+    this.getStudents();
+
+  }
+
+
+
   getStudents() {
-    this._studentService.getStudents().then(students =>
+    this.studentService.getStudents().then(students =>
       this.students = students);
   }
 
   deleteStudent(student: Student): void {
-    this._studentService.deleteStudent(student).then(
+    this.studentService.deleteStudent(student).then(
       () => this.getStudents()
     );
   }
-  updateStudent(student){
-    this._studentService.setter(student);
-    this._router.navigate(['/student-form']);
+  updateStudent(student) {
+    this.router.navigate(['/student-form/' + student.id]);
 
   }
-  newStudent(){
-    this._router.navigate(['/register-student']);
+  newStudent() {
+    this.router.navigate(['/register-student']);
   }
-  
+
 
 }

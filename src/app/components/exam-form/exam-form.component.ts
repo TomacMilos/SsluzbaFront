@@ -10,6 +10,9 @@ import { ActivatedRoute } from '@angular/router';
 import { CourseService } from 'src/app/shared_service/course.service';
 import { ExamPeriodServiceService } from 'src/app/shared_service/exam-period-service.service';
 import { Router } from "@angular/router";
+import { NgSelectConfig } from '@ng-select/ng-select';
+import { faExclamationTriangle, faPlusCircle, faSave, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-exam-form',
@@ -22,11 +25,22 @@ export class ExamFormComponent implements OnInit {
   students: Student[];
   courses: Course[];
   examPeriods: ExamPeriod[];
+  time = { hour: 12, minute: 30 };
+  faSave = faSave;
+  faPlusCircle = faPlusCircle;
+  faTimes = faTimes;
+  minDateStart: any;
+  maxDateStart: any;
+  ngbStartDate: NgbDateStruct;
+
+
+  exclamationTriangle = faExclamationTriangle;
 
   constructor(private route: ActivatedRoute, private studentService: StudentService,
     private examService: ExamService, private courseService: CourseService,
-     private examPeriodService: ExamPeriodServiceService, private location: Location, private _router: Router) {
-   this.exam = new Exam({
+    private examPeriodService: ExamPeriodServiceService, private location: Location, private _router: Router, private config: NgSelectConfig) {
+
+    this.exam = new Exam({
       examPoints: 0,
       labPoints: 0,
       date: null,
@@ -43,48 +57,61 @@ export class ExamFormComponent implements OnInit {
         startDate: null,
         endDate: null,
       }),
-   });
-
- }
-
- ngOnInit() {
-
-  if (JSON.parse(localStorage.getItem('user')) == null) {
-    this._router.navigate(['/']);
-  } else if (JSON.parse(localStorage.getItem('user')).authority.name == "NASTAVNIK") {
-    this._router.navigate(['/teacher-page']);
-  } else if (JSON.parse(localStorage.getItem('user')).authority.name == "STUDENT") {
-    this._router.navigate(['/student-page']);
-  }
-
-  this.studentService.getStudents().then(students =>
-    this.students = students);
-
-  this.courseService.getCourses().then(courses =>
-    this.courses = courses);
-
-  this.examPeriodService.getExamPeriods().then(examPeriods =>
-    this.examPeriods = examPeriods);
-}
-
-add(): void {
-  if(this.exam.date === null){
-    alert("Niste uneli datum i vreme ispita!");
-  } else if(this.exam.course.name ===""){
-    alert("Niste izabrali predmet!");
-  } else if(this.exam.examPeriod.name ===""){
-    alert("Niste izabrali ispitni rok!");
-  } else {
-  this.examService.addExam(this.exam)
-    .then(exam => {
-      this.examService.announceChange();
-      this.goBack();
     });
-  }
-}
 
-goBack(): void {
-  this.location.back();
-}
+  }
+
+  ngOnInit() {
+
+    this.studentService.getStudents().then(students =>
+      this.students = students);
+
+    this.courseService.getCourses().then(courses =>
+      this.courses = courses);
+
+    this.examPeriodService.getUpcomingExamPeriods().then(examPeriods =>
+      this.examPeriods = examPeriods);
+  }
+
+  changePeriod(): void {
+    var min = new Date(this.exam.examPeriod.startDate);
+    this.minDateStart = {
+      year: min.getUTCFullYear(),
+      month: min.getUTCMonth() + 1,
+      day: min.getUTCDate(),
+    }
+
+    var max = new Date(this.exam.examPeriod.endDate);
+    this.maxDateStart = {
+      year: max.getUTCFullYear(),
+      month: max.getUTCMonth() + 1,
+      day: max.getUTCDate(),
+    }
+
+    console.log(this.minDateStart);
+    console.log(this.maxDateStart);
+
+  }
+
+  add(): void {
+    if (!this.ngbStartDate) {
+      alert("Niste uneli datum!");
+    } else if (this.exam.course.name === "") {
+      alert("Niste izabrali predmet!");
+    } else if (this.exam.examPeriod.name === "") {
+      alert("Niste izabrali ispitni rok!");
+    } else {
+      this.exam.date = new Date(this.ngbStartDate.year, this.ngbStartDate.month - 1, this.ngbStartDate.day, this.time.hour + 2, this.time.minute);
+      console.log(this.exam)
+      this.examService.addExam(this.exam)
+        .then(exam => {
+          this.goBack();
+        });
+    }
+  }
+
+  goBack(): void {
+    this.location.back();
+  }
 
 }

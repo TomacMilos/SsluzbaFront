@@ -6,6 +6,7 @@ import {Router} from '@angular/router';
 import {Student} from '../../classes/student';
 import {Course} from '../../classes/course';
 import {ExamPeriod} from '../../classes/exam-period';
+import { faCalendar, faGraduationCap, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-exam',
@@ -16,22 +17,17 @@ export class ExamComponent implements OnInit {
 
   public exams: Exam[];
   subscription: Subscription
+  faTrash= faTrash;
+  faCalendar = faCalendar;
+  faPlus = faPlus;
+  faGraduationCap = faGraduationCap;
+
+
 
   constructor(private _examService: ExamService, private _router: Router) {
-    this.subscription = _examService.RegenerateData$.subscribe(() =>
-    this.getExams()
-  );
    }
 
    ngOnInit(): void {
-
-    if (JSON.parse(localStorage.getItem('user')) == null) {
-      this._router.navigate(['/']);
-    } else if (JSON.parse(localStorage.getItem('user')).authority.name == "NASTAVNIK") {
-      this._router.navigate(['/teacher-page']);
-    } else if (JSON.parse(localStorage.getItem('user')).authority.name == "STUDENT") {
-      this._router.navigate(['/student-page']);
-    }
 
     this.getExams();
   }
@@ -66,12 +62,10 @@ export class ExamComponent implements OnInit {
         endDate: null,
       }),
     });
-    this._examService.setter(exam);
     this._router.navigate(['/exam-form']);
   }
 
   editDate(exam){
-    this._examService.setter(exam);
     this._router.navigate(['/exam-date']);
 
   }

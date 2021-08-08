@@ -1,6 +1,6 @@
 import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { from } from 'rxjs';
 import { Course } from 'src/app/classes/course';
 import { Exam } from 'src/app/classes/exam';
@@ -16,6 +16,8 @@ export class ExamRegistrationComponent implements OnInit {
 
   courses: Course[];
   exam: Exam;
+  showCourse = false;
+  examPeriodId: any;
 
   constructor(private route: ActivatedRoute, private courseService: CourseService,
     private examService: ExamService, private location: Location, private _router: Router) {
@@ -25,25 +27,28 @@ export class ExamRegistrationComponent implements OnInit {
       date: null,
       course: null,
       student: null,
-      examPeriod: JSON.parse(localStorage.getItem('examPeriod'))
+      examPeriod: null
     });
-    }
+  }
 
   ngOnInit(): void {
-    console.log(JSON.parse(localStorage.getItem('user')).studentid);
-    this.courseService.getExamPeriodCourses(JSON.parse(localStorage.getItem('user')).studentid, JSON.parse(localStorage.getItem('examPeriod')).id).then(course =>
-      this.courses = course);
+    this.route.queryParams.subscribe((params: Params) => {
+      this.examPeriodId = params.examPeriodId;
+    });
+    
+    this.courseService.getExamPeriodCourses(JSON.parse(localStorage.getItem('user')).studentid, this.examPeriodId).then(course =>
+      this.courses = course
+      );
   }
 
   add(): void {
-    if(this.exam.course.name === null){
+    if (this.exam.course.name === null) {
       alert("Niste uneli predmet!");
     } else {
-    this.examService.examRegistration(this.exam, JSON.parse(localStorage.getItem('user')).studentid)
-      .then(exam => {
-        this.examService.announceChange();
-        this.goBack();
-      });
+      this.examService.examRegistration(this.exam, JSON.parse(localStorage.getItem('user')).studentid,this.examPeriodId)
+        .then(exam => {
+          this.goBack();
+        });
     }
   }
 

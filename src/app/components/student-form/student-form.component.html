@@ -1,150 +1,177 @@
-
-<div class="container">
-<div>
+<div class="mt-5">
+  <h2>
+    <fa-icon [icon]='faUser'></fa-icon> Student
+  </h2>
+</div>
+<div *ngIf='isStudentLoaded' class="container mt-4">
+  <div>
     <form (ngSubmit)="processForm()">
-        <div class="form group">
-            <label for="cardNumber">Indeks</label>
-            <input type="text" name="cardNumber" class="form-control" [(ngModel)]="student.cardNumber">
-        </div>
-        <div class="form group">
-            <label for="firstName">Ime</label>
-            <input type="text" name="fname" class="form-control" [(ngModel)]="student.firstName">
-        </div>
-        <div class="form group">
-            <label for="lastName">Prezime</label>
-            <input type="text" name="lname" class="form-control" [(ngModel)]="student.lastName">
-        </div>
-        <br>
+      <div class="form group">
+        <label for="cardNumber">Indeks</label>
+        <input *ngIf='isStudentLoaded' type="text" name="cardNumber" class="form-control"
+          [(ngModel)]="student.cardNumber">
+      </div>
+      <div class="form group mt-2">
+        <label for="firstName">Ime</label>
+        <input *ngIf='isStudentLoaded' type="text" name="fname" class="form-control" [(ngModel)]="student.firstName">
+      </div>
+      <div class="form group mt-2">
+        <label for="lastName">Prezime</label>
+        <input *ngIf='isStudentLoaded' type="text" name="lname" class="form-control" [(ngModel)]="student.lastName">
+      </div>
+      <button type="submit" class="btn btn-success mt-2">
+        <fa-icon [icon]="faSave"></fa-icon>
+      </button>
+      <br>
+      <div *ngIf="enrollments?.length > 0">
         <div>
-            <div>
-                <h3>Kursevi od korisnika</h3>
-            </div>
-            <table class="table table-bordered">
-              <tr *ngFor="let enrollment of enrollments">
-                <td>
-                  {{enrollment.course.name}}
-                </td>
-              </tr>
-            </table>
-          </div> 
-          <div *ngIf="student.id">
-            <div>
-              <h3>Rezultati ispita</h3>
-            <table class="table table-bordered">
-              <thead>
-                <th>Naziv predmeta</th>
-                <th>Datum</th>
-                <th>Vreme ispita</th>
-                <th>Informacije</th>
+          <h3>Slusanje Kursa</h3>
+        </div>
+        <table class="table table-bordered">
+            <thead>
+              <th class="border-right-0">
+                Naziv
+              </th>
+              <th class="border-right-0 border-left-0">
+                Pocetak
+              </th>
+              <th class="border-left-0">
+                Kraj
+              </th>
             </thead>
-              <tr *ngFor="let exam of examspass">
-                <td>
-                  {{exam.course.name}}
-                </td>
-                <td>{{exam.date | date: 'dd/MM/yyyy'}}</td>
-                <td>{{exam.date | date: 'HH:mm'}}</td>
-                <td>
-                  <button type="button" class="btn btn-success right" aria-label="Info" (click)="gotoInfo(exam.id)">
-                    Informacije o ispitu
-                  </button>
-                </td>
-              </tr>
-            </table>
-          </div>
-          <div>
-            <h3>Obrada ispita...</h3>
-            <table class="table table-bordered">
-              <thead>
-                <th>Naziv predmeta</th>
-                <th>Datum</th>
-                <th>Vreme ispita</th>
-                <th>Informacije</th>
+          <tr *ngFor="let enrollment of enrollments">
+            <td class="border-right-0">{{enrollment.course?.name}}</td>
+            <td class="border-right-0 border-left-0">{{enrollment.startDate | date: 'dd/MM/yyyy'}}</td>
+            <td class="border-left-0">{{enrollment.endDate | date: 'dd/MM/yyyy'}}</td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <div *ngIf="examspass?.length > 0">
+          <h3>Rezultati Ispita</h3>
+          <table class="table table-bordered">
+            <thead>
+              <th class="border-right-0">Naziv predmeta</th>
+              <th class="border-right-0 border-left-0">Datum</th>
+              <th class="border-right-0 border-left-0">Vreme ispita</th>
+              <th class="border-left-0">Ocena</th>
             </thead>
-              <tr *ngFor="let exam of exams">
-                <td>
-                  {{exam.course.name}}
-                </td>
-                <td>{{exam.date | date: 'dd/MM/yyyy'}}</td>
-                <td>{{exam.date | date: 'HH:mm'}}</td>
-                <td>
-                  <button type="button" class="btn btn-success right" aria-label="Info" (click)="gotoInfo(exam.id)">
-                    Informacije o ispitu
-                  </button>
-                </td>
-              </tr>
-            </table>
-          </div>
-          <div>
-            <h3>Ispiti u narednom periodu</h3>
-            <table class="table table-bordered">
-              <thead>
-                <th>Naziv predmeta</th>
-                <th>Datum</th>
-                <th>Vreme ispita</th>
-                <th>Odjava ispita</th>
-                <th>Informacije</th>
+            <tr *ngFor="let exam of examspass">
+              <td (click)="gotoInfo(exam.id)" class="border-right-0" style="cursor: pointer;">
+                {{exam.course?.name}}
+              </td>
+              <td style="cursor: pointer;" (click)="gotoInfo(exam.id)" class="border-right-0 border-left-0">{{exam.date
+                | date: 'dd/MM/yyyy'}}
+              </td>
+              <td style="cursor: pointer;" (click)="gotoInfo(exam.id)" class="border-right-0 border-left-0">{{exam.date
+                | date: 'HH:mm'}}</td>
+              <td style="cursor: pointer;" (click)="gotoInfo(exam.id)" class="border-left-0">
+                <spam *ngIf="!(exam.labPoints+exam.examPoints > 50)">5</spam>
+                <spam *ngIf="exam.labPoints+exam.examPoints > 50 && !(exam.labPoints+exam.examPoints >61)">6</spam>
+                <spam *ngIf="exam.labPoints+exam.examPoints > 60 && !(exam.labPoints+exam.examPoints >71)">7</spam>
+                <spam *ngIf="exam.labPoints+exam.examPoints > 70 && !(exam.labPoints+exam.examPoints >81)">8</spam>
+                <spam *ngIf="exam.labPoints+exam.examPoints > 80 && !(exam.labPoints+exam.examPoints >91)">9</spam>
+                <spam *ngIf="exam.labPoints+exam.examPoints > 90 && !(exam.labPoints+exam.examPoints >101)">10</spam>
+              </td>
+            </tr>
+          </table>
+        </div>
+        <div *ngIf="exams?.length > 0">
+          <h3>Obrada Rezultata</h3>
+          <table class="table table-bordered">
+            <thead>
+              <th class="border-right-0">Naziv predmeta</th>
+              <th class="border-right-0 border-left-0">Datum</th>
+              <th class="border-right-0 border-left-0">Vreme ispita</th>
+              <th class="border-left-0">Informacije</th>
             </thead>
-              <tr *ngFor="let exam of nextexams">
-                <td>
-                  {{exam.course.name}}
-                </td>
-                <td>{{exam.date | date: 'dd/MM/yyyy'}}</td>
-                <td>{{exam.date | date: 'HH:mm'}}</td>
-                <td>
-                  <button type="button" class="btn btn-primary right" aria-label="Delete" (click)="deleteExam(exam.id)">
-                    Odjavi ispit
-                  </button>
-                </td>
-
-                <td>
-                  <button type="button" class="btn btn-success right" aria-label="Info" (click)="gotoInfo(exam.id)">
-                    Informacije o ispitu
-                  </button>
-                </td>
-              </tr>
-            </table>
-          </div>
-          </div>
-          <br>
+            <tr *ngFor="let exam of exams">
+              <td class="border-right-0">
+                {{exam.course?.name}}
+              </td>
+              <td class="border-right-0 border-left-0">{{exam.date | date: 'dd/MM/yyyy'}}</td>
+              <td class="border-right-0 border-left-0">{{exam.date | date: 'HH:mm'}}</td>
+              <td class="border-left-0">
+                <button type="button" class="btn btn-success right" style="width: 50px;" aria-label="Info"
+                  (click)="gotoInfo(exam.id)">
+                  <fa-icon [icon]="faInfo"></fa-icon>
+                </button>
+              </td>
+            </tr>
+          </table>
+        </div>
+        <div *ngIf="nextexams?.length > 0">
+          <h3>Ispiti u narednom periodu</h3>
+          <table class="table table-bordered">
+            <thead>
+              <th class="border-right-0">Naziv predmeta</th>
+              <th class="border-right-0 border-left-0">Datum</th>
+              <th class="border-right-0 border-left-0">Vreme ispita</th>
+              <th class="border-right-0 border-left-0">Odjava ispita</th>
+              <th class="border-left-0">Informacije</th>
+            </thead>
+            <tr *ngFor="let exam of nextexams">
+              <td class="border-right-0">
+                {{exam.course.name}}
+              </td>
+              <td class="border-right-0 border-left-0">{{exam.date | date: 'dd/MM/yyyy'}}</td>
+              <td class="border-right-0 border-left-0">{{exam.date | date: 'HH:mm'}}</td>
+              <td class="border-right-0 border-left-0">
+                <button type="button" class="btn btn-primary right" aria-label="Delete" (click)="deleteExam(exam.id)">
+                  <fa-icon [icon]="faTimes"></fa-icon>
+                </button>
+              </td>
+              <td class="border-left-0">
+                <button type="button" class="btn btn-success right" aria-label="Info" (click)="gotoInfo(exam.id)">
+                  <fa-icon [icon]="faInfo"></fa-icon>
+                </button>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <br>
+      <div>
+        <div *ngIf="documents?.length > 0">
           <div>
-              <div>
-                  <h3>Dokumenti korisnika</h3>
-              </div>
-              <table class="table table-bordered">
-                <tr *ngFor="let document of documents">
-                  <td>
-                    {{document.naziv}}
-                  </td>
-                </tr>
-              </table>
-
-            <div>
-                <h3>Uplate korisnika</h3>
-            </div>
-            <table class="table table-bordered">
-              <thead>
-                <th>Svrha Uplate</th>
-                <th>Vrednost Uplate</th>
-                <th>Vreme Uplate</th>
+            <h3>Dokumenti korisnika</h3>
+          </div>
+          <table class="table table-bordered">
+            <tr *ngFor="let document of documents">
+              <td>
+                {{document.naziv}}
+              </td>
+            </tr>
+          </table>
+        </div>
+        <div *ngIf="payments?.length > 0">
+          <div>
+            <h3>Uplate korisnika</h3>
+          </div>
+          <table class="table table-bordered">
+            <thead>
+              <th class="border-right-0">Svrha Uplate</th>
+              <th class="border-right-0 border-left-0">Vrednost Uplate</th>
+              <th class="border-left-0">Vreme Uplate</th>
             </thead>
             <tbody>
               <tr *ngFor="let payment of payments">
-                <td>{{payment.svrhaUplate}}</td>
-                <td>{{payment.vrednostUplate}}</td>
-                <td>{{payment.date | date:'dd/MM/yyyy HH:mm'}}</td>
+                <td class="border-right-0">{{payment.svrhaUplate}}</td>
+                <td class="border-right-0 border-left-0">{{payment.vrednostUplate}} RSD</td>
+                <td class="border-left-0">{{payment.date | date:'dd/MM/yyyy HH:mm'}}</td>
               </tr>
               <tr>
-                <td>Ukupno</td>
-                <td id="sum">{{sum}}</td>
-                <td></td> 
-            </tr>
+                <td class="border-right-0">Ukupno:</td>
+                <td class="border-right-0 border-left-0" id="sum">{{sum}} RSD</td>
+                <td class="border-left-0"></td>
+              </tr>
             </tbody>
-            </table>
-            </div> 
-          <input type="submit" value="save" class="btn btn-success">
+          </table>
+        </div>
+      </div>
     </form>
-</div>
-<div>
+  </div>
+  <div>
     <br>
   </div>
-  </div>
+</div>

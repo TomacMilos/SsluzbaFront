@@ -22,6 +22,15 @@ export class ExamPeriodServiceService {
             response.json() as ExamPeriod[])
         .catch(this.handleError);
 }
+
+getUpcomingExamPeriods(): Promise<ExamPeriod[]> {
+  return this._http.get(this.baseUrl+"/upcoming")
+      .toPromise()
+      .then(response =>
+          response.json() as ExamPeriod[])
+      .catch(this.handleError);
+}
+
 getExamPeriod(id: number): Promise<ExamPeriod> {
   const url = `${this.baseUrl}/${id}`;
   return this._http.get(url)
@@ -46,7 +55,7 @@ addExamPeriod(ep: ExamPeriod): Promise<ExamPeriod> {
 }
 editExamPeriod(ep: ExamPeriod): Promise<ExamPeriod> {
   return this._http
-      .put(this.baseUrl, JSON.stringify(this.examPeriod), { headers: this.headers })
+      .put(this.baseUrl, JSON.stringify(ep), { headers: this.headers })
       .toPromise()
       .then(res => res.json() as ExamPeriod)
       .catch(this.handleError);

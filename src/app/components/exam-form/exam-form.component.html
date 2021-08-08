@@ -1,32 +1,50 @@
-<div>
-    <h3>Add new Exam</h3>
+<div class="ml mt-5">
+    <h2><fa-icon [icon] = "faPlusCircle"></fa-icon> Dodavanje novog ispita</h2>
   </div>
   <div>
 
     <div class="form-group">
         <label for="course">Predmet</label>
-        <select class="form-control" [(ngModel)]="exam.course">
-              <option *ngFor="let c of courses" [ngValue]="c">{{c.name}}</option>
-        </select>
+        <ng-select [(ngModel)]="exam.course">
+          <ng-option *ngFor="let c of courses" [value]="c"> {{c.name}}</ng-option>
+       </ng-select>
     </div>
 
     <div class="form-group">
         <label for="examPeriod">Ispitni Rok</label>
-        <select class="form-control" [(ngModel)]="exam.examPeriod">
-              <option *ngFor="let e of examPeriods" [ngValue]="e">{{e.name}}</option>
-        </select>
+        <ng-select (change) = "changePeriod()" [(ngModel)]="exam.examPeriod">
+          <ng-option *ngFor="let e of examPeriods" [value]="e">
+            {{e.name}}
+          </ng-option>
+       </ng-select>
       </div>
 
     <div class="form-group">
-        <label for="examDate">Vreme Odrzavanja Ispita</label>
+        <label for="examDate">Datum Odrzavanja Ispita</label>
           <div class="input-group">
-            <input type="datetime-local" class="form-control" placeholder="mm/dd/yyyy hh:mm" name="examDate" [(ngModel)]="exam.date">
+            <div *ngIf = "exam.examPeriod && exam.examPeriod?.name !== ''" class="input-group">
+              <input [minDate]="minDateStart" [maxDate]="maxDateStart" placeholder="yyyy-mm-dd" class="form-control" style="cursor: pointer;" [readonly]="true" (click)="d2.toggle()" name="dp2" [(ngModel)]="ngbStartDate" ngbDatepicker
+                #d2="ngbDatepicker">
+                <button class="btn btn-primary" (click)="d2.toggle()" type="button">
+                  <i class="fa fa-calendar" style="width: 1.2rem; height: 1rem; cursor: pointer;"> </i>
+                </button>
           </div>
-    </div>
+          <div class="input-group" *ngIf = "!exam.examPeriod || exam.examPeriod?.name === ''">
+          <input type="text" name="name" class="form-control" value="Prvo izaberite ispitni rok" disabled> <fa-icon class="mt-2" style="color: #ffc107;" [icon] = "exclamationTriangle"></fa-icon>
+        </div>
+        </div>
+    <div class="form-group mt-2">
+      <label for="examDate">Vreme Odrzavanja Ispita</label>
+        <div class="input-group">
+          <div class="input-group">
+            <ngb-timepicker [(ngModel)]="time"></ngb-timepicker>
+        </div>
+  </div>
+
   
   </div>
   <div class="modal-footer">
-    <button class="btn btn-primary" type="button" (click)="add()">OK</button>
-    <button class="btn btn-primary" type="button" (click)="goBack()">Cancel</button>
+    <button class="btn btn-success" type="button" (click)="add()"><fa-icon [icon] = "faSave"></fa-icon></button>
+    <button class="btn btn-primary" type="button" (click)="goBack()"><fa-icon [icon] = "faTimes"></fa-icon></button>
   </div> 
 

@@ -1,22 +1,24 @@
-<div class="container">
-<h3>Studenti</h3>
-<table class="table table-striped">
-    <thead>
-        <th>Index</th>
-        <th>Ime</th>
-        <th>Prezime</th>
-        <th></th>
-        <th></th>
-    </thead>
-    <tbody>
-        <tr *ngFor="let student of students">
-            <td class="cardNumber">{{student.cardNumber}}</td>
-            <td>{{student.firstName}}</td>
-            <td>{{student.lastName}}</td>
-            <td><button (click)="deleteStudent(student)" class="btn btn-danger">Obriši</button></td>
-            <td><button (click)="updateStudent(student)" class="btn btn-primary">Izmeni</button></td>
-        </tr>
-    </tbody>
-</table>
-<button class="btn btn-success" (click)="newStudent()">Novi student</button>
+<div class="container mt-5">
+    <h2 class="ml mb-3"><fa-icon [icon]="faUserGraduate"></fa-icon> Studenti</h2>
+    <table class="table table-striped">
+        <thead>
+            <th class="border-right-0">Index</th>
+            <th class="border-left-0 border-right-0">Ime</th>
+            <th class="border-left-0 border-right-0">Prezime</th>
+            <th class="border-left-0" style="width: 15%;">
+                <button class="btn btn-success" title="Add new" (click)="newStudent()"><fa-icon [icon]="faPlus"></fa-icon></button>
+            </th>
+        </thead>
+        <tbody>
+            <tr *ngFor="let student of students">
+                <td (click)="updateStudent(student)" style="cursor: pointer;" class="cardNumber border-right-0">{{student.cardNumber}}</td>
+                <td (click)="updateStudent(student)" style="cursor: pointer;" class="border-left-0 border-right-0">{{student.firstName}}</td>
+                <td (click)="updateStudent(student)" style="cursor: pointer;" class="border-left-0 border-right-0">{{student.lastName}}</td>
+                <td class="border-left-0"><button (click)="deleteStudent(student)" title="Delete"
+                        class="btn btn-danger">
+                        <fa-icon [icon]="faTrash"></fa-icon>
+                    </button></td>
+            </tr>
+        </tbody>
+    </table>
 </div>

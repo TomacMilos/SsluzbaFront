@@ -1,71 +1,81 @@
-<div class="container">
-
+<div class="mt-5">
+  <h2>
+    <fa-icon [icon]='faChalBoard'></fa-icon> Kurs
+  </h2>
+</div>
+<div class="container mt-4">
     <form (ngSubmit)="processForm()">
         <div class="form group">
             <label for="name">Naziv</label>
-            <input *ngIf="user.authority.name == 'ADMIN'" type="text" name="name" class="form-control" [(ngModel)]="course.name">
-            <input *ngIf="user.authority.name == 'NASTAVNIK'" type="text" disabled name="name" class="form-control" [(ngModel)]="course.name">
+            <input *ngIf="role === 'ADMIN'" type="text" name="name" class="form-control" [(ngModel)]="course.name">
+            <input *ngIf="role === 'NASTAVNIK'" type="text" disabled name="name" class="form-control" [(ngModel)]="course.name">
         </div>
-        <input *ngIf="user.authority.name == 'ADMIN'" type="submit" value="save" class="btn btn-success">
+        <button *ngIf="role === 'ADMIN'" type="submit" class="btn btn-success mt-2">
+          <fa-icon [icon]= "faSave"></fa-icon>
+        </button>
+ 
     </form>
     <br>
     <div *ngIf="course.id">
         <div>
           <h3>Studenti</h3>
-          <button *ngIf="user.authority.name == 'ADMIN'" type="button" class="btn btn-primary" aria-label="Add" (click)="gotoAddEnrollment()" >
-            Dodaj
-          </button>
         </div>
         <table class="table table-bordered">
           <thead>
-            <th>Ime i Prezime</th>
-            <th>Broj Indeksa</th>
-            <th>Pocetak Kursa</th>
-            <th>Zavrsetak Kursa</th>
+            <th class="border-right-0">Ime i Prezime</th>
+            <th class="border-right-0 border-left-0">Broj Indeksa</th>
+            <th class="border-right-0 border-left-0">Pocetak Kursa</th>
+            <th class="border-left-0 border-right-0">Zavrsetak Kursa</th>
+            <th class="border-left-0">
+              <button *ngIf="role === 'ADMIN'" type="button" class="btn btn-primary mt-2" aria-label="Add" (click)="gotoAddEnrollment()" >
+                <fa-icon [icon]= "faUserPlus"></fa-icon>
+              </button>
+            </th>
         </thead>
           <tr *ngFor="let enrollment of enrollments">
-            <td>
+            <td class="border-right-0">
               {{enrollment.student.firstName+" "+enrollment.student.lastName}} 
             </td>
-            <td class="cardNumber">{{enrollment.student.cardNumber}}</td>
-            <td>{{enrollment.startDate | date: 'dd/MM/yyyy'}}</td>
-            <td>{{enrollment.endDate | date: 'dd/MM/yyyy'}}</td>
-            <td *ngIf="user.authority.name == 'ADMIN'">
-              <button type="button" class="btn btn-primary right" aria-label="Delete" (click)="deleteEnrollment(enrollment.id)">
-                Obrisi
+            <td class="cardNumber border-right-0 border-left-0">{{enrollment.student.cardNumber}}</td>
+            <td class="border-left-0 border-right-0">{{enrollment.startDate | date: 'dd/MM/yyyy'}}</td>
+            <td class="border-left-0 border-right-0">{{enrollment.endDate | date: 'dd/MM/yyyy'}}</td>
+            <td class="border-left-0" *ngIf="role === 'ADMIN'">
+              <button type="button" class="btn btn-danger right" aria-label="Delete" (click)="deleteEnrollment(enrollment.id)">
+                <fa-icon [icon] = "faUserTimes"></fa-icon>
               </button>
             </td>
           </tr>
         </table>
         <br>
+        <div *ngIf = "examspass?.length > 0" >
         <div>
           <h3>Ispiti</h3>
         </div>
           <table class="table table-bordered">
             <thead>
-              <th>Naziv Predmeta</th>
-              <th>Datum</th>
-              <th>Vreme Ispita</th>
-              <th>Ime i Prezime</th>
-              <th>Broj Indeksa</th>
-              <th>Informacije</th>
+              <th class="border-right-0">Naziv Predmeta</th>
+              <th class="border-right-0 border-left-0">Datum</th>
+              <th class="border-right-0 border-left-0">Vreme Ispita</th>
+              <th class="border-right-0 border-left-0">Ime i Prezime</th>
+              <th class="border-right-0 border-left-0">Broj Indeksa</th>
+              <th class="border-left-0">Informacije</th>
           </thead>
             <tr *ngFor="let exam of examspass">
-              <td>
+              <td class="border-right-0">
                 {{exam.course.name}}
               </td>
-              <td>{{exam.date | date: 'dd/MM/yyyy'}}</td>
-              <td>{{exam.date | date: 'HH:mm'}}</td>
-              <td>{{exam.student.firstName +' '+ exam.student.lastName}}</td>
-              <td class="cardNumber">{{exam.student.cardNumber}}</td>
-              <td>
+              <td class="border-right-0 border-left-0">{{exam.date | date: 'dd/MM/yyyy'}}</td>
+              <td class="border-right-0 border-left-0">{{exam.date | date: 'HH:mm'}}</td>
+              <td class="border-right-0 border-left-0">{{exam.student.firstName +' '+ exam.student.lastName}}</td>
+              <td class="cardNumber border-right-0 border-left-0">{{exam.student.cardNumber}}</td>
+              <td class="border-left-0">
                 <button type="button" class="btn btn-success right" aria-label="Info" (click)="gotoInfo(exam.id)">
                   Upisi Bodove
                 </button>
               </td>
             </tr>
           </table>
+        </div>
           <br>
       </div>
-
 </div>

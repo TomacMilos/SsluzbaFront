@@ -1,42 +1,44 @@
 <div id="wrapper">
-<nav class="navbar navbar-toggleable-md navbar-light bg-faded">
-  <button *ngIf="user != null && user.authority.name == 'ADMIN'" id="dropDownButton" class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <a id="startPage" class="navbar-brand" *ngIf="user != null" (click)="logout()" href="#">Logout <i class="fas fa-sign-out-alt"></i></a>
-
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul id="listDropDown" class="navbar-nav mr-auto">
-      <li class="nav-item active">
-        <a class="nav-link" [routerLink]="['/students']">Studenti</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" [routerLink]="['/courses']">Kursevi</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" [routerLink]="['/teachers']">Nastavnici</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" [routerLink]="['/exam-period']">Ispitni Rokovi</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" [routerLink]="['/documents']">Dokumenti</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" [routerLink]="['/payments']">Uplate</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" [routerLink]="['/exams']">Ispiti</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" [routerLink]="['/register-admin']">Kreiraj Admina</a>
-      </li>
-     </ul>    
+  <a id="startPage" style="z-index: 99;" class="navbar-brand" *ngIf="jwt !== null" (click)="logout()" href="#">Logout <i
+    class="fas fa-sign-out-alt"></i></a>
+  <div style="border-style: none none outset none; background-color: cornflowerblue; position: sticky; top: 0; width: 100%; opacity: 0.8;">
+    <nav class="navbar navbar-toggleable-md navbar-light bg-faded">
+      <div  class="nav">
+        <li *ngIf="role==='ADMIN'" class="nav-item active">
+          <a class="nav-link" [routerLink]="['/students']"><fa-icon [icon] = "faUserGraduate"></fa-icon> Studenti</a>
+        </li>
+        <li *ngIf="role==='ADMIN'" class="nav-item">
+          <a class="nav-link" [routerLink]="['/courses']"><fa-icon [icon] = "faChalkboardTeacher"></fa-icon> Kursevi</a>
+        </li>
+        <li *ngIf="role==='ADMIN'" class="nav-item">
+          <a class="nav-link" [routerLink]="['/teachers']"><fa-icon [icon] = "faUsers"></fa-icon> Profesori</a>
+        </li>
+        <li *ngIf="role==='ADMIN'" class="nav-item">
+          <a class="nav-link" [routerLink]="['/exam-period']"><fa-icon [icon] = "faCalendarAlt"></fa-icon> Ispitni Rokovi</a>
+        </li>
+        <li *ngIf="role==='ADMIN'" class="nav-item">
+          <a class="nav-link" [routerLink]="['/documents']"><fa-icon [icon] = "faFileAlt"></fa-icon> Dokumenta</a>
+        </li>
+        <li *ngIf="role==='ADMIN'" class="nav-item">
+          <a class="nav-link" [routerLink]="['/payments']"><fa-icon [icon] = "faMoneyBillWaveAlt"></fa-icon> Uplate</a>
+        </li>
+        <li *ngIf="role==='ADMIN'" class="nav-item">
+          <a class="nav-link" [routerLink]="['/exams']"><fa-icon [icon] = "faGraduationCap"></fa-icon> Ispiti</a>
+        </li>
+        <li *ngIf="role==='ADMIN'" class="nav-item">
+          <a class="nav-link" [routerLink]="['/register-admin']"><fa-icon [icon] = "faUserPlus"></fa-icon> Kreiraj Admina</a>
+        </li>
+        <li *ngIf="role==='NASTAVNIK'" class="nav-item">
+          <a class="nav-link" [routerLink]="['/teacher-page']"><fa-icon [icon] = "faHome"></fa-icon> Home</a>
+        </li>
+        <li *ngIf="role==='STUDENT'" class="nav-item">
+          <a class="nav-link" [routerLink]="['/student-page']"><fa-icon [icon] = "faHome"></fa-icon> Home</a>
+        </li>
+      </div>
+    </nav>
   </div>
-</nav>
-
-<div style="margin-top: 100px" class="container">
-  <router-outlet></router-outlet>
-</div>
+  <div class="container">
+    <router-outlet></router-outlet>
+  </div>
 
 </div>

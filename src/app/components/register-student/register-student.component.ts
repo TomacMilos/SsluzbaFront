@@ -35,15 +35,6 @@ export class RegisterStudentComponent implements OnInit {
  }
 
   ngOnInit(): void {
-
-    if (JSON.parse(localStorage.getItem('user')) == null) {
-      this._router.navigate(['/']);
-    } else if (JSON.parse(localStorage.getItem('user')).authority.name == "NASTAVNIK") {
-      this._router.navigate(['/teacher-page']);
-    } else if (JSON.parse(localStorage.getItem('user')).authority.name == "STUDENT") {
-      this._router.navigate(['/student-page']);
-    }
-
   }
 
   registerStudent(): void {
@@ -62,7 +53,6 @@ export class RegisterStudentComponent implements OnInit {
     this.loginService.registerStudent(this.login.username, this.login.password, this.login.student.cardNumber,
       this.login.student.firstName, this.login.student.lastName)
       .then(login => {
-        this.loginService.announceChange();
         window.location.href = "/";
       });
     }

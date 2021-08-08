@@ -4,6 +4,7 @@ import {Documents} from '../../classes/documents';
 import {Router} from '@angular/router';
 import { Subscription } from 'rxjs';
 import {Student} from '../../classes/student';
+import { faEdit, faFileAlt, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-documents',
@@ -14,6 +15,10 @@ export class DocumentsComponent implements OnInit {
 
   public documents: Documents[];
   subscription: Subscription
+  faTrash = faTrash;
+  faPlus = faPlus;
+  faFileAlt = faFileAlt
+
 
   constructor(private _documentsService: DocumentsService, private _router: Router) {
     this.subscription = _documentsService.RegenerateData$.subscribe(() =>
@@ -22,14 +27,6 @@ export class DocumentsComponent implements OnInit {
    }
 
   ngOnInit(): void {
-
-    if (JSON.parse(localStorage.getItem('user')) == null) {
-      this._router.navigate(['/']);
-    } else if (JSON.parse(localStorage.getItem('user')).authority.name == "NASTAVNIK") {
-      this._router.navigate(['/teacher-page']);
-    } else if (JSON.parse(localStorage.getItem('user')).authority.name == "STUDENT") {
-      this._router.navigate(['/student-page']);
-    }
 
     this.getDocuments();
   }

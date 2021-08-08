@@ -1,37 +1,48 @@
+<div class="mt-5">
+  <h4>
+    <fa-icon [icon]='faBookMark'></fa-icon> Dodavanje studenta na kurs {{enrollment.course.name}}
+  </h4>
+</div>
 <div>
-    <h3>Enroll students in course {{enrollment.course.name}} </h3>
+
+  <div class="form-group mt-2">
+    <label for="course">Student</label>
+    <ng-select [(ngModel)]="enrollment.student">
+      <ng-option *ngFor="let s of students" [value]="s"> {{s.cardNumber}} {{s.firstName}} {{s.lastName}}</ng-option>
+   </ng-select>
   </div>
-  <div>
-  
-      <div class="form-group">
-        <select class="form-control" [(ngModel)]="enrollment.student">
-              <option *ngFor="let s of students" [ngValue]="s">{{s.firstName}} {{s.lastName}} {{s.cardNumber}}</option>
-            </select>
-      </div>
-  
-      <div class="form-group">
-        <div class="input-group">
-          <input class="form-control" placeholder="yyyy-mm-dd" name="dp1" [(ngModel)]="ngbStartDate" 
-            ngbDatepicker #d1="ngbDatepicker">
-          <button class="input-group-addon" (click)="d1.toggle()" type="button">
-          <i class="fa fa-calendar" style="width: 1.2rem; height: 1rem; cursor: pointer;"> </i> 
-        </button>
-        </div>
-      </div>
-  
-      <div class="form-group">
-        <div class="input-group">
-          <input class="form-control" placeholder="yyyy-mm-dd" name="dp2" [(ngModel)]="ngbEndDate" 
-            ngbDatepicker #d2="ngbDatepicker">
-          <button class="input-group-addon" (click)="d2.toggle()" type="button">
-         <i class="fa fa-calendar" style="width: 1.2rem; height: 1rem; cursor: pointer;"> </i> 
-        </button>
-        </div>
-      </div> 
-  
-  
+
+  <div class="form-group">
+    <label for="course">Pocetak Kursa</label>
+    <div class="input-group">
+      <input [minDate]="minDateStart" class="form-control" style="cursor: pointer;" [readonly]="true"
+        placeholder="yyyy-mm-dd" name="dp1" [(ngModel)]="ngbStartDate" (click)="d1.toggle()" ngbDatepicker
+        #d1="ngbDatepicker">
+      <button class="btn btn-primary" (click)="d1.toggle()" type="button">
+        <i class="fa fa-calendar" style="width: 1.2rem; height: 1rem; cursor: pointer;"> </i>
+      </button>
+    </div>
   </div>
-  <div class="modal-footer">
-    <button class="btn btn-primary" type="button" (click)="add()">OK</button>
-    <button class="btn btn-primary" type="button" (click)="goBack()">Cancel</button>
-  </div> 
+
+  <div class="form-group">
+    <label for="course">Zavrsetak Kursa</label>
+    <div class="input-group">
+      <input [minDate]="minDateEnd" class="form-control" style="cursor: pointer;" [readonly]="true"
+      placeholder="yyyy-mm-dd" (click)="d2.toggle()" name="dp2" [(ngModel)]="ngbEndDate" ngbDatepicker
+        #d2="ngbDatepicker">
+      <button class="btn btn-primary" (click)="d2.toggle()" type="button">
+        <i class="fa fa-calendar" style="width: 1.2rem; height: 1rem; cursor: pointer;"> </i>
+      </button>
+    </div>
+  </div>
+
+
+</div>
+<div class="modal-footer">
+  <button class="btn btn-success" type="button" (click)="add()">
+    <fa-icon [icon]="faSave"></fa-icon>
+  </button>
+  <button class="btn btn-primary" type="button" (click)="goBack()">
+    <fa-icon [icon]="faTimes"></fa-icon>
+  </button>
+</div>

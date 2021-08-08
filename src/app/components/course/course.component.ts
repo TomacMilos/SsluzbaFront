@@ -3,6 +3,7 @@ import {CourseService} from '../../shared_service/course.service';
 import {Course} from '../../classes/course';
 import { Subscription } from 'rxjs';
 import {Router} from '@angular/router';
+import { faChalkboardTeacher, faEdit, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-course',
@@ -13,44 +14,31 @@ export class CourseComponent implements OnInit {
 
   public courses: Course[];
   subscription: Subscription
+  faTrash = faTrash;
+  faChalkboardTeacher = faChalkboardTeacher;
+  faPlus = faPlus;
 
-  constructor(private _courseService: CourseService, private _router: Router) {
-    this.subscription = _courseService.RegenerateData$.subscribe(() =>
-    this.getCourses()
-  );
+  constructor(private courseService: CourseService, private router: Router) {
    }
 
   ngOnInit(): void {
     this.getCourses();
-    if (JSON.parse(localStorage.getItem('user')) == null) {
-      this._router.navigate(['/']);
-    } else if (JSON.parse(localStorage.getItem('user')).authority.name == "NASTAVNIK") {
-      this._router.navigate(['/teacher-page']);
-    } else if (JSON.parse(localStorage.getItem('user')).authority.name == "STUDENT") {
-      this._router.navigate(['/student-page']);
-    }
   }
 
   getCourses() {
-    this._courseService.getCourses().then(courses =>
+    this.courseService.getCourses().then(courses =>
       this.courses = courses);
   }
 
   deleteCourses(course: Course): void {
-    this._courseService.deleteCourse(course.id).then(
+    this.courseService.deleteCourse(course.id).then(
       () => this.getCourses()
     );
   }
   updateCourse(course){
-    this._courseService.setter(course);
-    this._router.navigate(['/course-form']);
-
+    this.router.navigate(['/course-form/'+course.id]);
   }
   newCourse(){
-    let course = new Course({ 
-      name: '',  
-    });
-    this._courseService.setter(course);
-    this._router.navigate(['/course-form']);
+    this.router.navigate(['/course-form/new']);
   }
 }

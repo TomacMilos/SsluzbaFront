@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { faCalendarAlt, faChalkboardTeacher, faFileAlt, faGraduationCap, faHome, faMoneyBillWave, faMoneyBillWaveAlt, faUserGraduate, faUserPlus, faUsers } from '@fortawesome/free-solid-svg-icons';
+import { Subscription } from 'rxjs';
 import { Login } from 'src/app/classes/login';
+import { SharedService } from './components/login/shared.service';
 
 @Component({
   selector: 'app-root',
@@ -8,13 +11,34 @@ import { Login } from 'src/app/classes/login';
 })
 export class AppComponent implements OnInit{
   title = 'angularTSEOProject';
-  public user: Login;
+  public role: String;
+  public jwt: String;
+  clickEventSubscription: Subscription;
+  faUserGraduate = faUserGraduate;
+  faChalkboardTeacher = faChalkboardTeacher;
+  faUsers = faUsers;
+  faCalendarAlt = faCalendarAlt
+  faFileAlt = faFileAlt
+  faMoneyBillWaveAlt = faMoneyBillWaveAlt;
+  faUserPlus = faUserPlus;
+  faGraduationCap = faGraduationCap;
+  faHome = faHome;
+
+
+  constructor(private sharedService: SharedService) {
+    this.clickEventSubscription = this.sharedService.getClickEvent().subscribe(() => {
+      this.ngOnInit();
+    })
+  }
+
 
   ngOnInit() {
-    this.user = JSON.parse(localStorage.getItem('user'));
+    this.role = localStorage.getItem('role')
+    this.jwt = localStorage.getItem('jwt')
   }
 
   logout() {
-    localStorage.setItem('user',null);
+    localStorage.clear();
+    this.sharedService.sendClickEvent();
   }
 }

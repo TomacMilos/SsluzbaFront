@@ -5,6 +5,7 @@ import { LoginService } from "../../shared_service/login.service";
 import { ActivatedRoute } from '@angular/router';
 import { Authority } from 'src/app/classes/authority';
 import { Router } from "@angular/router";
+import { faUserPlus } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-register-admin',
@@ -14,6 +15,8 @@ import { Router } from "@angular/router";
 export class RegisterAdminComponent implements OnInit {
 
   login: Login;
+  faUserPlus = faUserPlus;
+
 
   constructor(private route: ActivatedRoute, private loginService: LoginService,
    private location: Location, private _router: Router) {
@@ -31,14 +34,6 @@ export class RegisterAdminComponent implements OnInit {
 
   ngOnInit(): void {
 
-    if (JSON.parse(localStorage.getItem('user')) == null) {
-      this._router.navigate(['/']);
-    } else if (JSON.parse(localStorage.getItem('user')).authority.name == "NASTAVNIK") {
-      this._router.navigate(['/teacher-page']);
-    } else if (JSON.parse(localStorage.getItem('user')).authority.name == "STUDENT") {
-      this._router.navigate(['/student-page']);
-    }
-
   }
 
   registerAdmin(): void {
@@ -50,7 +45,6 @@ export class RegisterAdminComponent implements OnInit {
     else {
     this.loginService.registerAdmin(this.login.username, this.login.password)
       .then(login => {
-        this.loginService.announceChange();
         window.location.href = "/";
       });
     }

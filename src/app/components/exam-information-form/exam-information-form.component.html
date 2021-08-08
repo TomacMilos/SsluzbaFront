@@ -1,7 +1,7 @@
 <div>
-    <h3>Informacije o ispitu</h3>
+  <h2 class="ml mt-5"><fa-icon [icon]="faScroll"></fa-icon> Ispit</h2>
   </div>
-  <div>
+  <div class="mt-4">
     <div class="form-group">
       <label for="student">Datum</label><br>
       <label id="datum">{{exam.date  | date: 'dd/MM/yyyy HH:mm'}}</label>
@@ -15,11 +15,11 @@
         <label for="student">Predmet</label>
         <input type="text" name="naziv" class="form-control" [(ngModel)]="exam.course.name" disabled>
       </div>
-      <div class="form-group" *ngIf="user.authority.name != 'NASTAVNIK'">
+      <div class="form-group" *ngIf="auth != 'NASTAVNIK'">
         <label for="student">Bodovi sa Ispita</label>
         <input type="text" name="naziv" class="form-control" [(ngModel)]="exam.examPoints" disabled>
       </div>
-      <div class="form-group" *ngIf="user.authority.name != 'NASTAVNIK'">
+      <div class="form-group" *ngIf="auth != 'NASTAVNIK'">
         <label for="student">Bodovi sa Predispitnih Obaveza</label>
         <input type="text" name="naziv" class="form-control" [(ngModel)]="exam.labPoints" disabled>
       </div>
@@ -27,15 +27,15 @@
         <label for="student">Ispitni Rok</label>
         <input type="text" name="naziv" class="form-control" [(ngModel)]="exam.examPeriod.name" disabled>
       </div>
-      <div class="form-group"  *ngIf="user.authority.name != 'STUDNET'">
-        <label  *ngIf="user.authority.name != 'STUDENT'"  for="student">Bodovi sa Ispita</label>
-        <input  *ngIf="user.authority.name != 'STUDENT'" type="number" max="100" name="naziv" class="form-control" [(ngModel)]="exam.examPoints">
+      <div class="form-group"  *ngIf="auth != 'STUDNET'">
+        <label  *ngIf="auth != 'STUDENT'"  for="student">Bodovi sa Ispita</label>
+        <input  *ngIf="auth != 'STUDENT'" type="number" max="100" name="naziv" class="form-control" [(ngModel)]="exam.examPoints">
       </div>
       <div class="form-group">
-        <label  *ngIf="user.authority.name != 'STUDENT'"  for="student">Bodovi sa Predispitnih Obaveza</label>
-        <input  *ngIf="user.authority.name != 'STUDENT'" type="number" max="100" name="naziv" class="form-control" [(ngModel)]="exam.labPoints">
+        <label  *ngIf="auth != 'STUDENT'"  for="student">Bodovi sa Predispitnih Obaveza</label>
+        <input  *ngIf="auth != 'STUDENT'" type="number" max="100" name="naziv" class="form-control" [(ngModel)]="exam.labPoints">
       </div>
-      <button (click)="saveExamPoints(exam)" *ngIf="user.authority.name != 'STUDENT'" class="btn btn-success">Save</button>
+      <button (click)="saveExamPoints(exam)" *ngIf="auth != 'STUDENT'" class="btn btn-success"><fa-icon [icon] = "faSave"></fa-icon></button>
 
   
   

@@ -34,14 +34,6 @@ export class PaymentFormComponent implements OnInit {
 
  ngOnInit() {
 
-  if (JSON.parse(localStorage.getItem('user')) == null) {
-    this._router.navigate(['/']);
-  } else if (JSON.parse(localStorage.getItem('user')).authority.name == "NASTAVNIK") {
-    this._router.navigate(['/teacher-page']);
-  } else if (JSON.parse(localStorage.getItem('user')).authority.name == "STUDENT") {
-    this._router.navigate(['/student-page']);
-  }
-
   this.studentService.getStudents().then(students =>
     this.students = students);
 }

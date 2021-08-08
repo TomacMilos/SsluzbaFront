@@ -1,19 +1,24 @@
-<div class="container">
-    <h3>Dokumenti</h3>
+<div class="container  mt-5">
+    <h2 class="ml mb-3"><fa-icon [icon]="faFileAlt"></fa-icon> Dokumenta</h2>
     <table class="table table-striped">
         <thead>
-            <th>Naziv</th>
-            <th>Ime i Prezime Studenta</th>
-            <th></th>
+            <th class="border-right-0">Naziv</th>
+            <th class="border-right-0 border-left-0">Ime i Prezime Studenta</th>
+            <th class="border-left-0" style="width: 15%;"><button class="btn btn-success" (click)="newDocument()">
+                    <fa-icon [icon]="faPlus"></fa-icon>
+                </button></th>
         </thead>
         <tbody>
             <tr *ngFor="let document of documents">
-                <td>{{document.naziv}}</td>
-                <td>{{document.student.firstName + ' ' + document.student.lastName}}</td>
-                <td><button (click)="deleteDocument(document)" class="btn btn-danger">Obriši</button></td>
-               
+                <td class="border-right-0">{{document.naziv}}</td>
+                <td class="border-right-0 border-left-0">{{document.student?.firstName + ' ' +
+                    document.student?.lastName}}</td>
+                <td class="border-left-0"><button (click)="deleteDocument(document)" class="btn btn-danger">
+                        <fa-icon [icon]="faTrash"></fa-icon>
+                    </button></td>
+
             </tr>
         </tbody>
     </table>
-    <button class="btn btn-success" (click)="newDocument()">Novi dokument</button>
-    </div>
+
+</div>

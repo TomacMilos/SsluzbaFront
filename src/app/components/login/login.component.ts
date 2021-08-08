@@ -4,6 +4,7 @@ import {Login} from '../../classes/login';
 import { ActivatedRoute, Params } from '@angular/router';
 import {Router} from '@angular/router';
 import { Authority } from 'src/app/classes/authority';
+import { SharedService } from './shared.service';
 
 
 
@@ -16,7 +17,7 @@ export class LoginComponent implements OnInit {
   login: Login;
 
 
-  constructor(private loginService: LoginService, private _router: Router, private route: ActivatedRoute) {
+  constructor(private loginService: LoginService, private _router: Router, private route: ActivatedRoute, private sharedService: SharedService) {
     this.login = new Login({
       username: '',
       password: '',
@@ -29,55 +30,33 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (JSON.parse(localStorage.getItem('user')).authority.name == "ADMIN") {
-      this._router.navigate(['/students']);
-    } else if (JSON.parse(localStorage.getItem('user')).authority.name == "NASTAVNIK") {
-      this._router.navigate(['/teacher-page']);
-    } else if (JSON.parse(localStorage.getItem('user')).authority.name == "STUDENT") {
-      this._router.navigate(['/student-page']);
+    localStorage.clear();
+    this.sharedService.sendClickEvent();
+  }
+
+  ok(username,password){
+    var userLogin = {
+      username : username,
+      password : password
     }
-  }
-
-  loginProcess(studentUsername, studentPassword){
-      if (studentUsername == "" || studentPassword == ""){
-        alert('Molimo popunite formu');
-      }else{
-          this.loginService.getLogin(studentUsername, studentPassword)
-            .then(login =>{
-              localStorage.setItem('user', JSON.stringify(login));
-              this.loginService.announceChange();
-
-              console.log(JSON.parse(localStorage.getItem('user')).id);
-              console.log(JSON.parse(localStorage.getItem('user')).authority.name);
-
-              if (JSON.parse(localStorage.getItem('user')).authority.name == null){
-                alert("Pogresan login")
-              }else if (JSON.parse(localStorage.getItem('user')).authority.name == 'NASTAVNIK'){
-                this.loginService.announceChange();
-                this._router.navigate(['teacher-page']);
-                setTimeout(() => {
-                  location.reload();
-                }, 10);
-              }else if (JSON.parse(localStorage.getItem('user')).authority.name == 'ADMIN'){
-                this.loginService.announceChange();
-                this._router.navigate(['students']);
-                setTimeout(() => {
-                  location.reload();
-                }, 10);
-              }else if (JSON.parse(localStorage.getItem('user')).authority.name == 'STUDENT'){
-                this.loginService.announceChange();
-                this._router.navigate(['student-page']);
-                setTimeout(() => {
-                  location.reload();
-                }, 10);
-              }
-            });
-          
-
+    this.loginService.loginUser(userLogin)
+    .subscribe(
+      response => {
+        localStorage.setItem('jwt',response.jwt)
+        localStorage.setItem('role',response.uloga)
+        this.sharedService.sendClickEvent();
+        if(response.uloga == 'ADMIN'){
+            this._router.navigate(['/students']);
+        }else if(response.uloga == 'NASTAVNIK'){
+            this._router.navigate(['/teacher-page']);
+        }else if(response.uloga == 'STUDENT'){
+            this._router.navigate(['/student-page']);
+        }
+      },
+      error => {
+        alert('Pogresni podaci!');
       }
-
+    );
   }
-
-
   
 }

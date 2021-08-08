@@ -1,29 +1,35 @@
-<div class="container">
-    <h3>Uplate</h3>
+<div class="container mt-5">
+    <h2 class="ml mb-3"><fa-icon [icon]="faMoneyBillWaveAlt"></fa-icon> Uplate</h2>
     <table class="table table-striped">
         <thead>
-            <th>Svrha Uplate</th>
-            <th>Vrednost Uplate</th>
-            <th>Vreme Uplate</th>
-            <th>Ime i Prezime Studenta</th>
-            <th></th>
+            <th class="border-right-0">Svrha Uplate</th>
+            <th class="border-right-0 border-left-0">Vrednost Uplate</th>
+            <th class="border-right-0 border-left-0">Vreme Uplate</th>
+            <th class="border-right-0 border-left-0">Ime i Prezime Studenta</th>
+            <th class="border-left-0">
+                <button class="btn btn-success" (click)="newPayment()">
+                    <fa-icon [icon]="faPlus"></fa-icon>
+                </button>
+
+            </th>
         </thead>
         <tbody>
             <tr *ngFor="let payment of payments">
-                <td>{{payment.svrhaUplate}}</td>
-                <td>{{payment.vrednostUplate}}</td>
-                <td>{{payment.date | date:'dd/MM/yyyy HH:mm'}}</td>
-                <td>{{payment.student.firstName + ' ' + payment.student.lastName}}</td>
-                <td><button (click)="deletePayment(payment)" class="btn btn-danger">Obriši</button></td> 
+                <td class="border-right-0">{{payment.svrhaUplate}}</td>
+                <td class="border-left-0 border-right-0">{{payment.vrednostUplate}} RSD</td>
+                <td class="border-left-0 border-right-0">{{payment.date | date:'dd/MM/yyyy HH:mm'}}</td>
+                <td class="border-left-0 border-right-0">{{payment.student.firstName + ' ' + payment.student.lastName}}</td>
+                <td class="border-left-0"><button (click)="deletePayment(payment)" class="btn btn-danger">
+                        <fa-icon [icon]="faTrash"></fa-icon>
+                    </button></td>
             </tr>
             <tr>
-                <td>Ukupno</td>
-                <td id="sum">{{sum}}</td>
-                <td></td>
-                <td></td>
-                <td></td> 
+                <td class="border-right-0">Ukupno:</td>
+                <td class="border-left-0 border-right-0" id="sum">{{sum}} RSD</td>
+                <td class="border-left-0 border-right-0" ></td>
+                <td class="border-left-0 border-right-0"></td>
+                <td class="border-left-0"></td>
             </tr>
         </tbody>
     </table>
-    <button class="btn btn-success" (click)="newPayment()">Nova uplata</button>
-    </div>
+</div>

@@ -1,17 +1,16 @@
-<div class="container">
+
+<div class="container mt-5">
+    <h2 class="ml mb-3"><fa-icon [icon] = "faChalkboardTeacher"></fa-icon> Kursevi</h2>
     <table class="table table-striped">
         <thead>
-            <th>Naziv</th>
-            <th></th>
-            <th></th>
+            <th class="border-right-0">Naziv</th>
+            <th class="border-left-0" style="width: 15%;"><button class="btn btn-success" (click)="newCourse()"><fa-icon [icon]="faPlus"></fa-icon></button></th>
         </thead>
         <tbody>
             <tr *ngFor="let course of courses">
-                <td>{{course.name}}</td>
-                <td><button (click)="deleteCourses(course)" class="btn btn-danger">Obriši</button></td>
-                <td><button (click)="updateCourse(course)" class="btn btn-primary">Izmeni</button></td>
+                <td (click)="updateCourse(course)" style="cursor: pointer;" class="border-right-0">{{course.name}}</td>
+                <td class="border-left-0"><button (click)="deleteCourses(course)" title="Obrisi" class="btn btn-danger"><fa-icon [icon]="faTrash"></fa-icon></button></td>
             </tr>
         </tbody>
     </table>
-    <button class="btn btn-success" (click)="newCourse()">Novi kurs</button>
     </div>

@@ -1,21 +1,25 @@
-<div class="container">
+<div class="container mt-5">
+    <h2 class="ml mb-3"><fa-icon [icon]="faUsers"></fa-icon> Profesori</h2>
     <table class="table table-striped">
         <thead>
-            <th>Ime</th>
-            <th>Prezime</th>
-            <th>Uloga</th>
-            <th></th>
-            <th></th>
+            <th class="border-right-0">Ime</th>
+            <th class="border-left-0 border-right-0">Prezime</th>
+            <th class="border-left-0 border-right-0">Uloga</th>
+            <th class="border-left-0" style="width: 15%;"><button (click)="newTeacher()" class="btn btn-success">
+                <fa-icon [icon]="faPlus"></fa-icon>
+            </button></th>
         </thead>
         <tbody>
             <tr *ngFor="let teacher of teachers">
-                <td>{{teacher.firstName}}</td>
-                <td>{{teacher.lastName}}</td>
-                <td>{{teacher.teacherRank}}</td>
-                <td><button (click)="deleteTeacher(teacher)" class="btn btn-danger">Obriši</button></td>
-                <td><button (click)="updateTeacher(teacher)" class="btn btn-primary">Izmeni</button></td>
+                <td (click)="updateTeacher(teacher)" style="cursor: pointer;" class="border-right-0"> {{teacher.firstName}}</td>
+                <td (click)="updateTeacher(teacher)" style="cursor: pointer;" class="border-left-0 border-right-0">{{teacher.lastName}}</td>
+                <td (click)="updateTeacher(teacher)" style="cursor: pointer;" class="border-left-0 border-right-0">{{teacher.teacherRank}}</td>
+                <td class="border-left-0"><button (click)="deleteTeacher(teacher)" class="btn btn-danger">
+                        <fa-icon [icon]="faTrash"></fa-icon>
+                    </button>
+                </td>
             </tr>
         </tbody>
     </table>
-    <button (click)="newTeacher()" class="btn btn-success">Novi profesor</button>
-    </div>
+
+</div>

@@ -1,21 +1,28 @@
-<div class="container">
+<div class="container mt-5">
+    <h2 class="ml mb-3"><fa-icon [icon]="faCalendarAlt"></fa-icon> Ispitni Rokovi</h2>
+
     <table class="table table-striped">
         <thead>
-            <th>Ispitni rok</th>
-            <th>Datum pocetka</th>
-            <th>Datum zavrsetka</th>
-            <th></th>
-            <th></th>
+            <th class="border-right-0">Ispitni rok</th>
+            <th class="border-right-0 border-left-0">Datum pocetka</th>
+            <th class="border-right-0 border-left-0">Datum zavrsetka</th>
+            <th class="border-left-0" style="width: 15%;">
+                <button class="btn btn-success" (click)="newExamPeriod()">
+                    <fa-icon [icon]="faPlus"></fa-icon>
+                </button>
+
+            </th>
         </thead>
         <tbody>
             <tr *ngFor="let examperiod of examperiods">
-                <td>{{examperiod.name}}</td>
-                <td>{{examperiod.startDate | date: 'dd/MM/yyyy'}}</td>
-                <td>{{examperiod.endDate | date: 'dd/MM/yyyy'}}</td>
-                <td><button (click)="deleteExamPeriod(examperiod)" class="btn btn-danger">Obriši</button></td>
-                <td><button (click)="updatePeriod(examperiod)" class="btn btn-primary">Izmeni</button></td>
+                <td (click)="updatePeriod(examperiod)" style="cursor: pointer;" class="border-right-0">{{examperiod.name}}</td>
+                <td (click)="updatePeriod(examperiod)" style="cursor: pointer;" class="border-right-0 border-left-0">{{examperiod.startDate | date: 'dd/MM/yyyy'}}</td>
+                <td (click)="updatePeriod(examperiod)" style="cursor: pointer;" class="border-right-0 border-left-0">{{examperiod.endDate | date: 'dd/MM/yyyy'}}</td>
+                <td class="border-left-0"><button (click)="deleteExamPeriod(examperiod)" class="btn btn-danger">
+                        <fa-icon [icon]="faTrash"></fa-icon>
+                    </button>
+                </td>
             </tr>
         </tbody>
     </table>
-    <button class="btn btn-success" (click)="newExamPeriod()">Dodaj ispitni rok</button>
-    </div>
+</div>

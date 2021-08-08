@@ -1,39 +1,54 @@
-<div class="container">
+<div class="mt-5">
+  <h2 *ngIf = '!examperiod.id'>
+    <fa-icon [icon]='faCalendarPlus'></fa-icon> Dodavanje Novog Ispitnog Roka
+  </h2>
+    <h2 *ngIf = 'examperiod.id'>
+    <fa-icon [icon]='faCalendar'></fa-icon> Ispitni Rok
+  </h2>
+</div>
+<div class="container mt-5">
     <form (ngSubmit)="processForm()">
         <div class="form group">
             <label for="name">Naziv ispitnog roka</label>
             <input type="text" name="name" class="form-control" [(ngModel)]="examperiod.name">
 
-            <div class="form-group">
+            <div class="form-group mt-2">
               <label for="name">Pocetak ispitnog roka</label>
                 <div class="input-group">
-                  <input type="date" class="form-control" placeholder="yyyy-mm-dd" name="dp1" [(ngModel)]="ngbStartDate" 
-                    ngbDatepicker #d1="ngbDatepicker">
+                  <input type="date" class="form-control" name="dp1" [(ngModel)]="ngbStartDate" 
+                    ngbDatepicker #d1="ngbDatepicker" style="cursor: pointer;" [readonly]="true"
+                    placeholder="yyyy-mm-dd"  (click)="d1.toggle()">
+                    <button class="btn btn-primary" (click)="d1.toggle()" type="button">
+                      <i class="fa fa-calendar" style="width: 1.2rem; height: 1rem; cursor: pointer;"> </i>
+                    </button>
                 </div>
               </div>
 
               <div class="form-group">
                 <label for="name">Kraj ispitnog roka</label>
                 <div class="input-group">
-                  <input type="date" class="form-control" placeholder="yyyy-mm-dd" name="dp2" [(ngModel)]="ngbEndDate" 
-                    ngbDatepicker #d2="ngbDatepicker">
+                  <input type="date" class="form-control" placeholder="yyyy-mm-dd" name="dp2" [(ngModel)]="ngbEndDate" style="cursor: pointer;" [readonly]="true" 
+                    ngbDatepicker #d2="ngbDatepicker"  (click)="d2.toggle()">
+                    <button class="btn btn-primary" (click)="d1.toggle()" type="button">
+                      <i class="fa fa-calendar" style="width: 1.2rem; height: 1rem; cursor: pointer;"> </i>
+                    </button>
                 </div>
               </div>
         </div>
-        <input type="submit" value="save" class="btn btn-success">
+        <button type="submit" class="btn btn-success"> <fa-icon [icon] ="faSave"></fa-icon></button>
     </form>
-    <div *ngIf="examperiod.id">
+    <div *ngIf="examperiod.id && exams?.length > 0">
       <div>
         <h3>Prijavljeni ispiti</h3>
       </div>
       <table class="table table-bordered">
         <tr *ngFor="let exam of exams">
-          <td>
+          <td class="border-right-0">
             {{exam.student.firstName}} {{exam.student.lastName}} {{exam.course.name}} {{exam.date | date: 'dd.MM.yyyy'}}
           </td>
-          <td>
-            <button type="button" class="btn btn-primary right" aria-label="Delete" (click)="deleteExam(exam.id)">
-              Obrisi
+          <td class="border-left-0" *ngIf = "exam.date > new Date" >
+            <button type="button" class="btn btn-danger right" aria-label="Delete" (click)="deleteExam(exam.id)">
+              <fa-icon [icon] = "faTrash"></fa-icon>
             </button>
           </td>
         </tr>

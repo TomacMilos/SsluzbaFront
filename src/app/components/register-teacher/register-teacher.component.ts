@@ -36,15 +36,6 @@ export class RegisterTeacherComponent implements OnInit {
  }
 
   ngOnInit(): void {
-
-    if (JSON.parse(localStorage.getItem('user')) == null) {
-      this._router.navigate(['/']);
-    } else if (JSON.parse(localStorage.getItem('user')).authority.name == "NASTAVNIK") {
-      this._router.navigate(['/teacher-page']);
-    } else if (JSON.parse(localStorage.getItem('user')).authority.name == "STUDENT") {
-      this._router.navigate(['/student-page']);
-    }
-
   }
 
   onChange(event) {
@@ -68,7 +59,6 @@ export class RegisterTeacherComponent implements OnInit {
     this.loginService.registerTeacher(this.login.username, this.login.password,
       this.login.teacher.firstName, this.login.teacher.lastName, this.login.teacher.teacherRank)
       .then(login => {
-        this.loginService.announceChange();
         this.goBack();
       });
     }
