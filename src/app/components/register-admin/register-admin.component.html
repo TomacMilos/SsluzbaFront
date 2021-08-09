@@ -1,21 +1,41 @@
 <div class="container mt-5">
-  <h2 class="ml mb-3"><fa-icon [icon]="faUserPlus"></fa-icon> Dodaj novog admina</h2>
-  </div>
-  <div>
+  <h2 class="ml mb-3">
+    <fa-icon [icon]="faUserPlus"></fa-icon> Dodaj novog admina
+  </h2>
+</div>
+<div>
+  <form [formGroup]="profileForm" class="profile-form">
+    <div class="mt-4">
 
-    <div class="form group">
-        <label for="username">Korisnicko ime</label>
-        <input type="text" name="username" class="form-control" [(ngModel)]="login.username">
+      <div class="form group ">
+        <fa-icon *ngIf="this.profileForm.controls.username.invalid" class="mr-2" style="color: #df4759;" [icon]="faAst">
+        </fa-icon><label for="username">Korisnicko ime</label>
+        <input type="text" name="username" formControlName="username" class="form-control">
+      </div>
+
+      <div class="form group  mt-2">
+        <fa-icon *ngIf="this.profileForm.controls.lozinka.invalid" class="mr-2" style="color: #df4759;" [icon]="faAst">
+        </fa-icon><label for="password">Lozinka</label>
+        <input type="password" name="password" formControlName="lozinka" class="form-control">
+      </div>
+      <div class="form group mt-2">
+        <fa-icon *ngIf="this.profileForm.controls.reLozinka.invalid" class="mr-2" style="color: #df4759;"
+          [icon]="faAst"></fa-icon><label for="password">Ponovi lozinku</label>
+        <input type="password" name="password" formControlName="reLozinka" class="form-control">
+      </div>
     </div>
-  
-    <div class="form group">
-        <label for="password">Lozinka</label>
-        <input type="text" name="password" class="form-control" [(ngModel)]="login.password">
+    <div class="mt-2">
+      <span *ngIf="this.profileForm.controls.lozinka.invalid" class="mt-2">
+        <fa-icon style="color: #ffc107;" [icon]="faexclamationTriangle"></fa-icon> Lozinka mora da sadrzi bar 8 karaktera
+      </span>
     </div>
-  
-  
-  </div>
-  <div class="modal-footer">
-    <button class="btn btn-primary" (click)="registerAdmin()">OK</button>
-    <button class="btn btn-primary" (click)="goBack()">Cancel</button>
-  </div> 
+    <div class="modal-footer">
+      <button [disabled]="profileForm.invalid" class="btn btn-success" (click)="registerAdmin()">
+        <fa-icon [icon]="faSave"></fa-icon>
+      </button>
+      <button class="btn btn-primary" (click)="goBack()">
+        <fa-icon [icon]="faTimes"></fa-icon>
+      </button>
+    </div>
+  </form>
+</div>

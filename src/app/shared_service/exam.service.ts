@@ -46,10 +46,10 @@ export class ExamService {
       .catch(this.handleError);
   }
 
-  examRegistration(exam: Exam, studentId: number, examPeriodId: any): Promise<Exam> {
-    const url = `${this.baseUrl}/${studentId}/examRegistration/${examPeriodId}`;
+  examRegistration(examID: any, studentID: any): Promise<Exam> {
+    const url = `${this.baseUrl}/${studentID}/examRegistration/${examID}`;
     return this._http
-    .post(url, JSON.stringify(exam), { headers: this.headers })
+    .post(url, '', { headers: this.headers })
       .toPromise()
       .then(res => res.json() as Exam)
       .catch(this.handleError);

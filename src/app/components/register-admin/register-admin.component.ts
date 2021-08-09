@@ -5,7 +5,8 @@ import { LoginService } from "../../shared_service/login.service";
 import { ActivatedRoute } from '@angular/router';
 import { Authority } from 'src/app/classes/authority';
 import { Router } from "@angular/router";
-import { faUserPlus } from '@fortawesome/free-solid-svg-icons';
+import { faAsterisk, faExclamationTriangle, faSave, faTimes, faUserPlus } from '@fortawesome/free-solid-svg-icons';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-register-admin',
@@ -16,38 +17,49 @@ export class RegisterAdminComponent implements OnInit {
 
   login: Login;
   faUserPlus = faUserPlus;
-
+  faSave = faSave;
+  faTimes = faTimes;
+  profileForm: FormGroup;
+  faAst = faAsterisk;
+  faexclamationTriangle = faExclamationTriangle;
 
   constructor(private route: ActivatedRoute, private loginService: LoginService,
-   private location: Location, private _router: Router) {
-    this.login = new Login({
-      username: null,
-      password: null,
-      authority: new Authority({
-        name: 'ADMIN'
-      }),
-      student: null,
-      teacher: null
-    });
-
- }
+    private location: Location, private _router: Router, private formBuilder: FormBuilder) {
+  }
 
   ngOnInit(): void {
+    this.profileForm = this.formBuilder.group({
+      username: ['', Validators.required],
+      lozinka: ['', [Validators.required, Validators.minLength(8)]],
+      reLozinka: [''],
+    }, { validator: this.MustMatch('lozinka', 'reLozinka') });
 
   }
 
-  registerAdmin(): void {
-    if(this.login.username === null){
-      alert("Unesite korisničko ime!");
-    }else if(this.login.password === null){
-      alert("Unesite lozinku!")
+  MustMatch(controlName: string, matchingControlName: string) {
+    return (formGroup: FormGroup) => {
+      const control = formGroup.controls[controlName];
+      const matchingControl = formGroup.controls[matchingControlName];
+
+      if (matchingControl.errors && !matchingControl.errors.mustMatch) {
+        return;
+      }
+
+      if (control.value !== matchingControl.value) {
+        matchingControl.setErrors({ mustMatch: true });
+      } else {
+        matchingControl.setErrors(null);
+      }
     }
-    else {
-    this.loginService.registerAdmin(this.login.username, this.login.password)
+  }
+
+
+  registerAdmin(): void {
+    let value = this.profileForm.value
+    this.loginService.registerAdmin(value.username,value.lozinka)
       .then(login => {
         window.location.href = "/";
       });
-    }
   }
 
   goBack(): void {

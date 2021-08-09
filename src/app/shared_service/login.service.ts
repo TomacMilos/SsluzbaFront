@@ -29,8 +29,8 @@ export class LoginService {
       .catch(this.handleError);
   }
 
-  registerStudent(username: String, password: String, cardNumber: String, firstName: String, lastName: String): Promise<Login> {
-    const url = `${this.baseUrl}/registerStudent/${username}/${password}/${cardNumber}/${firstName}/${lastName}`;
+  registerStudent(password: String, firstName: String, lastName: String): Promise<Login> {
+    const url = `${this.baseUrl}/registerStudent/${password}/${firstName}/${lastName}`;
     return this._http
       .post(url, { headers: this.headers })
       .toPromise()
@@ -105,7 +105,7 @@ export class LoginService {
   }
 
   handleError(error: any): Promise<any> {
-    console.error("Error... ", error);
+    alert("Korisnik sa tim korisnickim imenom vec postoji")
     return Promise.reject(error.message || error);
   }
 

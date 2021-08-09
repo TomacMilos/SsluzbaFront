@@ -1,181 +1,251 @@
+<div class="mt-5">
+  <h2>
+    <fa-icon [icon]='faUser'></fa-icon> Student
+  </h2>
+</div>
+<div class="container mt-4">
+  <form>
+    <div class="form group mt-2">
+      <label for="cardNumber">Index</label>
+      <input type="text" name="cardNumber" class="form-control" [(ngModel)]='student.cardNumber'
+        [ngModelOptions]="{standalone: true}" disabled>
+    </div>
+    <div class="form group mt-2">
+      <label for="firstName">Ime </label>
+      <input type="text" name="firstName" class="form-control" [(ngModel)]="student.firstName"
+        [ngModelOptions]="{standalone: true}" disabled>
+    </div>
+    <div class="form group mt-2">
+      <label for="lastName">Prezime</label>
+      <input type="text" name="lastName" class="form-control" [(ngModel)]="student.lastName"
+        [ngModelOptions]="{standalone: true}" disabled>
+    </div>
+    <br>
+    <div style="border-style: double; border-color: #92badd ;">
+      <div (click)='show("showSlusanjeKurseva")' style="padding: 10px; cursor: pointer;">
+        <h5>Slusanje kurseva <fa-icon *ngIf="!showSlusanjeKurseva" style="float: right; margin-top: 0.5vh;"
+            [icon]="faDown"></fa-icon>
+          <fa-icon *ngIf="showSlusanjeKurseva" style="float: right; margin-top: 0.5vh;" [icon]="faUp"></fa-icon>
+        </h5>
+      </div>
+      <div *ngIf="showSlusanjeKurseva"  [ngClass]="enrollments?.length > 0 ? 'padding-5' : ''">
+        <p style="padding: 1%;" *ngIf="enrollments?.length === 0">Trenutno niste ni na jednom kursu.</p>
+        <table *ngIf="enrollments?.length > 0" class="table table-bordered">
+          <th class="border-right-0">Naziv Kursa</th>
+          <th class="border-right-0 border-left-0">Pocetak Kursa</th>
+          <th class="border-left-0">Zavrsetak Kursa</th>
+          <tr *ngFor="let enrollment of enrollments">
+            <td class="border-right-0">
+              {{enrollment.course.name}}
+            </td>
+            <td class="border-right-0 border-left-0">
+              {{enrollment.startDate | date: 'dd/MM/yyyy'}}
+            </td>
+            <td class="border-left-0">
+              {{enrollment.endDate | date: 'dd/MM/yyyy'}}
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
 
-<div class="container">
-    <form>
-        <div class="form group">
-            <label for="cardNumber">Index</label>
-            <input type="text" name="cardNumber" class="form-control" [(ngModel)]='student.cardNumber' [ngModelOptions]="{standalone: true}" disabled>
+    <div class="mt-4" style="border-style: double;  border-color: #92badd ;">
+      <div (click)='show("showPrijavaIspita")' style="padding: 10px; cursor: pointer;">
+        <h5>Prijava Ispita
+          <fa-icon *ngIf="!showPrijavaIspita" style="float: right; margin-top: 0.5vh;" [icon]="faDown"></fa-icon>
+          <fa-icon *ngIf="showPrijavaIspita" style="float: right; margin-top: 0.5vh;" [icon]="faUp"></fa-icon>
+        </h5>
+      </div>
+      <div *ngIf="showPrijavaIspita"  [ngClass]="nextExamPeriods?.length > 0 ? 'padding-5' : ''">
+        <p style="padding: 1%;" *ngIf="nextExamPeriods?.length === 0">Trenutno nema aktivnih rokova.</p>
+        <table *ngIf="nextExamPeriods?.length > 0" class="table table-bordered">
+          <thead>
+            <th class="border-right-0">Ispitni Rok</th>
+            <th class="border-right-0 border-left-0">Početak Ispitnog Roka</th>
+            <th class="border-right-0 border-left-0">Kraj Ispitnog Roka</th>
+            <th class="border-left-0">Prijava Ispita</th>
+          </thead>
+          <tr *ngFor="let examPeriod of nextExamPeriods">
+            <td class="border-right-0">{{examPeriod.name}}</td>
+            <td class="border-right-0 border-left-0">{{examPeriod.startDate | date: 'dd/MM/yyyy'}}</td>
+            <td class="border-right-0 border-left-0">{{examPeriod.endDate | date: 'dd/MM/yyyy'}}</td>
+            <td class="border-left-0">
+              <button type="button" class="btn btn-primary right" aria-label="Info"
+                (click)="prijavaIspita(examPeriod.id)">
+                <fa-icon [icon]="faPointer"></fa-icon>
+              </button>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="mt-4" *ngIf="student.id">
+      <div style="border-style: double;  border-color: #92badd ;">
+        <div (click)='show("showRezultatiIspita")' style="padding: 10px; cursor: pointer;">
+          <h5>Rezultati ispita
+            <fa-icon *ngIf="!showRezultatiIspita" style="float: right; margin-top: 0.5vh;" [icon]="faDown"></fa-icon>
+            <fa-icon *ngIf="showRezultatiIspita" style="float: right; margin-top: 0.5vh;" [icon]="faUp"></fa-icon>
+          </h5>
         </div>
-        <div class="form group">
-            <label for="firstName">Ime </label>
-            <input type="text" name="firstName" class="form-control" [(ngModel)]="student.firstName" [ngModelOptions]="{standalone: true}" disabled>
+        <div *ngIf="showRezultatiIspita" [ngClass]="examspass?.length > 0 ? 'padding-5' : ''">
+        <p style="padding: 1%;" *ngIf="examspass?.length === 0">Trenutno nema rezultata za prikaz.</p>
+          <table *ngIf="examspass?.length > 0" class="table table-bordered">
+            <thead>
+              <th class="border-right-0">Naziv predmeta</th>
+              <th class="border-right-0 border-left-0">Datum</th>
+              <th class="border-right-0 border-left-0">Vreme ispita</th>
+              <th class="border-right-0 border-left-0">Ocena</th>
+              <th class="border-left-0"></th>
+            </thead>
+            <tr *ngFor="let exam of examspass">
+              <td class="border-right-0">
+                {{exam.course.name}}
+              </td>
+              <td class="border-right-0 border-left-0">{{exam.date | date: 'dd/MM/yyyy'}}</td>
+              <td class="border-right-0 border-left-0">{{exam.date | date: 'HH:mm'}}</td>
+              <td class="border-right-0 border-left-0">
+                <spam *ngIf="!(exam.labPoints+exam.examPoints > 50)">5</spam>
+                <spam *ngIf="exam.labPoints+exam.examPoints > 50 && !(exam.labPoints+exam.examPoints >61)">6</spam>
+                <spam *ngIf="exam.labPoints+exam.examPoints > 60 && !(exam.labPoints+exam.examPoints >71)">7</spam>
+                <spam *ngIf="exam.labPoints+exam.examPoints > 70 && !(exam.labPoints+exam.examPoints >81)">8</spam>
+                <spam *ngIf="exam.labPoints+exam.examPoints > 80 && !(exam.labPoints+exam.examPoints >91)">9</spam>
+                <spam *ngIf="exam.labPoints+exam.examPoints > 90 && !(exam.labPoints+exam.examPoints >101)">10</spam>
+              </td>
+              <td class="border-left-0">
+                <button *ngIf="exam.labPoints+exam.examPoints > 51 " type="button" class="btn btn-success right"
+                  aria-label="Info" (click)="gotoInfo(exam.id)">
+                  <fa-icon [icon]="faInfo"></fa-icon>
+                </button>
+                <button *ngIf="!(exam.labPoints+exam.examPoints > 51) " type="button" class="btn btn-danger right"
+                  aria-label="Info" (click)="gotoInfo(exam.id)">
+                  <fa-icon [icon]="faInfo"></fa-icon>
+                </button>
+              </td>
+            </tr>
+          </table>
         </div>
-        <div class="form group">
-            <label for="lastName">Prezime</label>
-            <input type="text" name="lastName" class="form-control" [(ngModel)]="student.lastName" [ngModelOptions]="{standalone: true}" disabled>
+      </div>
+      <div class="mt-4" style="border-style: double;  border-color: #92badd ;">
+        <div (click)='show("showObradaRezultata")' style="padding: 10px; cursor: pointer;">
+          <h5>Obrada ispita
+            <fa-icon *ngIf="!showObradaRezultata" style="float: right; margin-top: 0.5vh;" [icon]="faDown"></fa-icon>
+            <fa-icon *ngIf="showObradaRezultata" style="float: right; margin-top: 0.5vh;" [icon]="faUp"></fa-icon>
+          </h5>
         </div>
-        <br>
+        <div *ngIf="showObradaRezultata" [ngClass]="exams?.length > 0 ? 'padding-5' : ''">
+        <p style="padding: 1%;" *ngIf="exams?.length === 0">Trenutno nema rezultata za prikaz.</p>
+          <table *ngIf="exams?.length > 0" class="table table-bordered">
+            <thead>
+              <th class="border-right-0">Naziv predmeta</th>
+              <th class="border-right-0 border-left-0">Datum</th>
+              <th class="border-right-0 border-left-0">Vreme ispita</th>
+              <th class="border-left-0"></th>
+            </thead>
+            <tr *ngFor="let exam of exams">
+              <td class="border-right-0">
+                {{exam.course.name}}
+              </td>
+              <td class="border-right-0 border-left-0">{{exam.date | date: 'dd/MM/yyyy'}}</td>
+              <td class="border-right-0 border-left-0">{{exam.date | date: 'HH:mm'}}</td>
+              <td class="border-left-0">
+                <button type="button" class="btn btn-primary right" aria-label="Info" (click)="gotoInfo(exam.id)">
+                  <fa-icon [icon]="faInfo"></fa-icon>
+                </button>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <div class="mt-4" style="border-style: double;  border-color: #92badd ;">
+        <div (click)='show("showIspitiUNarednomP")' style="padding: 10px; cursor: pointer;">
+          <h5>Ispiti u narednom periodu
+            <fa-icon *ngIf="!showIspitiUNarednomP" style="float: right; margin-top: 0.5vh;" [icon]="faDown"></fa-icon>
+            <fa-icon *ngIf="showIspitiUNarednomP" style="float: right; margin-top: 0.5vh;" [icon]="faUp"></fa-icon>
+          </h5>
+        </div>
+        <div *ngIf="showIspitiUNarednomP" [ngClass]="nextexams?.length > 0 ? 'padding-5' : ''">
+          <p style="padding: 1%;" *ngIf="nextexams?.length === 0">Trenutno nema ispita u narednom periodu.</p>
+
+          <table *ngIf="nextexams?.length > 0" class="table table-bordered">
+            <thead>
+              <th class="border-right-0">Naziv predmeta</th>
+              <th class="border-right-0 border-left-0">Datum</th>
+              <th class="border-right-0 border-left-0">Vreme ispita</th>
+              <th class="border-right-0 border-left-0">Odjava ispita</th>
+            </thead>
+            <tr *ngFor="let exam of nextexams">
+              <td (click)="gotoInfo(exam.id)" style="cursor: pointer;" class="border-right-0">
+                {{exam.course.name}}
+              </td>
+              <td (click)="gotoInfo(exam.id)" style="cursor: pointer;" class="border-right-0 border-left-0">{{exam.date | date: 'dd/MM/yyyy'}}</td>
+              <td (click)="gotoInfo(exam.id)" style="cursor: pointer;" class="border-right-0 border-left-0">{{exam.date | date: 'HH:mm'}}</td>
+              <td class="border-left-0 border-right-0">
+                <button type="button" title="Odjava Ispita" class="btn btn-warning right" aria-label="Info"
+                  (click)="odjava(exam)">
+                  <fa-icon [icon]="faTimes"></fa-icon>
+                </button>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+    <br>
+    <div>
+      <div style="border-style: double;  border-color: #92badd ;">
         <div>
-            <div>
-                <h3>Kursevi od korisnika</h3>
-            </div>
-            <table class="table table-bordered">
-              <tr *ngFor="let enrollment of enrollments">
-                <td>
-                  {{enrollment.course.name}}
-                </td>
-              </tr>
-            </table>
-          </div>
-          
-          <div>
-            <div>
-                <h3>Prijava Ispita</h3>
-            </div>
-            <table class="table table-bordered">
-              <thead>
-                <th>Ispitni Rok</th>
-                <th>Početak Ispitnog Roka</th>
-                <th>Kraj Ispitnog Roka</th>
-                <th>Prijava</th>
-            </thead>
-              <tr *ngFor="let examPeriod of nextExamPeriods">
-                <td>{{examPeriod.name}}</td>
-                <td>{{examPeriod.startDate | date: 'dd/MM/yyyy'}}</td>
-                <td>{{examPeriod.endDate | date: 'dd/MM/yyyy'}}</td>
-                <td>
-                  <button type="button" class="btn btn-success right" aria-label="Info" (click)="prijavaIspita(examPeriod.id)">
-                    Prijavi Ispite u Ovom Roku
-                  </button>
-                </td>
-              </tr>
-            </table>
-          </div>
+          <div (click)='show("showDokumenti")' style="padding: 10px; cursor: pointer;">
+          <h5>Dokumenti korisnika
+            <fa-icon *ngIf="!showDokumenti" style="float: right; margin-top: 0.5vh;" [icon]="faDown"></fa-icon>
+            <fa-icon *ngIf="showDokumenti" style="float: right; margin-top: 0.5vh;" [icon]="faUp"></fa-icon>
+          </h5>
+        </div>
+        </div>
+        <div *ngIf="showDokumenti" [ngClass]="documents?.length > 0 ? 'padding-5' : ''">
+          <p style="padding: 1%;" *ngIf="documents?.length === 0">Trenutno nema dokumenata za prikaz.</p>
 
-          <div *ngIf="student.id">
-            <div>
-              <h3>Rezultati ispita</h3>
-            <table class="table table-bordered">
-              <thead>
-                <th>Naziv predmeta</th>
-                <th>Datum</th>
-                <th>Vreme ispita</th>
-                <th>Ocena</th>
-                <th>Informacije</th>
-            </thead>
-              <tr *ngFor="let exam of examspass">
-                <td>
-                  {{exam.course.name}}
-                </td>
-                <td>{{exam.date | date: 'dd/MM/yyyy'}}</td>
-                <td>{{exam.date | date: 'HH:mm'}}</td>
-                <td>
-                  <spam *ngIf="!(exam.labPoints+exam.examPoints > 50)">5</spam>
-                  <spam *ngIf="exam.labPoints+exam.examPoints > 50 && !(exam.labPoints+exam.examPoints >61)">6</spam>
-                  <spam *ngIf="exam.labPoints+exam.examPoints > 60 && !(exam.labPoints+exam.examPoints >71)">7</spam>
-                  <spam *ngIf="exam.labPoints+exam.examPoints > 70 && !(exam.labPoints+exam.examPoints >81)">8</spam>
-                  <spam *ngIf="exam.labPoints+exam.examPoints > 80 && !(exam.labPoints+exam.examPoints >91)">9</spam>
-                  <spam *ngIf="exam.labPoints+exam.examPoints > 90 && !(exam.labPoints+exam.examPoints >101)">10</spam>
-                </td>
-                <td>
-                  <button *ngIf="exam.labPoints+exam.examPoints > 51 " type="button" class="btn btn-success right" aria-label="Info" (click)="gotoInfo(exam.id)">
-                    Informacije o ispitu
-                  </button>
-                  <button *ngIf="!(exam.labPoints+exam.examPoints > 51) " type="button" class="btn btn-danger right" aria-label="Info" (click)="gotoInfo(exam.id)">
-                    Informacije o ispitu
-                  </button>
-                </td>
-              </tr>
-            </table>
-          </div>
-          <div>
-            <h3>Obrada ispita...</h3>
-            <table class="table table-bordered">
-              <thead>
-                <th>Naziv predmeta</th>
-                <th>Datum</th>
-                <th>Vreme ispita</th>
-                <th>Informacije</th>
-            </thead>
-              <tr *ngFor="let exam of exams">
-                <td>
-                  {{exam.course.name}}
-                </td>
-                <td>{{exam.date | date: 'dd/MM/yyyy'}}</td>
-                <td>{{exam.date | date: 'HH:mm'}}</td>
-                <td>
-                  <button type="button" class="btn btn-success right" aria-label="Info" (click)="gotoInfo(exam.id)">
-                    Informacije o ispitu
-                  </button>
-                </td>
-              </tr>
-            </table>
-          </div>
-          <div>
-            <h3>Ispiti u narednom periodu</h3>
-            <table class="table table-bordered">
-              <thead>
-                <th>Naziv predmeta</th>
-                <th>Datum</th>
-                <th>Vreme ispita</th>
-                <th>Odjava ispita</th>
-                <th>Informacije</th>
-            </thead>
-              <tr *ngFor="let exam of nextexams">
-                <td>
-                  {{exam.course.name}}
-                </td>
-                <td>{{exam.date | date: 'dd/MM/yyyy'}}</td>
-                <td>{{exam.date | date: 'HH:mm'}}</td>
-                <td>
-                  <button type="button" class="btn btn-danger right" aria-label="Info" (click)="odjava(exam.id)">
-                    Odjavi Ispit
-                  </button>
-                </td>
+          <table *ngIf="documents?.length > 0"  class="table table-bordered">
+            <th>Dokument</th>
+            <tr *ngFor="let document of documents">
+              <td>
+                {{document.naziv}}
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <div class="mt-4" style="border-style: double;  border-color: #92badd ;">
+        <div (click)='show("showUplate")' style="padding: 10px; cursor: pointer;">
+          <h5>Uplate korisnika
+            <fa-icon *ngIf="!showUplate" style="float: right; margin-top: 0.5vh;" [icon]="faDown"></fa-icon>
+            <fa-icon *ngIf="showUplate" style="float: right; margin-top: 0.5vh;" [icon]="faUp"></fa-icon>
+          </h5>
+        </div>
+        <div *ngIf="showUplate" [ngClass]="payments?.length > 0 ? 'padding-5' : ''">
+          <p style="padding: 1%;" *ngIf="payments?.length === 0">Trenutno nema dokumenata za prikaz.</p>
 
-                <td>
-                  <button type="button" class="btn btn-success right" aria-label="Info" (click)="gotoInfo(exam.id)">
-                    Informacije o ispitu
-                  </button>
-                </td>
-              </tr>
-            </table>
-          </div>
-          </div>
-          <br>
-          <div>
-              <div>
-                  <h3>Dokumenti korisnika</h3>
-              </div>
-              <table class="table table-bordered">
-                <tr *ngFor="let document of documents">
-                  <td>
-                    {{document.naziv}}
-                  </td>
-                </tr>
-              </table>
-
-            <div>
-                <h3>Uplate korisnika</h3>
-            </div>
-            <table class="table table-bordered">
-              <thead>
-                <th>Svrha Uplate</th>
-                <th>Vrednost Uplate</th>
-                <th>Vreme Uplate</th>
+          <table *ngIf="payments?.length > 0" class="table table-bordered">
+            <thead>
+              <th class="border-right-0">Svrha Uplate</th>
+              <th class="border-right-0 border-left-0">Vrednost Uplate</th>
+              <th class="border-left-0">Vreme Uplate</th>
             </thead>
             <tbody>
               <tr *ngFor="let payment of payments">
-                <td>{{payment.svrhaUplate}}</td>
-                <td>{{payment.vrednostUplate}}</td>
-                <td>{{payment.date | date:'dd/MM/yyyy HH:mm'}}</td>
+                <td class="border-right-0">{{payment.svrhaUplate}}</td>
+                <td class="border-right-0 border-left-0">{{payment.vrednostUplate}}</td>
+                <td class="border-left-0">{{payment.date | date:'dd/MM/yyyy HH:mm'}}</td>
               </tr>
               <tr>
-                <td>Ukupno</td>
-                <td id="sum">{{sum}}</td>
-                <td></td> 
-            </tr>
+                <td class="border-right-0">Ukupno:</td>
+                <td class="border-right-0 border-left-0" id="sum">{{sum}}</td>
+                <td class="border-left-0"></td>
+              </tr>
             </tbody>
-            </table>
-            </div> 
-    </form>
+          </table>
+        </div>
+      </div>
+    </div>
+  </form>
 </div>

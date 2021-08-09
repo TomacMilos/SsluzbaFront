@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { StudentService } from 'src/app/shared_service/student.service';
-import { Student} from 'src/app/classes/student';
+import { Student } from 'src/app/classes/student';
 import { Router } from '@angular/router';
 import { Enrollment } from '../../classes/enrollment';
 import { Documents } from '../../classes/documents';
@@ -11,6 +11,7 @@ import { ExamPeriod } from 'src/app/classes/exam-period';
 import { ExamPeriodServiceService } from 'src/app/shared_service/exam-period-service.service';
 import { ExamService } from 'src/app/shared_service/exam.service';
 import { LoginService } from 'src/app/shared_service/login.service';
+import { faCheckSquare, faChevronDown, faChevronUp, faHandPointer, faInfo, faTimes, faUser } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-student-page',
@@ -18,16 +19,30 @@ import { LoginService } from 'src/app/shared_service/login.service';
   styleUrls: ['./student-page.component.css']
 })
 export class StudentPageComponent implements OnInit {
-  public student:Student;
+  public student: Student;
   enrollments: Enrollment[];
   documents: Documents[];
   payments: Payment[];
   exams: Exam[];
-  examspass:Exam[];
-  nextexams:Exam[];
+  examspass: Exam[];
+  nextexams: Exam[];
   nextExamPeriods: ExamPeriod[];
+  studentID
   examPeriod: ExamPeriod;
   public sum: number;
+  faUser = faUser;
+  faInfo = faInfo;
+  faPointer = faCheckSquare;
+  faTimes = faTimes;
+  showPrijavaIspita = false;
+  showRezultatiIspita = false;
+  showIspitiUNarednomP = false;
+  showDokumenti = false;
+  showUplate = false;
+  showSlusanjeKurseva = false;
+  showObradaRezultata = false;
+  faUp = faChevronUp
+  faDown = faChevronDown
   constructor(private studentService: StudentService, private _router: Router, private examPeriodService: ExamPeriodServiceService,
     private ls: LoginService,
     private examService: ExamService) {
@@ -40,54 +55,63 @@ export class StudentPageComponent implements OnInit {
 
   ngOnInit(): void {
 
-    localStorage.setItem('examPeriod',null);
+    localStorage.setItem('examPeriod', null);
     this.ls.getTeacherOrStudentId(this.ls.getLoggedInUserKorIme()).subscribe(res => {
-      console.log(this.ls.getLoggedInUserKorIme());
-      console.log(res)
+      this.studentID = res.studentID
 
-    this.studentService.getStudentEnrollments(res.studentID).then(enrollments =>
-      this.enrollments = enrollments);
-
-    this.studentService.getStudentExams(res.studentID).then(exams =>
-        this.exams = exams);
-
-    this.studentService.getStudentExamsPass(res.studentID).then(exams =>
-        this.examspass = exams);
-
-    this.studentService.getStudentNextExams(res.studentID).then(exams =>
-        this.nextexams = exams);
-
-    this.studentService.getStudentDocuments(res.studentID).then(documents =>
-        this.documents = documents);
-
-    this.studentService.getStudentPayments(res.studentID).then(payments =>
-        this.payments = payments);
-
-    this.studentService.getAllPaymentsSum(res.studentID).then(sum =>
-        this.sum = sum);
-
-    this.examPeriodService.getNextExamPeriods().then(examPers => this.nextExamPeriods = examPers);
-
-
-    this.studentService.getStudent(res.studentID).then(student =>
-      this.student = student);
+      this.studentService.getStudent(res.studentID).then(student =>
+        this.student = student);
     });
   }
 
-  gotoInfo(examid:number): void {
+  show(attr) {
+    if (!this[attr]) {
+      if (attr === 'showSlusanjeKurseva') {
+        this.studentService.getStudentEnrollments(this.studentID).then(enrollments =>
+          this.enrollments = enrollments);
+      } else if (attr === 'showPrijavaIspita') {
+        this.examPeriodService.getNextExamPeriods().then(examPers => this.nextExamPeriods = examPers);
+      } else if (attr === 'showRezultatiIspita') {
+        this.studentService.getStudentExamsPass(this.studentID).then(exams =>
+          this.examspass = exams);
+      } else if (attr === 'showObradaRezultata') {
+        this.studentService.getStudentExams(this.studentID).then(exams =>
+          this.exams = exams);
+      } else if (attr === 'showIspitiUNarednomP') {
+        this.studentService.getStudentNextExams(this.studentID).then(exams =>
+          this.nextexams = exams);
+      } else if (attr === 'showDokumenti') {
+        this.studentService.getStudentDocuments(this.studentID).then(documents =>
+          this.documents = documents);
+      }
+      else if (attr === 'showUplate') {
+        this.studentService.getStudentPayments(this.studentID).then(payments =>
+          this.payments = payments);
+  
+        this.studentService.getAllPaymentsSum(this.studentID).then(sum =>
+          this.sum = sum);
+      }
+    }
+    this[attr] = !this[attr]
+    console.log(attr)
+    console.log(this[attr])
+
+
+  }
+
+  gotoInfo(examid: number): void {
     this._router.navigate(['/exam-info'], { queryParams: { examId: examid } });
   }
 
-  prijavaIspita(examPeriodId:number): void {
-    this.examPeriodService.getExamPeriod(examPeriodId).then(examPeriod =>{
-      localStorage.setItem('examPeriod', JSON.stringify(examPeriod));
-    });
+  prijavaIspita(examPeriodId: number): void {
     this._router.navigate(['/exam-registration'], { queryParams: { examPeriodId: examPeriodId } });
   }
 
-  odjava(examId:number): void {
-    this.examService.deleteExam(examId);
-    location.reload();
+  odjava(exam): void {
+    this.examService.deleteExam(exam.id);
+    this.nextexams.forEach((value, index) => {
+      if (value == exam) this.nextexams.splice(index, 1);
+    });
   }
 
 }

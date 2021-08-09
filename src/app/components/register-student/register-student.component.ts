@@ -3,9 +3,9 @@ import { Location } from '@angular/common';
 import { Login } from '../../classes/login';
 import { LoginService } from "../../shared_service/login.service";
 import { ActivatedRoute } from '@angular/router';
-import { Authority } from 'src/app/classes/authority';
-import { Student } from 'src/app/classes/student';
-import { Router} from '@angular/router';
+import { Router } from '@angular/router';
+import { faAsterisk, faExclamationTriangle, faSave, faTimes, faUserPlus } from '@fortawesome/free-solid-svg-icons';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-register-student',
@@ -15,48 +15,52 @@ import { Router} from '@angular/router';
 export class RegisterStudentComponent implements OnInit {
 
   login: Login;
+  faUserPlus = faUserPlus;
+  faSave = faSave;
+  faTimes = faTimes;
+  profileForm: FormGroup;
+  faAst = faAsterisk;
+  faexclamationTriangle = faExclamationTriangle;
 
-  constructor(private route: ActivatedRoute, private loginService: LoginService,
-   private location: Location, private _router: Router) {
-    this.login = new Login({
-      username: null,
-      password: null,
-      authority: new Authority({
-        name: 'STUDENT'
-      }),
-      student: new Student({
-        cardNumber: null,
-        firstName: null,
-        lastName: null
-      }),
-      teacher: null
-    });
+  constructor(private route: ActivatedRoute, private loginService: LoginService, private formBuilder: FormBuilder,
+    private location: Location, private _router: Router) {
 
- }
+  }
 
   ngOnInit(): void {
+    this.profileForm = this.formBuilder.group({
+      ime: ['', Validators.required],
+      prezime: ['', Validators.required],
+      lozinka: ['', [Validators.required, Validators.minLength(8)]],
+      reLozinka: [''],
+    }, { validator: this.MustMatch('lozinka', 'reLozinka') });
+  }
+
+  MustMatch(controlName: string, matchingControlName: string) {
+    return (formGroup: FormGroup) => {
+      const control = formGroup.controls[controlName];
+      const matchingControl = formGroup.controls[matchingControlName];
+
+      if (matchingControl.errors && !matchingControl.errors.mustMatch) {
+        return;
+      }
+
+      if (control.value !== matchingControl.value) {
+        matchingControl.setErrors({ mustMatch: true });
+      } else {
+        matchingControl.setErrors(null);
+      }
+    }
   }
 
   registerStudent(): void {
-    if(this.login.username === null){
-      alert("Unesite korisničko ime novog studenta!");
-    }else if(this.login.password === null){
-      alert("Unesite lozinku novog studenta!")
-    }else if(this.login.student.cardNumber === null){
-      alert("Unesite indeks novog studenta!")
-    }else if(this.login.student.firstName === null){
-      alert("Unesite ime novog studenta!")
-    }else if(this.login.student.lastName === null){
-      alert("Unesite prezime novog studenta!")
-    }
-    else {
-    this.loginService.registerStudent(this.login.username, this.login.password, this.login.student.cardNumber,
-      this.login.student.firstName, this.login.student.lastName)
+    let value = this.profileForm.value
+    this.loginService.registerStudent(value.lozinka, value.ime, value.prezime)
       .then(login => {
         window.location.href = "/";
       });
-    }
   }
+
 
   goBack(): void {
     this.location.back();

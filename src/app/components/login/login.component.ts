@@ -30,8 +30,17 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    localStorage.clear();
     this.sharedService.sendClickEvent();
+    console.log(localStorage);
+    if(localStorage){
+      if(localStorage.getItem('role') == 'ADMIN'){
+        this._router.navigate(['/students']);
+    }else if(localStorage.getItem('role') == 'NASTAVNIK'){
+        this._router.navigate(['/teacher-page']);
+    }else if(localStorage.getItem('role') == 'STUDENT'){
+        this._router.navigate(['/student-page']);
+    }
+    }
   }
 
   ok(username,password){

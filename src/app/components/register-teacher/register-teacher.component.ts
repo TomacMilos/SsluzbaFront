@@ -6,6 +6,8 @@ import { ActivatedRoute } from '@angular/router';
 import { Authority } from 'src/app/classes/authority';
 import { Teacher } from 'src/app/classes/teacher';
 import { Router } from "@angular/router";
+import { faAsterisk, faExclamationTriangle, faSave, faTimes, faUserPlus } from '@fortawesome/free-solid-svg-icons';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-register-teacher',
@@ -14,54 +16,55 @@ import { Router } from "@angular/router";
 })
 export class RegisterTeacherComponent implements OnInit {
 
-  login: Login;
-  public teacherRank = '';
+  faUserPlus = faUserPlus;
+  faSave = faSave;
+  faTimes = faTimes;
+  profileForm: FormGroup;
+  faAst = faAsterisk;
+  faexclamationTriangle = faExclamationTriangle;
+  ranks : any;
 
-  constructor(private route: ActivatedRoute, private loginService: LoginService,
+  constructor(private route: ActivatedRoute, private loginService: LoginService, private formBuilder: FormBuilder,
    private location: Location, private _router: Router) {
-    this.login = new Login({
-      username: null,
-      password: null,
-      authority: new Authority({
-        name: 'NASTAVNIK'
-      }),
-      student: null,
-      teacher: new Teacher({
-        firstName: null,
-        lastName: null,
-        teacherRank: null
-      })
-    });
-
  }
 
   ngOnInit(): void {
+    this.ranks = ["Profesor", "Asistent", "Demonstrator" ];
+    this.profileForm = this.formBuilder.group({
+      ime: ['', Validators.required],
+      prezime: ['', Validators.required],
+      uloga: ['', Validators.required],
+      korisnickoIme: ['', Validators.required],
+      lozinka: ['', [Validators.required, Validators.minLength(8)]],
+      reLozinka: ['',],
+    }, { validator: this.MustMatch('lozinka', 'reLozinka') });
+
   }
 
-  onChange(event) {
-    this.teacherRank = event.target.options[event.target.options.selectedIndex].text;
+  MustMatch(controlName: string, matchingControlName: string) {
+    return (formGroup: FormGroup) => {
+      const control = formGroup.controls[controlName];
+      const matchingControl = formGroup.controls[matchingControlName];
+
+      if (matchingControl.errors && !matchingControl.errors.mustMatch) {
+        return;
+      }
+
+      if (control.value !== matchingControl.value) {
+        matchingControl.setErrors({ mustMatch: true });
+      } else {
+        matchingControl.setErrors(null);
+      }
+    }
   }
 
   registerTeacher(): void {
-    if(this.login.username === null){
-      alert("Unesite korisničko ime novog predavaca!");
-    }else if(this.login.password === null){
-      alert("Unesite lozinku novog predavaca!")
-    }else if(this.login.teacher.firstName === null){
-      alert("Unesite ime novog predavaca!")
-    }else if(this.login.teacher.lastName === null){
-      alert("Unesite prezime novog predavaca!")
-    }else if(this.login.teacher.teacherRank === null){
-      alert("Unesite ulogu novog predavaca!")
-    }
-    else {
-    this.login.teacher.teacherRank = this.teacherRank;
-    this.loginService.registerTeacher(this.login.username, this.login.password,
-      this.login.teacher.firstName, this.login.teacher.lastName, this.login.teacher.teacherRank)
+    let value = this.profileForm.value
+    this.loginService.registerTeacher(value.korisnickoIme, value.lozinka,
+      value.ime, value.prezime, value.uloga)
       .then(login => {
-        this.goBack();
+        window.location.href = "/teachers";
       });
-    }
   }
 
   goBack(): void {

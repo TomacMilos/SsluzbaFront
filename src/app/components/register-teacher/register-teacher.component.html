@@ -1,39 +1,62 @@
+<div class="container mt-5">
+  <h2 class="ml mb-3">
+    <fa-icon [icon]="faUserPlus"></fa-icon> Dodavanje Profesora
+  </h2>
+</div>
 <div>
-    <h3>Add new Teacher</h3>
-  </div>
-  <div>
+  <form [formGroup]="profileForm" class="profile-form">
 
-    <div class="form group">
-        <label for="username">Korisnicko ime</label>
-        <input type="text" name="username" class="form-control" [(ngModel)]="login.username">
-    </div>
-  
-    <div class="form group">
-        <label for="password">Lozinka</label>
-        <input type="password" name="password" class="form-control" [(ngModel)]="login.password">
-    </div>
-  
-    <div class="form group">
-        <label for="firstName">Ime Profesora</label>
-        <input type="text" name="firstName" class="form-control" [(ngModel)]="login.teacher.firstName">
-    </div>
-  
-    <div class="form group">
-        <label for="lastName">Prezime Profesora</label>
-        <input type="text" name="lastName" class="form-control" [(ngModel)]="login.teacher.lastName">
+
+    <div class="form group mt-5">
+      <fa-icon *ngIf="this.profileForm.controls.ime.invalid" class="mr-2" style="color: #df4759;" [icon]="faAst"></fa-icon>
+      <label for="firstName">Ime Profesora</label>
+      <input formControlName="ime" type="text" name="firstName" class="form-control">
     </div>
 
-    <div class="form group">
-        <label for="teacherRank">Uloga</label>
-        <select class="form-control" [(ngModel)]="login.teacher.teacherRank" (change)="onChange($event)" [ngModelOptions]="{standalone: true}">
-            <option [value]="1">Profesor</option>
-            <option [value]="2">Asistent</option>
-            <option [value]="3">Demonstrator</option>
-          </select>
+    <div class="form group mt-2">
+      <fa-icon *ngIf="this.profileForm.controls.prezime.invalid" class="mr-2" style="color: #df4759;" [icon]="faAst"></fa-icon>
+      <label for="lastName">Prezime Profesora</label>
+      <input formControlName="prezime" type="text" name="lastName" class="form-control">
     </div>
-  
-  </div>
-  <div class="modal-footer">
-    <button class="btn btn-primary" (click)="registerTeacher()">OK</button>
-    <button class="btn btn-primary" (click)="goBack()">Cancel</button>
-  </div> 
+
+    <div class="form group mt-2">
+      <fa-icon *ngIf="this.profileForm.controls.uloga.invalid" class="mr-2" style="color: #df4759;" [icon]="faAst"></fa-icon>
+      <label for="teacherRank">Uloga</label>
+      <ng-select  formControlName="uloga">
+        <ng-option *ngFor="let rank of ranks" [value]="rank">{{rank}}</ng-option>
+     </ng-select>
+    </div>
+
+    <div class="form group mt-2">
+      <fa-icon *ngIf="this.profileForm.controls.korisnickoIme.invalid" class="mr-2" style="color: #df4759;" [icon]="faAst"></fa-icon>
+      <label for="username">Korisnicko ime</label>
+      <input formControlName="korisnickoIme" type="text" name="username" class="form-control">
+    </div>
+
+    <div class="form group mt-2">
+      <fa-icon *ngIf="this.profileForm.controls.lozinka.invalid" class="mr-2" style="color: #df4759;" [icon]="faAst"></fa-icon>
+      <label for="password">Lozinka</label>
+      <input formControlName="lozinka" type="password" name="password" class="form-control">
+    </div>
+
+    <div class="form group mt-2">
+      <fa-icon *ngIf="this.profileForm.controls.reLozinka.invalid" class="mr-2" style="color: #df4759;" [icon]="faAst"></fa-icon>
+      <label for="password">Ponovi Lozinku</label>
+      <input formControlName="reLozinka" type="password" name="password" class="form-control">
+    </div>
+
+  </form>
+</div>
+<div class="mt-2">
+  <span *ngIf="this.profileForm.controls.lozinka.invalid" class="mt-2">
+    <fa-icon style="color: #ffc107;" [icon]="faexclamationTriangle"></fa-icon> Lozinka mora da sadrzi bar 8 karaktera
+  </span>
+</div>
+<div class="modal-footer">
+  <button [disabled]="profileForm.invalid" class="btn btn-success" (click)="registerTeacher()">
+    <fa-icon [icon]="faSave"></fa-icon>
+  </button>
+  <button class="btn btn-primary" (click)="goBack()">
+    <fa-icon [icon]="faTimes"></fa-icon>
+  </button>
+</div>

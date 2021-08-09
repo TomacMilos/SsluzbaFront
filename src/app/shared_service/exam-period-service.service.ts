@@ -2,8 +2,9 @@ import { Injectable } from '@angular/core';
 import {Http, Response, Headers, RequestOptions} from '@angular/http';
 import { map } from 'rxjs/operators';
 import {ExamPeriod} from '../classes/exam-period';
-import { Subject} from 'rxjs';
+import { Observable, Subject} from 'rxjs';
 import { Exam } from '../classes/exam';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable()
 export class ExamPeriodServiceService {
@@ -13,7 +14,7 @@ export class ExamPeriodServiceService {
   private RegenerateData = new Subject<void>();
   private examPeriod: ExamPeriod;
   RegenerateData$ = this.RegenerateData.asObservable();
-  constructor(private _http: Http) {}
+  constructor(private _http: Http, private http: HttpClient) {}
 
   getExamPeriods(): Promise<ExamPeriod[]> {
     return this._http.get(this.baseUrl+"/all")
@@ -60,6 +61,7 @@ editExamPeriod(ep: ExamPeriod): Promise<ExamPeriod> {
       .then(res => res.json() as ExamPeriod)
       .catch(this.handleError);
 }
+
 getExamPeriodExams(examperiodId: number): Promise<Exam[]> {
   const url = `${this.baseUrl}/${examperiodId}/exams`;
   return this._http.get(url)
@@ -67,6 +69,10 @@ getExamPeriodExams(examperiodId: number): Promise<Exam[]> {
       .then(response =>
           response.json() as Exam[])
       .catch(this.handleError);
+}
+
+public getExamPeriodExamsStudent(examperiodId: number, studentID: any): Observable<Exam[]> {
+  return this.http.get<Exam[]>(this.baseUrl+ '/' + examperiodId + '/exam/'+studentID);
 }
 
 getNextExamPeriods(): Promise<ExamPeriod[]> {
